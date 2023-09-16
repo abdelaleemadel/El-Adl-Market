@@ -1,0 +1,25 @@
+.toggled-nav {
+  width: 300px;
+}
+
+.above-all {
+  top: 50px;
+  z-index: 10000;
+  display: none;
+}
+
+.fixed-top {
+  overflow: auto;
+  height: 50px;
+}
+
+.toggled-nav {
+  left: -100%;
+  z-index: 10002;
+}
+
+.nav-search {
+  z-index: 10001;
+  top: 50px;
+  display: none;
+}

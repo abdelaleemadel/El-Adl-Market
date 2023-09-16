@@ -1,0 +1,42 @@
+<nav class="dark overflow-auto py-2">
+  <div class="small-screen-nav">
+    <div class="container mx-auto">
+      <div class="row align-items-center justify-content-between fixed-top dark">
+        <div class="col-6 d-flex justify-content-start ps-md-5 align-items-baseline">
+          <i class="fa-solid fa-bars fa-xl pointer-cursor mx-3" (click)="openNav()"></i>
+          <div class="brand pb-0">
+            <h1 class="fs-2 pb-0">Fusion</h1>
+          </div>
+        </div>
+        <div class="col-6 d-flex justify-content-evenly justify-content-md-center">
+          <i class="fa-solid fa-magnifying-glass mx-2 pointer-cursor" (click)="openNavSearch()"></i>
+          <i class="fa-regular fa-user mx-2"></i>
+          <i class="fa-solid fa-bag-shopping mx-2"></i>
+        </div>
+      </div>
+    </div>
+    <div class="position-fixed  bottom-0 start-0 end-0 bg-black bg-opacity-50 above-all">
+    </div>
+    <div class="toggled-nav light vh-100  position-fixed top-0">
+      <div class="border-bottom text-end p-2">
+        <i class="fa fa-xmark fa-lg pointer-cursor" (click)="closeNav()"></i>
+      </div>
+      <div>
+        <ul>
+          <li class="m-2"><a href="#">Home</a></li>
+          <li class="m-2"><a href="#">Categories</a></li>
+          <li class="m-2"><a href="#">Brands</a></li>
+          <li class="m-2"><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="nav-search fixed-top light w-100 ">
+      <div class="container d-flex justify-content-between align-items-center text-secondary mt-2">
+        <i class="fa-solid fa-magnifying-glass text-secondary me-2"></i>
+        <input type="text" placeholder="Search Products" class="w-75 border-0 me-auto">
+        <i class="fa fa-xmark fa-lg text-secondary pointer-cursor" (click)="closeNavSearch()"></i>
+
+      </div>
+    </div>
+  </div>
+</nav>

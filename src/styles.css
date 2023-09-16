@@ -1,1 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --light-color: white;
+  --dark-color: black;
+  --second-color: rgb(245, 245, 245);
+  --darkish-color: #222222;
+}
+
+.dark {
+  background-color: var(--dark-color);
+  color: var(--light-color);
+}
+
+.biege {
+  background-color: var(--second-color);
+  color: var(--dark-color);
+}
+
+.light {
+  background-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+.darkish {
+  background-color: var(--darkish-color);
+  color: var(--light-color);
+}
+
+ul {
+  list-style: none;
+}
+
+a,
+a:hover,
+a:focus,
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.pointer-cursor {
+  cursor: pointer;
+}
