@@ -1,10 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 :root {
   --light-color: white;
   --dark-color: black;
   --second-color: rgb(245, 245, 245);
   --darkish-color: #222222;
+  --main-font: 'Poppins', sans-serif;
+}
+
+.main-font {
+  font-family: var(--main-font);
 }
 
 .dark {
@@ -37,6 +43,10 @@ a:focus,
 a:link {
   text-decoration: none;
   color: inherit;
+}
+
+input {
+  outline: none;
 }
 
 .pointer-cursor {

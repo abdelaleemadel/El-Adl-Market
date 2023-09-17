@@ -23,3 +23,26 @@
   top: 50px;
   display: none;
 }
+
+.large-screen-nav.fixed-top {
+  display: none;
+  height: 100px;
+}
+
+
+.routes {
+  display: none;
+  position: fixed;
+  top: 100px;
+}
+
+@media screen and (min-width: 992px) {
+  .small-screen-nav {
+    display: none;
+  }
+
+  .large-screen-nav.fixed-top,
+  .routes {
+    display: block;
+  }
+}
