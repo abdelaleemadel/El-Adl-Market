@@ -1,5 +1,6 @@
 .toggled-nav {
   width: 300px;
+  max-width: 100%;
 }
 
 .above-all {
@@ -14,7 +15,7 @@
 }
 
 .toggled-nav {
-  left: -100%;
+  left: -300px;
   z-index: 10002;
 }
 
@@ -36,6 +37,14 @@
   top: 100px;
 }
 
+/* SIGN IN/UP */
+.sign {
+  display: none;
+  top: 50px;
+  right: 50px;
+  z-index: 10003;
+}
+
 @media screen and (min-width: 992px) {
   .small-screen-nav {
     display: none;
@@ -44,5 +53,11 @@
   .large-screen-nav.fixed-top,
   .routes {
     display: block;
+  }
+
+  .sign {
+    top: 100px;
+    right: 100px;
+    width: 15%;
   }
 }
