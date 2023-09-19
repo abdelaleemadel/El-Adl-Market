@@ -1,1 +1,94 @@
-<p>login works!</p>
+<section id="login" class="main-font">
+  <div class="light  mt-5 mx-auto container">
+    <h3 class="text-center fw-semibold mb-5 ">MY ACCOUNT</h3>
+
+    <div class="row justify-content-center align-items-center gx-4 gy-4 mb-3">
+      <div class="col-12 col-md-6 col-lg-5 col-xl-4  login-card">
+        <div class="border p-4 h-100 ">
+          <h4 class=" mb-4 fw-semibold">LOGIN</h4>
+          <p>If you have an account with us, please log in.</p>
+          <form action="#" class="w-100" [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
+            <div class="alert rounded-0 alert-danger" *ngIf="statusMessage == 'fail'">
+              <p class="m-0">{{failureMessage}}</p>
+            </div>
+            <input type="email" placeholder="Email" class="w-100 my-2" formControlName="email">
+            <div class="alert alert-danger" *ngIf="loginForm.get('email')?.errors && loginForm.get('email')?.touched">
+              <p class="m-0" *ngIf="loginForm.get('email')?.getError('required')">Email is Required</p>
+              <p class="m-0" *ngIf="loginForm.get('email')?.getError('email')">This Email is invalid</p>
+            </div>
+            <input type="password" placeholder="Password" class="w-100 my-2" formControlName="password">
+            <div class="alert alert-danger"
+              *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched">
+              <p class="m-0" *ngIf="loginForm.get('password')?.getError('required')">Password is Required</p>
+              <p class="m-0" *ngIf="loginForm.get('password')?.getError('pattern')">Password must start with capital
+                letter
+                and contain at least 6 characters</p>
+            </div>
+            <button type="submit" class="btn btn-dark w-100 rounded-0 mt-5" [disabled]="loginForm.invalid"><span
+                *ngIf="!isLoading">Sign in</span><i class="fa-solid fa-spinner fa-spin" *ngIf="isLoading"></i></button>
+            <a href="#" class="text-decoration-underline link-offset-2 mt-3 d-inline-block text-end forget">Forget
+              your
+              password?</a>
+          </form>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-5 col-xl-4 login-card">
+        <div class="border p-4 h-100 ">
+          <h4 class=" mb-4 fw-semibold">NEW CUSTOMER?</h4>
+          <p>Registering for this site allows you to access your order status and history. We’ll get a new account set
+            up
+            for you in no time. For this will only ask you for information necessary to make the purchase process faster
+            and easier
+
+            NEWSLETTER</p>
+
+          <button type="button" class="btn btn-dark w-100 w-sm-75  rounded-0 mt-3" (click)="navigateRegister()">Create
+            an
+            account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--
+      <form action="#" class="col-12 col-sm-8 col-md-6 col-lg-4" [formGroup]="registerForm"
+      (ngSubmit)="register(registerForm)">
+      <h3 class="text-center fw-semibold mb-5">CREATE AN ACCOUNT</h3>
+      <input type="text" placeholder="Name" class="w-100 my-2" formControlName="name">
+      <div class="alert alert-danger" *ngIf="registerForm.get('name')?.errors && registerForm.get('name')?.touched">
+        <p class="m-0" *ngIf="registerForm.get('name')?.getError('required')">Name is Required</p>
+        <p class="m-0" *ngIf="registerForm.get('name')?.getError('minlength')">Name Minimum Length is 3 Characters</p>
+        <p class="m-0" *ngIf="registerForm.get('name')?.getError('maxlength')">Name Max Length is 10 Characters</p>
+      </div>
+
+      <input type="email" placeholder="Email" class="w-100 my-2" formControlName="email">
+      <div class="alert alert-danger" *ngIf="registerForm.get('email')?.errors && registerForm.get('email')?.touched">
+        <p class="m-0" *ngIf="registerForm.get('email')?.getError('required')">Email is Required</p>
+        <p class="m-0" *ngIf="registerForm.get('email')?.getError('email')">This Email is invalid</p>
+
+      </div>
+      <input type="password" placeholder="Password" class="w-100 my-2" formControlName="password">
+      <div class="alert alert-danger"
+        *ngIf="registerForm.get('password')?.errors && registerForm.get('password')?.touched">
+        <p class="m-0" *ngIf="registerForm.get('password')?.getError('required')">Password is Required</p>
+        <p class="m-0" *ngIf="registerForm.get('password')?.getError('pattern')">Password must start with capital letter
+          and contain at least 6 characters</p>
+      </div>
+      <input type="password" placeholder="RePassword" class="w-100 my-2" formControlName="rePassword">
+      <div class="alert alert-danger"
+        *ngIf="(registerForm.get('rePassword')?.errors || registerForm.errors?.['matchPasswordError']) && registerForm.get('rePassword')?.touched">
+        <p class="m-0" *ngIf="registerForm.get('rePassword')?.getError('required')">rePassword is Required</p>
+        <p class="m-0" *ngIf="registerForm.errors?.['matchPasswordError']">Passwords aren't matched</p>
+      </div>
+      <input type="tel" placeholder="Phone" class="w-100 my-2" formControlName="phone">
+      <div class="alert alert-danger" *ngIf="registerForm.get('phone')?.errors && registerForm.get('phone')?.touched">
+        <p class="m-0" *ngIf="registerForm.get('phone')?.getError('required')">Phone is Required</p>
+        <p class="m-0" *ngIf="registerForm.get('phone')?.getError('pattern')">Please provide an Egyptian phone number
+        </p>
+
+      </div>
+      <button type="submit" class="btn btn-dark w-100 rounded-0 mt-5" [disabled]="registerForm.invalid"><span
+          *ngIf="!isLoading">Submit</span><i class="fa-solid fa-spinner fa-spin" *ngIf="isLoading"></i></button>
+    </form>
+ -->

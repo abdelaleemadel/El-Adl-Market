@@ -5,7 +5,9 @@
         <div class="col-6 d-flex justify-content-start ps-md-5 align-items-baseline">
           <i class="fa-solid fa-bars fa-xl pointer-cursor mx-3" (click)="openNav()"></i>
           <div class="brand pb-0">
-            <h1 class="fs-2 pb-0">Fusion</h1>
+            <a routerLink="home">
+              <h1 class="fs-2 pb-0 pointer-cursor">El-Adl</h1>
+            </a>
           </div>
         </div>
         <div class="col-6 d-flex justify-content-evenly justify-content-md-end pe-md-5">
@@ -73,8 +75,8 @@
 <div class="sign light p-4 main-font lh-lg position-fixed shadow">
   <div class="d-flex flex-column">
     <a href="#">My ACCOUNT</a>
-    <a href="#">LOGIN</a>
-    <a href="#">SIGNUP</a>
+    <a routerLink="login" routerLinkActive="dark ps-2">LOGIN</a>
+    <a routerLink="register" routerLinkActive="dark ps-2">SIGNUP</a>
     <a href="#">WISHLIST</a>
     <a href="#">LOGOUT</a>
   </div>

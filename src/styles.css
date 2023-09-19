@@ -55,11 +55,13 @@ input {
   cursor: pointer;
 }
 
-#register input {
+#register input,
+#login input {
   padding: 8px 15px;
   border: 1px solid var(--input-border);
 }
 
-#register input:focus {
+#register input:focus,
+#login input:focus {
   border: 1px solid var(--focused-input-border) !important;
 }
