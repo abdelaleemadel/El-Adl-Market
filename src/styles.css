@@ -6,6 +6,8 @@
   --dark-color: black;
   --second-color: rgb(245, 245, 245);
   --darkish-color: #222222;
+  --input-border: rgb(221, 221, 221);
+  --focused-input-border: rgb(171, 171, 171);
   --main-font: 'Poppins', sans-serif;
 }
 
@@ -51,4 +53,13 @@ input {
 
 .pointer-cursor {
   cursor: pointer;
+}
+
+#register input {
+  padding: 8px 15px;
+  border: 1px solid var(--input-border);
+}
+
+#register input:focus {
+  border: 1px solid var(--focused-input-border) !important;
 }

@@ -1,0 +1,10 @@
+.body {
+  position: relative;
+  top: 33px;
+}
+
+@media screen and (min-width: 992px) {
+  .body {
+    top: 139px;
+  }
+}

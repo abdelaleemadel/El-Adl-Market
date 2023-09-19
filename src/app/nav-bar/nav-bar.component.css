@@ -35,6 +35,7 @@
   display: none;
   position: fixed;
   top: 100px;
+  z-index: 9999;
 }
 
 /* SIGN IN/UP */
