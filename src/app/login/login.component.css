@@ -1,5 +1,5 @@
 a.forget:hover {
-  color: #FFA299;
+  color: var(--hover-text-color);
 }
 
 div.login-card {

@@ -9,7 +9,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { FooterComponent } from './footer/footer.component'
+import { FooterComponent } from './footer/footer.component';
+import { StartsPipe } from './starts.pipe';
+import { ProductDetailsComponent } from './product-details/product-details.component';
+import { CategoriesSliderComponent } from './categories-slider/categories-slider.component'
 
 
 @NgModule({
@@ -19,7 +22,10 @@ import { FooterComponent } from './footer/footer.component'
     RegisterComponent,
     LoginComponent,
     HomeComponent,
-    FooterComponent
+    FooterComponent,
+    StartsPipe,
+    ProductDetailsComponent,
+    CategoriesSliderComponent
   ],
   imports: [
     BrowserModule,

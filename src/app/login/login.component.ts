@@ -19,24 +19,28 @@ loginForm:FormGroup = new FormGroup({
   })
   navigateRegister():void{
     this._Router.navigate(['register'])
+    console.log(this._Router.navigate(['register'])
+    );
+
   }
+
   login(loginForm:FormGroup):void{
     this.isLoading = true;
     console.log(loginForm.value);
-  this._AuthserviceService.login(loginForm.value).subscribe({
-    next: (response) => {
-      this.statusMessage = '';
-      this.failureMessage = '';
-      this.isLoading= false;
-      localStorage.setItem('userToken',JSON.stringify(response.token));
-      this._AuthserviceService.userData.next(response.token);
-      console.log(this._AuthserviceService.userData.value);
-this._Router.navigate(['home'])
-    },
-    error: (err) => {
-      this.statusMessage = err.error.statusMsg;
-      this.failureMessage = err.error.message;
-      this.isLoading = false},
+    this._AuthserviceService.login(loginForm.value).subscribe({
+      next: (response) => {
+        this.statusMessage = '';
+        this.failureMessage = '';
+        this.isLoading= false;
+        localStorage.setItem('userToken',JSON.stringify(response.token));
+        this._AuthserviceService.userData.next(response.token);
+        console.log(this._AuthserviceService.userData.value);
+        this._Router.navigate(['/home'])
+      },
+      error: (err) => {
+        this.statusMessage = err.error.statusMsg;
+        this.failureMessage = err.error.message;
+        this.isLoading = false},
 
   })
 

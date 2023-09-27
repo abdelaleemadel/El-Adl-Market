@@ -30,9 +30,6 @@ register(registerForm:FormGroup):void{
   this.isLoading = false;
 
   }
-
-
-
 }
 
 /* "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDk3ZTk3NDVlZDRiMjQ4YzBlZTUwNCIsIm5hbWUiOiJhaG1lZCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk1MTIxMDQ4LCJleHAiOjE3MDI4OTcwNDh9.Cqrxcj9oGbNWCTh7asHbHi1XaRccu6jddxmTxr5A8E4" */

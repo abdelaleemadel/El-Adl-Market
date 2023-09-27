@@ -1,0 +1,73 @@
+<section id="productDetails" class="light main-font">
+  <div class=" row gx-3 gy-2 p-2 mx-auto">
+    <div class="col-12 col-md-5">
+      <div id="s{{productDetails?._id}}" class="carousel slide ">
+        <div class="carousel-indicators">
+          <div [attr.data-bs-target]="'#s'+productDetails?._id" [ngClass]="isFirst?'active':''"
+            *ngFor="let image of productDetails?.images; index as i; first as isFirst" [attr.data-bs-slide-to]="i"
+            [attr.aria-current]="isFirst" [attr.aria-label]="'Slide'+(i+1)"><img src="{{image}}" class="w-100 d-block"
+              alt="">
+          </div>
+
+        </div>
+        <div class="carousel-inner">
+          <div [ngClass]="isFirst?'carousel-item active':'carousel-item'"
+            *ngFor="let image of productDetails?.images; index as i; first as isFirst">
+            <img src="{{image}}" class="d-block w-100" alt="...">
+          </div>
+
+        </div>
+        <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#s'+productDetails?._id"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#s'+productDetails?._id"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+    <div class="col-12 col-md-7 main-font pe-2 d-flex flex-column justify-content-center">
+      <h3 class=" fw-bolder">{{productDetails?.title.split(' ').splice(0,4).join(' ')}}</h3>
+      <div class="d-flex mb-3">
+        <div class=" mt-0 pt-0" *ngFor="let star of (productDetails?.ratingsAverage|starts)">
+          <i class="fa-solid fa-star" *ngIf="star=='full'"></i>
+          <i class="fa-regular fa-star" *ngIf="star=='emty'"></i>
+          <i class="fa-regular fa-star-half-stroke" *ngIf="star=='half'"></i>
+        </div>
+      </div>
+
+      <p class="fs-3">{{productDetails?.price|currency:'EGP '}}</p>
+      <div class="counter border d-flex justify-content-around w-25 align-items-baseline py-2">
+        <i class="fa-solid fa-minus hover-color pointer-cursor" (click)="removeItem()"></i>
+        <input type="number" value="1" min="1" max="100" class="d-inline w-50 text-center border-0 items-number"
+          placeholder="1">
+        <i class="fa-solid fa-plus hover-color pointer-cursor" (click)="addItem()"></i>
+      </div>
+      <button type="button" class="btn btn-dark w-100 py-2 rounded-0 mt-3">
+        ADD TO CART
+      </button>
+      <div class="d-flex justify-content-around w-50 mt-3 pointer-cursor">
+        <i class=" fa-brands fa-facebook-f hover-color"></i>
+        <i class="fa-brands fa-twitter hover-color"></i>
+        <i class="fa-brands fa-pinterest-p hover-color"></i>
+        <i class="fa-brands fa-linkedin-in hover-color"></i>
+        <i class="fa-brands fa-whatsapp hover-color"></i>
+        <i class="fa-regular fa-envelope hover-color"></i>
+      </div>
+      <p class="fw-bolder mt-5">Description: </p>
+      <p class="d-inline">{{productDetails?.description.split(' ').splice(0,20).join(' ')}}
+        <span *ngIf="seeMore">{{productDetails?.description.split('
+          ').slice(20).join(' ')}}. </span>
+        <span (click)="seeMoreFn()" class="  hover-color pointer-cursor fw-bolder" *ngIf="!seeMore">... see more</span>
+        <span (click)="seeLessFn()" class=" hover-color pointer-cursor fw-bolder" *ngIf="seeMore"> see
+          less
+        </span>
+      </p>
+
+
+    </div>
+  </div>
+</section>

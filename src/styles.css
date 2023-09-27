@@ -9,6 +9,15 @@
   --input-border: rgb(221, 221, 221);
   --focused-input-border: rgb(171, 171, 171);
   --main-font: 'Poppins', sans-serif;
+  --hover-text-color: #FFA299;
+}
+
+.hover-color {
+  transition: color 0.4s;
+}
+
+.hover-color:hover {
+  color: var(--hover-text-color);
 }
 
 .main-font {

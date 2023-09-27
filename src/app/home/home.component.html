@@ -1,1 +1,102 @@
-<p>home works!</p>
+<section id="home" class="biege main-font mt-2">
+  <div class="container-lg row gy-4 mx-auto justify-content-center">
+    <div class="col-6 col-md-4 col-lg-3" *ngFor="let product of allProductss.reverse()">
+      <div class="text-center ">
+        <picture class="mb-3 d-block position-relative border">
+          <a class="pointer-cursor" [routerLink]="['../productDetails',product._id]">
+            <img src="{{product.images[0]}}" alt="{{product.title}}" class="w-100"> </a>
+
+          <div class="d-flex justify-content-center gap-1 position-absolute home-icons">
+            <i class=" fa-regular fa-heart dark px-2 py-3 rounded fa-lg pointer-cursor"></i>
+            <i class="fa-solid fa-cart-shopping px-2 py-3 rounded fa-lg pointer-cursor dark"></i>
+            <i class="fa-solid fa-magnifying-glass px-2 py-3 rounded fa-lg pointer-cursor dark" data-bs-toggle="modal"
+              [attr.data-bs-target]="'#'+product._id"></i>
+          </div>
+        </picture>
+        <a class="pointer-cursor" [routerLink]="['../productDetails',product._id]">
+          <h3 class="fs-6 productName">{{product.title.split(' ').splice(0,4).join(' ')}}</h3>
+        </a>
+        <p class="m-0">{{product.price|currency:'EGP '}}</p>
+        <div class="d-inline mt-0 pt-0" *ngFor="let star of (product.ratingsAverage|starts)">
+          <i class="fa-solid fa-star" *ngIf="star=='full'"></i>
+          <i class="fa-regular fa-star" *ngIf="star=='emty'"></i>
+          <i class="fa-regular fa-star-half-stroke" *ngIf="star=='half'"></i>
+        </div>
+      </div>
+      <div class="modal fade" id="{{product._id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog .modal-fullscreen-lg-down	">
+          <div class=" modal-content ">
+            <div class=" row gx-2 gy-2 p-2">
+              <div data-bs-dismiss="modal" aria-label="Close" class="text-end pe-2 pt-2 pointer-cursor">
+                <i class=" fa-solid fa-x fa-lg"></i>
+              </div>
+              <div class="col-12 col-md-6">
+                <div id="s{{product._id}}" class="carousel slide">
+                  <div class="carousel-inner">
+                    <div [ngClass]="isFirst?'carousel-item active':'carousel-item'"
+                      *ngFor="let image of product.images; index as i; first as isFirst">
+                      <img src="{{image}}" class="d-block w-100" alt="...">
+                    </div>
+
+                  </div>
+                  <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#s'+product._id"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#s'+product._id"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 main-font pe-2 d-flex flex-column justify-content-center">
+                <h3 class=" fw-bolder">{{product.title.split(' ').splice(0,4).join(' ')}}</h3>
+                <p>Vendor : <span class=" text-secondary">{{product.brand.name}}</span></p>
+                <p>Product Type: <span class="text-secondary">{{product.subcategory.name}}</span></p>
+                <p class="fs-3">{{product.price|currency:'EGP '}}</p>
+                <p>{{product.description.split(' ').splice(0,50).join(' ')}}...</p>
+                <div class="counter border d-flex justify-content-around w-25 align-items-baseline py-2">
+                  <i class="fa-solid fa-minus hover-color pointer-cursor" (click)="removeItem()"></i>
+                  <input type="number" value="1" min="1" max="100"
+                    class="d-inline w-50 text-center border-0 items-number">
+                  <i class="fa-solid fa-plus hover-color pointer-cursor" (click)="addItem()"></i>
+                </div>
+                <button type="button" class="btn btn-dark w-100 py-2 rounded-0 mt-3">
+                  ADD TO CART
+                </button>
+                <div class="d-flex justify-content-around w-50 mt-3 pointer-cursor">
+                  <i class=" fa-brands fa-facebook-f"></i>
+                  <i class="fa-brands fa-twitter"></i>
+                  <i class="fa-brands fa-pinterest-p"></i>
+                  <i class="fa-brands fa-linkedin-in"></i>
+                  <i class="fa-brands fa-whatsapp"></i>
+                  <i class="fa-regular fa-envelope"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
+<!--
+
+<i class="fa-solid fa-heart"></i>
+ -->
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->

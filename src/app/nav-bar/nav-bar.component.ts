@@ -45,9 +45,9 @@ toggleAccountMenu():void{
  this.accountMenu.fadeToggle()
 }
 }
-
+/*
  $('body, html').click(function(event:any){
 if(event.target != $('.fa-user')[0] && event.target != $('.fa-user')[1]){
   $('.sign').css("display", "none")
 }
-})
+}) */

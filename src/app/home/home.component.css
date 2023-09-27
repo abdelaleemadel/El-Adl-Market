@@ -1,0 +1,56 @@
+.productName {
+  transition: all 0.4s;
+}
+
+.productName:hover {
+  color: var(--hover-text-color);
+}
+
+.home-icons {
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+
+.model.fade {
+  z-index: 1000;
+}
+
+.modal-dialog {
+  width: 96% !important;
+  max-width: none !important;
+  margin-inline: auto;
+}
+
+
+
+@media screen and (min-width: 992px) {
+  .home-icons {
+    flex-direction: column;
+    opacity: 0;
+    left: 30px;
+    transition: all 0.6s;
+
+  }
+
+  .modal-dialog {
+    width: 75% !important;
+  }
+
+  picture:hover .home-icons {
+    opacity: 100%;
+  }
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

@@ -12,7 +12,7 @@
         </div>
         <div class="col-6 d-flex justify-content-evenly justify-content-md-end pe-md-5">
           <i class="fa-solid fa-magnifying-glass mx-2 pointer-cursor" (click)="openNavSearch()"></i>
-          <i class="fa-regular fa-user mx-2" (click)="toggleAccountMenu()"></i>
+          <i class="fa-regular fa-user mx-2 pointer-cursor" (click)="toggleAccountMenu()"></i>
           <i class="fa-solid fa-bag-shopping mx-2"></i>
         </div>
       </div>
@@ -25,10 +25,10 @@
       </div>
       <div>
         <ul>
-          <li class="m-2"><a href="#">Home</a></li>
-          <li class="m-2"><a href="#">Categories</a></li>
-          <li class="m-2"><a href="#">Brands</a></li>
-          <li class="m-2"><a href="#">Contact Us</a></li>
+          <li class="m-2"><a href="">Home</a></li>
+          <li class="m-2"><a href="">Categories</a></li>
+          <li class="m-2"><a href="">Brands</a></li>
+          <li class="m-2"><a href="">Contact Us</a></li>
         </ul>
       </div>
     </div>
@@ -45,7 +45,10 @@
 <nav class="darkish overflow-auto py-3 large-screen-nav fixed-top main-font">
   <div class="container row justify-content-between px-3  mx-auto">
     <div class="title col-2 text-start">
-      <h2 class="fs-1 mb-0">El-Adl</h2>
+      <a routerLink="home" routerLinkActive="router-link-active">
+        <h2 class="fs-1 mb-0">El-Adl</h2>
+
+      </a>
     </div>
     <div class=" large-search col-8 text-center d-flex align-items-center justify-content-center">
       <input type="text" placeholder="Search all products" class="w-100 darkish border p-2 rounded-start-2 h-100 ">
@@ -54,7 +57,7 @@
     </div>
     <div class="col-2 d-flex justify-content-end ">
       <div class="d-flex flex-column align-items-center justify-content-center  mx-2">
-        <i class="fa-regular fa-user" (click)="toggleAccountMenu()"></i>
+        <i class="fa-regular fa-user pointer-cursor" (click)="toggleAccountMenu()"></i>
         <p class=" mb-0"><small>Account</small></p>
       </div>
       <div class="d-flex flex-column align-items-center justify-content-center  mx-2">
@@ -66,18 +69,18 @@
 </nav>
 <div class="dark  routes py-2 w-100 main-font">
   <div class=" container d-flex gap-4 align-items-center justify-content-center">
-    <p class="mb-0"><a href="#">Home</a></p>
-    <p class="mb-0"><a href="#">Gategories</a></p>
-    <p class="mb-0"><a href="#">Brands</a></p>
-    <p class="mb-0"><a href="#">Contact Us</a></p>
+    <p class="mb-0"><a href="">Home</a></p>
+    <p class="mb-0"><a href="">Gategories</a></p>
+    <p class="mb-0"><a href="">Brands</a></p>
+    <p class="mb-0"><a href="">Contact Us</a></p>
   </div>
 </div>
 <div class="sign light p-4 main-font lh-lg position-fixed shadow">
   <div class="d-flex flex-column">
-    <a href="#">My ACCOUNT</a>
+    <a href="">My ACCOUNT</a>
     <a routerLink="login" routerLinkActive="dark ps-2">LOGIN</a>
     <a routerLink="register" routerLinkActive="dark ps-2">SIGNUP</a>
-    <a href="#">WISHLIST</a>
-    <a href="#">LOGOUT</a>
+    <a href="">WISHLIST</a>
+    <a href="">LOGOUT</a>
   </div>
 </div>
