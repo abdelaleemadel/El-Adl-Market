@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule} from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,8 +13,11 @@ import { FooterComponent } from './footer/footer.component';
 import { StartsPipe } from './starts.pipe';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { CategoriesSliderComponent } from './categories-slider/categories-slider.component'
-
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { CartComponent } from './cart/cart.component';
+import { CartcanvasComponent } from './cartcanvas/cartcanvas.component';
+import { AddressComponent } from './address/address.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,13 +28,17 @@ import { CategoriesSliderComponent } from './categories-slider/categories-slider
     FooterComponent,
     StartsPipe,
     ProductDetailsComponent,
-    CategoriesSliderComponent
+    CategoriesSliderComponent,
+    CartComponent,
+    CartcanvasComponent,
+    AddressComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,CarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]

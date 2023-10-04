@@ -1,0 +1,42 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs'
+@Injectable({
+  providedIn: 'root'
+})
+export class ProductsService {
+
+  constructor(private _HttpClient: HttpClient) { }
+
+  allProducts = new BehaviorSubject([])
+  getProducts(page: string = ``): Observable<any> {
+    return this._HttpClient.get(`https://ecommerce.routemisr.com/api/v1/products${page}`)
+  }
+  getProductDetails(id: string): Observable<any> {
+    return this._HttpClient.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
+  }
+  getCategories(): Observable<any> {
+    return this._HttpClient.get(`https://ecommerce.routemisr.com/api/v1/categories`);
+  }
+  addItem(id: string, event: Event): void {
+    const plusIcon = $(event.target!);
+
+    const itemsNumber = $(plusIcon).prev();
+    let number = Number(itemsNumber.val());
+    if (Number.isInteger(number) && number < 100) {
+      itemsNumber.val(++number)
+    }
+  }
+
+  removeItem(id: string, event: Event): void {
+
+    const minusIcon = $(event.target!);
+
+    const itemsNumber = $(minusIcon).next();
+    let number = Number(itemsNumber.val());
+    if (Number.isInteger(number) && number > 1) {
+      itemsNumber.val(--number)
+    }
+  }
+
+}

@@ -74,3 +74,15 @@ input {
 #login input:focus {
   border: 1px solid var(--focused-input-border) !important;
 }
+
+/* Disable number increment/decrement arrows */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

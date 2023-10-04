@@ -1,0 +1,43 @@
+ section.cart {
+   container: layout / inline-size;
+ }
+
+
+ @container layout (width < 99vw) {
+
+   .d-md-block,
+   .d-md-flex {
+     display: none !important;
+   }
+
+   .d-md-none {
+     display: initial !important
+   }
+
+   .col-md-5 {
+     width: 75% !important
+   }
+
+   .col-md-2 {
+     width: 25% !important
+   }
+   @media screen and (min-width: 768px) {
+
+
+     h3 {
+       display: none
+     }
+
+     .container {
+       padding-top: 0px !important
+     }
+   }
+ }
+section.chooseAddress{
+  container: addressLayout / inline-size;
+}
+@container addressLayout (width < 99vw){
+  div.chooseAddress{
+    display: none !important;
+  }
+}

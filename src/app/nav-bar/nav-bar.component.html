@@ -13,7 +13,10 @@
         <div class="col-6 d-flex justify-content-evenly justify-content-md-end pe-md-5">
           <i class="fa-solid fa-magnifying-glass mx-2 pointer-cursor" (click)="openNavSearch()"></i>
           <i class="fa-regular fa-user mx-2 pointer-cursor" (click)="toggleAccountMenu()"></i>
-          <i class="fa-solid fa-bag-shopping mx-2"></i>
+          <a data-bs-toggle="offcanvas">
+            <i class="fa-solid fa-bag-shopping mx-2 pointer-cursor" data-bs-toggle="offcanvas"
+              data-bs-target="#navoffcanvasExample" aria-controls="navoffcanvasExample"></i>
+          </a>
         </div>
       </div>
     </div>
@@ -60,10 +63,12 @@
         <i class="fa-regular fa-user pointer-cursor" (click)="toggleAccountMenu()"></i>
         <p class=" mb-0"><small>Account</small></p>
       </div>
-      <div class="d-flex flex-column align-items-center justify-content-center  mx-2">
+      <a data-bs-toggle="offcanvas" data-bs-target="#navoffcanvasExample" aria-controls="navoffcanvasExample"
+        class="d-flex flex-column align-items-center justify-content-center  mx-2 pointer-cursor">
         <i class="fa-solid fa-bag-shopping "></i>
         <p class="mb-0"><small>Cart</small></p>
-      </div>
+      </a>
+
     </div>
   </div>
 </nav>
@@ -82,5 +87,25 @@
     <a routerLink="register" routerLinkActive="dark ps-2">SIGNUP</a>
     <a href="">WISHLIST</a>
     <a href="">LOGOUT</a>
+  </div>
+</div>
+
+
+<!-- CART CANVAS-->
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="navoffcanvasExample" aria-labelledby="navoffcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="navoffcanvasExampleLabel">YOUR CART</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div>
+      <app-cart></app-cart>
+      <a routerLink="/cart">
+        <button type="button" class="btn btn-dark w-50 py-2 rounded-0 mt-3 mx-auto border d-block">
+          VIEW CART
+        </button>
+      </a>
+    </div>
   </div>
 </div>

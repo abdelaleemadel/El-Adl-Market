@@ -1,0 +1,116 @@
+<section  class=" cart main-font">
+  <div class="container mx-auto px-4 pt-5">
+    <h3 class="text-center">YOUR CART</h3>
+    <div class="row data justify-content-between  border-bottom py-2" [ngClass]="!isFirst?'border-top':''"
+      *ngFor="let product of cartData?.products, first as isFirst">
+      <div class="d-none d-md-block col-12 biege" *ngIf="isFirst">
+        <div class="row align-items-center py-1">
+          <div class="col-5">
+            <h4 class="fs-5 m-0">PRODUCT</h4>
+          </div>
+          <div class="col-2 text-center">
+            <h4 class="fs-5 m-0">PRICE</h4>
+          </div>
+          <div class="col-2 text-center gx-0">
+            <h4 class="fs-5 m-0">QUANTITY</h4>
+          </div>
+          <div class="col-3 text-center">
+            <h4 class="fs-5 m-0">TOTAL</h4>
+          </div>
+        </div>
+      </div>
+      <div class="product col-9 row gx-2 align-items-center col-md-5">
+        <div class="d-none d-md-flex align-items-center col-1">
+          <i class="fa-solid fa-circle-xmark pointer-cursor" (click)="removeFromCart(product.product._id)"></i>
+        </div>
+        <div class="col-3 col-md-4">
+          <img src="{{ product.product.imageCover }}" alt="" class="w-100" />
+        </div>
+
+        <div class="col-9 col-md-7">
+          <p class="m-0">
+            {{ product.product.title.split(" ").splice(0, 4).join(" ") }}
+          </p>
+          <p class="m-0 d-md-none">{{product.price | currency : "EGP " }}</p>
+        </div>
+      </div>
+      <div class="price d-none d-md-flex align-items-center text-center justify-content-center col-md-2">
+        <p class="m-0">{{product.price | currency : "EGP " }}</p>
+      </div>
+      <div class="count col-3 d-flex  flex-column align-items-center justify-content-center gx-0 col-md-2">
+        <div class="counter  d-flex justify-content-around border w-100 align-items-center py-1 mx-0 px-1 col-3">
+          <i class="fa-solid fa-minus hover-color pointer-cursor "
+            (click)="removeItem('cart'+product.product._id, $event)"></i>
+          <input title="count" type="number" value="{{product.count}}" min="1" max="100"
+            class="d-inline w-50 text-center border-0 items-number" [attr.product.id]="product.product._id" />
+          <i class="fa-solid fa-plus hover-color pointer-cursor "
+            (click)="addItem('cart'+product.product._id,$event)"></i>
+        </div>
+        <p class="hover-color m-0 d-md-none pointer-cursor" (click)="removeFromCart(product.product._id)"><span
+            class="text-decoration-underline">Remove</span> <i class="fa-regular fa-trash-can"></i>
+        </p>
+      </div>
+      <div class="d-none d-md-flex align-items-center col-md-3 justify-content-center">
+        <p class="m-0">{{(product.price*product.count) | currency : "EGP " }}</p>
+      </div>
+    </div>
+    <div class="row justify-content-between border-top border-bottom py-2 fs-3">
+      <div class=" col-5 ">
+        <p>Total</p>
+      </div>
+      <div class=" col-7 text-end">
+        <p>{{cartData?.totalCartPrice | currency : "EGP "}}</p>
+      </div>
+    </div>
+    <button type="button" class="btn btn-dark w-50 py-2 rounded-0 mt-3 mx-auto border d-block"
+      (click)="updateCart($event)">
+      UPDATE CART
+    </button>
+    <a routerLink="/home" class="d-block text-center  hover-color mt-2">&lt; <span
+        class="text-decoration-underline">CONTINUE
+        SHOPPING</span> </a>
+  </div>
+  <!-- Addresses -->
+
+</section>
+<!-- ----------------------------------------------------- -->
+<!-- CHOOSE AN ADDRESS  -->
+<section class="main-font mt-5 chooseAddress biege">
+  <div class="row container chooseAddress justify-content-center mx-auto align-items-center ">
+    <form action="" [formGroup]="shippingAddressForm" (ngSubmit)="procceedPayment(shippingAddressForm)"
+      *ngIf="isAddress; else addnewAddress">
+      <h3 class="text-center my-5 fs-2">Choose Shipping Address</h3>
+      <div *ngFor="let address of addresses, index as i, first as isFirst"
+        class="d-flex justify-content-center align-items-center mb-3">
+        <input type="radio" id="{{address._id}}" formControlName="shippingAddress" value="{{i}}"
+          [defaultChecked]="isFirst" class="form-check-input">
+          <label for="{{address._id}}" class="form-check-label">{{address.name}}<br>
+          Address Details: {{address.details}}<br>
+          Phone Number: {{address.phone}}
+        </label>
+      </div>
+      <!-- Payment Method -->
+      <h3 class="text-center my-5 fs-2">Choose Payment Method</h3>
+      <div class="">
+        <div class="d-flex justify-content-center align-items-center mb-2">
+          <input type="radio" id="cash" formControlName="paymentMethod" value="cash" [defaultChecked]="true"
+            class="form-check-input me-2">
+            <label for="cash" class="form-check-label">Pay on Delivery <i class="fa-solid fa-wallet"></i></label>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center">
+          <input type="radio" id="online" formControlName="paymentMethod" value="online" class="form-check-input me-2">
+            <label for="online" class="form-check-label">Online Payment <i
+              class="fa-brands fa-cc-mastercard me-2"></i><i class="fa-brands fa-cc-visa"></i></label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-dark w-100 rounded-0 mt-5" [disabled]="shippingAddressForm.invalid"><span
+          *ngIf="!isLoading">Procceed with Payment</span><i class="fa-solid fa-spinner fa-spin"
+          *ngIf="isLoading"></i></button>
+    </form>
+    <ng-template #addnewAddress>
+      <a class="py-3" routerLink="/address"><button type="submit" class="btn btn-dark w-100 rounded-0 ">Add a Shipping
+          Address</button></a>
+    </ng-template>
+  </div>
+</section>

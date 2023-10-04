@@ -1,0 +1,41 @@
+<section id="address" class="main-font mt-5 biege">
+  <div class=" row container  justify-content-center mx-auto align-items-center mx-auto">
+    <form action=" #" class="col-12 col-sm-8" [formGroup]="addressForm" (ngSubmit)="addAddress(addressForm)">
+      <h3 class="text-center fw-semibold my-5">Add New Address</h3>
+      <label for="name">Address Name</label>
+      <input type="text" placeholder="Address Name" class="w-100 my-2" name="name" formControlName="name">
+      <div class="alert alert-danger" *ngIf="addressForm.get('name')?.errors && addressForm.get('name')?.touched">
+        <p class="m-0" *ngIf="addressForm.get('name')?.getError('required')">Name is Required</p>
+        <p class="m-0" *ngIf="addressForm.get('name')?.getError('minlength')">Name Minimum Length is 3 Characters</p>
+        <p class="m-0" *ngIf="addressForm.get('name')?.getError('maxlength')">Name Max Length is 10 Characters</p>
+      </div>
+      <label for="city">City</label>
+      <input type="text" placeholder="City" class="w-100 my-2" formControlName="city">
+      <div class="alert alert-danger" *ngIf="addressForm.get('city')?.errors && addressForm.get('city')?.touched">
+        <p class="m-0" *ngIf="addressForm.get('city')?.getError('required')">city is Required</p>
+        <p class="m-0" *ngIf="addressForm.get('city')?.getError('minlength')">city Minimum Length is 3 Characters</p>
+        <p class="m-0" *ngIf="addressForm.get('city')?.getError('maxlength')">city Max Length is 20 Characters</p>
+      </div>
+      <label for="details">Address Details</label>
+      <input type="text" placeholder="details" class="w-100 my-2" formControlName="details">
+      <div class="alert alert-danger" *ngIf="addressForm.get('details')?.errors && addressForm.get('details')?.touched">
+        <p class="m-0" *ngIf="addressForm.get('details')?.getError('required')">details are Required</p>
+        <p class="m-0" *ngIf="addressForm.get('details')?.getError('minlength')">details Minimum Length is 15 Characters
+        </p>
+        <p class="m-0" *ngIf="addressForm.get('details')?.getError('maxlength')">details Max Length is 50 Characters</p>
+      </div>
+
+
+      <label for="phone">Phone</label>
+      <input type="tel" placeholder="Phone" class="w-100 my-2" formControlName="phone">
+      <div class="alert alert-danger" *ngIf="addressForm.get('phone')?.errors && addressForm.get('phone')?.touched">
+        <p class="m-0" *ngIf="addressForm.get('phone')?.getError('required')">Phone is Required</p>
+        <p class="m-0" *ngIf="addressForm.get('phone')?.getError('pattern')">Please provide an Egyptian phone number
+        </p>
+
+      </div>
+      <button type="submit" class="btn btn-dark w-100 rounded-0 mt-5" [disabled]="addressForm.invalid"><span
+          *ngIf="!isLoading">Submit</span><i class="fa-solid fa-spinner fa-spin" *ngIf="isLoading"></i></button>
+    </form>
+  </div>
+</section>
