@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthserviceService {
+export class AuthService {
   userData = new BehaviorSubject('');
   decodedUserData = new BehaviorSubject(null)
   constructor(private _HttpClient: HttpClient) {
