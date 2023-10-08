@@ -26,7 +26,8 @@
             </div>
             <button type="submit" class="btn btn-dark w-100 rounded-0 mt-5" [disabled]="loginForm.invalid"><span
                 *ngIf="!isLoading">Sign in</span><i class="fa-solid fa-spinner fa-spin" *ngIf="isLoading"></i></button>
-            <a href="#" class="text-decoration-underline link-offset-2 mt-3 d-inline-block text-end forget">Forget
+            <a routerLink="../forgetPassword"
+              class="text-decoration-underline link-offset-2 mt-3 d-inline-block text-end forget">Forget
               your
               password?</a>
           </form>

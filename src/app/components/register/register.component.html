@@ -9,7 +9,6 @@
         <p class="m-0" *ngIf="registerForm.get('name')?.getError('minlength')">Name Minimum Length is 3 Characters</p>
         <p class="m-0" *ngIf="registerForm.get('name')?.getError('maxlength')">Name Max Length is 10 Characters</p>
       </div>
-
       <input type="email" placeholder="Email" class="w-100 my-2" formControlName="email">
       <div class="alert alert-danger" *ngIf="registerForm.get('email')?.errors && registerForm.get('email')?.touched">
         <p class="m-0" *ngIf="registerForm.get('email')?.getError('required')">Email is Required</p>

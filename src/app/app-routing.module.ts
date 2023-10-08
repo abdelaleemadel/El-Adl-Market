@@ -9,6 +9,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { AddressComponent } from './components/address/address.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { BrandsComponent } from './components/brands/brands.component';
+import { PasswordComponent } from './components/password/password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'cart', component: CartComponent },
   { path: 'address', component: AddressComponent },
   { path: 'allorders', component: OrdersComponent },
-  { path: 'brands', component: BrandsComponent }
+  { path: 'brands', component: BrandsComponent },
+  { path: 'forgetPassword', component: PasswordComponent }
 ];
 
 @NgModule({
