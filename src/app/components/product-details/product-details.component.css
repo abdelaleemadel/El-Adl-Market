@@ -1,0 +1,28 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+section.productDetails{
+  container: productDetails / inline-size;
+}
+@container productDetails (width < 98vw) {
+  .details-page {
+    display:none !important;
+  }
+  .carousel-indicators{
+    bottom:20px !important;
+  }
+}
+@container productDetails (width > 98vw) {
+  .details-modal {
+    display:none !important;
+  }
+}
+

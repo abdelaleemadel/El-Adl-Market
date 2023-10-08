@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductsService } from '../services/products.service';
+import { ProductsService } from '../../services/products.service';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 @Component({
   selector: 'app-categories-slider',

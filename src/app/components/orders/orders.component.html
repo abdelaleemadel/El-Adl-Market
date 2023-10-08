@@ -1,0 +1,88 @@
+<section class="allOrders main-font light">
+  <div class="container mx-auto px-4 pt-5">
+    <h3 class="text-center">Most Recent Order</h3>
+    <div class="row data justify-content-between py-2 my-4 border-bottom"
+      *ngFor="let order of allOrders, first as firstOrder, index as i"
+      [ngClass]="(firstOrder||isAllOrders)?'':'d-none'">
+      <h5 class="fs-3 text-center" *ngIf="i == 1">Previous Orders</h5>
+      <ng-container *ngIf="(firstOrder||isAllOrders)">
+        <div class="row justify-content-between align-items-center" [ngClass]="!isFirst?'border-top':''"
+          *ngFor="let cartItem of order?.cartItems, first as isFirst">
+          <div
+            class="d-flex flex-wrap gap-3 text-center justify-content-center align-items-center biege mb-3 justify-content-around"
+            *ngIf=" isFirst">
+            <div><span class="fw-bolder">ORDER PLACED</span> <br> {{order.createdAt|date}}</div>
+            <div><span class="fw-bolder">TOTAL</span> <br> {{order.totalOrderPrice | currency : "EGP "}}</div>
+            <div *ngIf="order.isDelivered else notDelivered">
+              <i class="fa-solid fa-circle-check"></i><span class="fw-bolder"> Delivered</span>
+            </div>
+            <ng-template #notDelivered>
+              <div><i class="fa-solid fa-truck-fast"></i>
+                <p class="m-0">On The Way</p>
+              </div>
+            </ng-template>
+            <div *ngIf="order.isPaid else notPaid">
+              <div>
+                <span class="fw-bolder">PAYMENT</span> <br> <i class="fa-solid fa-circle-check"></i> Paid
+              </div>
+            </div>
+            <ng-template #notPaid>
+              <div>
+                <span class="fw-bolder">PAYMENT</span> <br>
+                <i class="fa-solid fa-wallet"></i>
+                Not Paid
+              </div>
+            </ng-template>
+          </div>
+          <div class="d-none d-md-block col-12 biege" *ngIf="isFirst">
+            <div class="row align-items-center py-1">
+              <div class="col-5">
+                <h4 class="fs-5 m-0">PRODUCT</h4>
+              </div>
+              <div class="col-2 text-center">
+                <h4 class="fs-5 m-0">PRICE</h4>
+              </div>
+              <div class="col-2 text-center gx-0">
+                <h4 class="fs-5 m-0">QUANTITY</h4>
+              </div>
+              <div class="col-3 text-center">
+                <h4 class="fs-5 m-0">TOTAL</h4>
+              </div>
+            </div>
+          </div>
+          <div class="product col-9 row gx-2 align-items-center col-md-5">
+            <div class="col-3 col-md-4">
+              <img src="{{ cartItem.product.imageCover }}" alt="" class="w-100" />
+            </div>
+
+            <div class="col-9 col-md-7">
+              <p class="m-0">
+                {{ cartItem.product.title.split(" ").splice(0, 4).join(" ") }}
+              </p>
+              <p class="m-0 d-md-none">{{cartItem.price | currency : "EGP " }}</p>
+            </div>
+          </div>
+          <div class="price d-none d-md-flex align-items-center text-center justify-content-center col-md-2">
+            <p class="m-0">{{cartItem.price | currency : "EGP " }}</p>
+          </div>
+          <div class="count col-3 d-flex  flex-column align-items-center justify-content-center gx-0 col-md-2">
+            <p class="m-0">{{cartItem.count}}</p>
+          </div>
+          <div class="d-none d-md-flex align-items-center col-md-3 justify-content-center">
+            <p class="m-0">{{(cartItem.price*cartItem.count) | currency : "EGP " }}</p>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="text-center mt-3 ">
+      <button type="button" class="btn btn-dark col-10 col-md-8 col-lg-4 col-xl-3 rounded-0" *ngIf="!isAllOrders"
+        (click)="showAllOrders()">Show
+        Previous
+        Orders</button>
+      <button type="button" class="btn btn-dark col-10 col-md-8 col-lg-4 col-xl-3 rounded-0" *ngIf="isAllOrders"
+        (click)="showFirstOrder()">Hide
+        Orders</button>
+    </div>
+
+  </div>
+</section>

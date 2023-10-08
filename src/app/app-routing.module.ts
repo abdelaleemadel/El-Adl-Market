@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './components/home/home.component';
+import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
 import { authGuard } from './auth.guard';
-import { ProductDetailsComponent } from './product-details/product-details.component';
-import { CartComponent } from './cart/cart.component';
-import { AddressComponent } from './address/address.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { CartComponent } from './components/cart/cart.component';
+import { AddressComponent } from './components/address/address.component';
+import { OrdersComponent } from './components/orders/orders.component';
+import { BrandsComponent } from './components/brands/brands.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -15,7 +17,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'productDetails/:id', component: ProductDetailsComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'address', component: AddressComponent }
+  { path: 'address', component: AddressComponent },
+  { path: 'allorders', component: OrdersComponent },
+  { path: 'brands', component: BrandsComponent }
 ];
 
 @NgModule({

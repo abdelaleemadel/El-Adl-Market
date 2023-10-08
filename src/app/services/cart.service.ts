@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../product';
 @Injectable({
   providedIn: 'root',
 })
+
 export class CartService {
+  cartData: BehaviorSubject<any> = new BehaviorSubject('');
   constructor(private _HttpClient: HttpClient) { }
   headers: any = {
     token: JSON.parse(localStorage.getItem('userToken')!),
@@ -28,4 +30,17 @@ export class CartService {
   removeItem(id: string): Observable<any> {
     return this._HttpClient.delete(`https://ecommerce.routemisr.com/api/v1/cart/${id}`, { headers: this.headers })
   }
+  /* Open the cart Canvas */
+  triggerCart(): void {
+    const cartCanvas = $('i[data-bs-toggle="offcanvas"]');
+    cartCanvas.trigger("click")
+  }
+  closeCartCanvas(): void {
+    const closeCartCanvas = $('button[data-bs-dismiss="offcanvas"]');
+    closeCartCanvas.trigger("click");
+  }
 }
+
+
+/* <i class="fa-solid fa-bag-shopping mx-2 pointer-cursor" data-bs-toggle="offcanvas"
+data-bs-target="#navoffcanvasExample" aria-controls="navoffcanvasExample"></i> */

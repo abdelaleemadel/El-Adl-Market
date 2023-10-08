@@ -7,10 +7,9 @@ import { BehaviorSubject, Observable } from 'rxjs'
 export class ProductsService {
 
   constructor(private _HttpClient: HttpClient) { }
-
   allProducts = new BehaviorSubject([])
-  getProducts(page: string = ``): Observable<any> {
-    return this._HttpClient.get(`https://ecommerce.routemisr.com/api/v1/products${page}`)
+  getProducts(param: string = ``): Observable<any> {
+    return this._HttpClient.get(`https://ecommerce.routemisr.com/api/v1/products${param}`)
   }
   getProductDetails(id: string): Observable<any> {
     return this._HttpClient.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
@@ -36,6 +35,14 @@ export class ProductsService {
     let number = Number(itemsNumber.val());
     if (Number.isInteger(number) && number > 1) {
       itemsNumber.val(--number)
+    }
+  }
+
+  /* Close the product details modal */
+  closeDetailsModal(): void {
+    const closeModal = $('#productDetailsModal div[data-bs-dismiss="modal"]');
+    if (closeModal.length) {
+      closeModal.trigger('click')
     }
   }
 

@@ -1,0 +1,28 @@
+<section class="brands light main-font">
+  <div class="list container mx-auto">
+    <ul class="row gy-4 justify-content-center ps-0">
+      <li *ngFor="let brand of allBrands | paginate: { itemsPerPage: 20, currentPage: p, id:'brands-pagination' }"
+        class="col-12 col-sm-6  col-md-4 col-lg-3">
+        <div class="position-relative father ">
+          <div class="card m-1 p-3">
+            <div class="card-img">
+              <img alt="{{brand.name}}" class="img-fluid" [src]="brand.image" />
+            </div>
+          </div>
+          <div
+            class="position-absolute top-0  mx-1 card light start-0 bottom-0 end-0  d-flex flex-column justify-content-center layer">
+            <p class="fs-2 text-center m-0">{{ brand.name }}</p>
+            <a [routerLink]="['../home',{brand:brand._id}]" class="text-center">
+              <button type="button" class="btn btn-dark  w-75 mx-auto py-2 rounded-0 mt-2">
+                Show Products
+              </button>
+            </a>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <pagination-controls (pageChange)="p = $event" class="text-center" id="brands-pagination" previousLabel=""
+      nextLabel=""></pagination-controls>
+  </div>
+</section>

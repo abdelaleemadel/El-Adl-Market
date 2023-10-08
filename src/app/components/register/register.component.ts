@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
-import { AuthserviceService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { error } from 'jquery';
-import { matchPassword } from '../match-password.validator';
+import { matchPassword } from '../../match-password.validator';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +11,7 @@ import { matchPassword } from '../match-password.validator';
 })
 export class RegisterComponent {
   isLoading: boolean = false;
-  constructor(private _AuthserviceService: AuthserviceService) {
+  constructor(private _AuthService: AuthService) {
   }
   registerForm: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(10)]),
@@ -23,7 +23,7 @@ export class RegisterComponent {
 
   register(registerForm: FormGroup): void {
     this.isLoading = true
-    this._AuthserviceService.register(registerForm.value).subscribe({
+    this._AuthService.register(registerForm.value).subscribe({
       next: (response) => console.log(response),
       error: (err) => console.log(err)
     })

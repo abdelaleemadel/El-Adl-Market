@@ -1,0 +1,16 @@
+.card {
+  transition: all .5s;
+}
+.card:hover {
+  box-shadow: 1px 1px 10px var(--dark-color);
+}
+
+
+.father>div.layer {
+  opacity: 0;
+  transition: all 0.4s;
+}
+
+.father:hover>div.layer {
+  opacity: 100%;
+}

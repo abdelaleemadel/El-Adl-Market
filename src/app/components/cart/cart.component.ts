@@ -1,18 +1,17 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { CartService } from '../services/cart.service';
-import { AuthserviceService } from '../services/auth.service';
-import { ProductsService } from '../services/products.service';
-import { AddressService } from '../services/address.service';
+import { CartService } from '../../services/cart.service';
+import { ProductsService } from '../../services/products.service';
+import { AddressService } from '../../services/address.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { OrderService } from '../services/order.service';
+import { OrderService } from '../../services/order.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css'],
 })
-export class CartComponent implements OnInit, OnChanges {
-  @Input() homeCartData: any;
+export class CartComponent implements OnInit {
   cartData: any;
   isAddress: Boolean = false;
   addresses: any;
@@ -20,23 +19,24 @@ export class CartComponent implements OnInit, OnChanges {
   constructor(
     private _CartService: CartService,
     private _ProductService: ProductsService, private _AddressService: AddressService,
-    private _OrderService: OrderService
+    private _OrderService: OrderService,
+    private _Router: Router
   ) { }
   ngOnInit(): void {
+    this._CartService.cartData.subscribe({
+      next: response => {
+        this.cartData = response;
+      }
+    })
     this.getCart();
     this.getAddress();
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    /* Get the new Cart after adding an item in the home to display it */
-    if (!changes['homeCartData']['firstChange']) {
-      this.getCart()
-    }
-  }
+
   /* Get the user's cart from the api to display it */
   getCart(): void {
     this._CartService.getCart().subscribe({
       next: (response) => {
-        this.cartData = response.data;
+        this._CartService.cartData.next(response.data)
       },
       error: (err) => console.log(err),
     });
@@ -63,7 +63,7 @@ export class CartComponent implements OnInit, OnChanges {
       } else if (Number(value) > 0) {
         let count: string = String(value);
         this._CartService.updateCart(id, count).subscribe({
-          next: (response) => this.cartData = response.data,
+          next: (response) => this._CartService.cartData.next(response.data),
           error: (err) => console.log(err)
         })
       }
@@ -74,7 +74,7 @@ export class CartComponent implements OnInit, OnChanges {
     this._CartService.removeItem(id).subscribe({
       next: (response) => {
 
-        this.cartData = response.data;
+        this._CartService.cartData.next(response.data);
       },
       error: (err) => {
         console.log(err);
@@ -119,28 +119,36 @@ export class CartComponent implements OnInit, OnChanges {
       }
     }
   }
-
+  /* Cash(ON delivery) payment */
   createCashOrder(cartId: string, shippingAddress: object): void {
     this._OrderService.createCashOrder(cartId, shippingAddress).subscribe({
       next: (response) => {
         console.log(response);
         this._OrderService.userId.next(response.data.user);
         this.isLoading = false;
+        this._Router.navigate(['allorders'])
       }, error: (err) => {
         console.log(err);
         this.isLoading = false;
       }
     })
   }
+
+  /* ONline payment */
   checkOutOrder(cartId: string, shippingAddress: object): void {
     this._OrderService.checkOutOrder(cartId, shippingAddress).subscribe({
       next: response => {
-        window.location.href = response.session.url;
+        window.open(window.location.href = response.session.url, '_blank');
         console.log(response);
       },
       error: err => {
         console.log(err);
       }
     })
+  }
+
+  /* Close Cart Canvas (when direction to cart/home component) */
+  closeCartCanvas(): void {
+    this._CartService.closeCartCanvas();
   }
 }

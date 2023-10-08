@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
-import { AuthserviceService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +12,7 @@ export class LoginComponent {
   isLoading: boolean = false;
   statusMessage: string = '';
   failureMessage: string = ''
-  constructor(private _Router: Router, private _AuthserviceService: AuthserviceService) { }
+  constructor(private _Router: Router, private _AuthService: AuthService) { }
   loginForm: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [Validators.required, Validators.pattern(/^[A-Z].{5,10}$/)]),
@@ -27,14 +27,14 @@ export class LoginComponent {
   login(loginForm: FormGroup): void {
     this.isLoading = true;
     console.log(loginForm.value);
-    this._AuthserviceService.login(loginForm.value).subscribe({
+    this._AuthService.login(loginForm.value).subscribe({
       next: (response) => {
         this.statusMessage = '';
         this.failureMessage = '';
         this.isLoading = false;
         localStorage.setItem('userToken', JSON.stringify(response.token));
-        this._AuthserviceService.userData.next(response.token);
-        console.log(this._AuthserviceService.userData.value);
+        this._AuthService.userData.next(response.token);
+        console.log(this._AuthService.userData.value);
         this._Router.navigate(['/home'])
       },
       error: (err) => {

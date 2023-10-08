@@ -1,21 +1,29 @@
-<section id="productDetails" class="light main-font">
+<section class="light main-font productDetails">
   <div class=" row gx-3 gy-2 p-2 mx-auto">
-    <div class="col-12 col-md-5">
+    <div class="col-12 col-md-5 position-relative">
+      <div class="d-flex justify-content-center position-absolute z-2 end-0 top-0">
+        <div class=" d-none rounded"><i class="fa-solid fa-spinner fa-spin px-2 py-3 fa-lg "></i></div>
+        <i class="fa-regular fa-heart  px-2 py-3 rounded fa-lg pointer-cursor hover-color"
+          *ngIf="wishlistIds.indexOf(productDetails?._id) == -1"
+          (click)="addToWishlist(productDetails?._id,$event)"></i>
+        <div class=" d-none  rounded"><i class="fa-solid fa-spinner fa-spin px-2 py-3 fa-lg "></i></div>
+        <i class="fa-solid fa-heart  px-2 py-3 rounded fa-lg pointer-cursor hover-color"
+          *ngIf="wishlistIds.indexOf(productDetails?._id) != -1"
+          (click)="removeFromWishlist(productDetails?._id,$event)"></i>
+      </div>
       <div id="s{{productDetails?._id}}" class="carousel slide ">
-        <div class="carousel-indicators">
+        <div class="carousel-indicators mx-0">
           <div [attr.data-bs-target]="'#s'+productDetails?._id" [ngClass]="isFirst?'active':''"
             *ngFor="let image of productDetails?.images; index as i; first as isFirst" [attr.data-bs-slide-to]="i"
             [attr.aria-current]="isFirst" [attr.aria-label]="'Slide'+(i+1)"><img src="{{image}}" class="w-100 d-block"
               alt="">
           </div>
-
         </div>
         <div class="carousel-inner">
           <div [ngClass]="isFirst?'carousel-item active':'carousel-item'"
             *ngFor="let image of productDetails?.images; index as i; first as isFirst">
             <img src="{{image}}" class="d-block w-100" alt="...">
           </div>
-
         </div>
         <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#s'+productDetails?._id"
           data-bs-slide="prev">
@@ -31,45 +39,50 @@
     </div>
     <div class="col-12 col-md-7 main-font pe-2 d-flex flex-column justify-content-center">
       <h3 class=" fw-bolder">{{productDetails?.title.split(' ').splice(0,4).join(' ')}}</h3>
-      <div class="d-flex mb-3">
+      <p class="details-modal">Vendor : <span class="text-secondary ">{{ productDetails?.brand.name }}</span></p>
+      <p class="details-modal">Product Type: <span class="text-secondary ">{{productDetails?.subcategory.name}}</span>
+      </p>
+      <div class="d-flex mb-3 details-page">
         <div class=" mt-0 pt-0" *ngFor="let star of (productDetails?.ratingsAverage|starts)">
           <i class="fa-solid fa-star" *ngIf="star=='full'"></i>
           <i class="fa-regular fa-star" *ngIf="star=='emty'"></i>
           <i class="fa-regular fa-star-half-stroke" *ngIf="star=='half'"></i>
         </div>
       </div>
-
       <p class="fs-3">{{productDetails?.price|currency:'EGP '}}</p>
-      <div class="counter border d-flex justify-content-around w-25 align-items-baseline py-2">
+      <p class="details-modal">{{productDetails?.description.split(" ").splice(0, 50).join(" ")}}...</p>
+      <div class="counter data border d-flex justify-content-around w-25 align-items-baseline py-2">
         <i class="fa-solid fa-minus hover-color pointer-cursor"
           (click)="removeItem('details'+productDetails?._id,$event)"></i>
-        <input type="number" value="1" min="1" max="100" class="d-inline w-50 text-center border-0 items-number"
-          placeholder="1" id="details{{productDetails?._id}}">
+        <input type="number" title="count" value="1" min="1" max="100"
+          class="d-inline w-50 text-center border-0 items-number" placeholder="1" id="details{{productDetails?._id}}">
         <i class="fa-solid fa-plus hover-color pointer-cursor"
           (click)="addItem('details'+productDetails?._id,$event)"></i>
       </div>
-      <button type="button" class="btn btn-dark w-100 py-2 rounded-0 mt-3">
+      <button type="button" class="btn btn-dark w-100 py-2 rounded-0 mt-3"
+        (click)="addtoCartDetails(productDetails?._id,$event); closeDetailsModal()">
         ADD TO CART
       </button>
       <div class="d-flex justify-content-around w-50 mt-3 pointer-cursor">
-        <i class=" fa-brands fa-facebook-f hover-color"></i>
+        <i class="fa-brands fa-facebook-f hover-color"></i>
         <i class="fa-brands fa-twitter hover-color"></i>
         <i class="fa-brands fa-pinterest-p hover-color"></i>
         <i class="fa-brands fa-linkedin-in hover-color"></i>
         <i class="fa-brands fa-whatsapp hover-color"></i>
         <i class="fa-regular fa-envelope hover-color"></i>
       </div>
-      <p class="fw-bolder mt-5">Description: </p>
-      <p class="d-inline">{{productDetails?.description.split(' ').splice(0,20).join(' ')}}
-        <span *ngIf="seeMore">{{productDetails?.description.split('
-          ').slice(20).join(' ')}}. </span>
-        <span (click)="seeMoreFn()" class="  hover-color pointer-cursor fw-bolder" *ngIf="!seeMore">... see more</span>
-        <span (click)="seeLessFn()" class=" hover-color pointer-cursor fw-bolder" *ngIf="seeMore"> see
-          less
-        </span>
-      </p>
-
-
+      <div class="details-page">
+        <p class="fw-bolder mt-5">Description: </p>
+        <p class="d-inline">{{productDetails?.description.split(' ').splice(0,20).join(' ')}}
+          <span *ngIf="seeMore">{{productDetails?.description.split('
+            ').slice(20).join(' ')}}. </span>
+          <span (click)="seeMoreFn()" class="  hover-color pointer-cursor fw-bolder" *ngIf="!seeMore">... see
+            more</span>
+          <span (click)="seeLessFn()" class=" hover-color pointer-cursor fw-bolder" *ngIf="seeMore"> see
+            less
+          </span>
+        </p>
+      </div>
     </div>
   </div>
 </section>
