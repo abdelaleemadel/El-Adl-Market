@@ -38,8 +38,10 @@
           <ul class="dropdown-menu light main-font shadow">
             <li><a class="dropdown-item light" routerLinkActive="router-link-active" href="#" *ngIf="loggedUser">My
                 ACCOUNT</a></li>
-            <li><a class="dropdown-item light" routerLink="/login" routerLinkActive="router-link-active">LOGIN</a></li>
-            <li><a class="dropdown-item light" routerLinkActive="router-link-active" routerLink="register">REGISTER</a>
+            <li><a class="dropdown-item light" routerLink="/login" routerLinkActive="router-link-active"
+                *ngIf="!loggedUser">LOGIN</a></li>
+            <li><a class="dropdown-item light" routerLinkActive="router-link-active" routerLink="register"
+                *ngIf="!loggedUser">REGISTER</a>
             </li>
             <li><a class="dropdown-item light" routerLinkActive="router-link-active" routerLink="/cart"
                 *ngIf="loggedUser">CART</a></li>
@@ -50,7 +52,8 @@
           </ul>
         </div>
         <div class="d-flex flex-column align-items-center justify-content-center  mx-3 pointer-cursor"
-          data-bs-toggle="offcanvas" data-bs-target="#cartoffcanvasExample" aria-controls="cartoffcanvasExample">
+          [ngClass]="loggedUser?'':'d-none'" data-bs-toggle="offcanvas" data-bs-target="#cartoffcanvasExample"
+          aria-controls="cartoffcanvasExample">
           <i class="fa-solid fa-bag-shopping "></i>
           <p class="mb-0 d-none d-lg-block"><small>Cart</small></p>
         </div>
