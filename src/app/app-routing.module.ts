@@ -13,14 +13,14 @@ import { PasswordComponent } from './components/password/password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home',/* canActivate:[authGuard], */component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'productDetails/:id', component: ProductDetailsComponent },
-  { path: 'cart', component: CartComponent },
-  { path: 'address', component: AddressComponent },
-  { path: 'allorders', component: OrdersComponent },
-  { path: 'brands', component: BrandsComponent },
+  { path: 'cart', canActivate: [authGuard], component: CartComponent },
+  { path: 'address', canActivate: [authGuard], component: AddressComponent },
+  { path: 'allorders', canActivate: [authGuard], component: OrdersComponent },
+  { path: 'brands', canActivate: [authGuard], component: BrandsComponent },
   { path: 'forgetPassword', component: PasswordComponent }
 ];
 

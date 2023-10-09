@@ -5,7 +5,7 @@ import { AddressService } from '../../services/address.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { Router } from '@angular/router';
-
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class CartComponent implements OnInit {
   cartData: any;
+  loggedUser: boolean = false;
   isAddress: Boolean = false;
   addresses: any;
   isLoading: boolean = false;
@@ -20,16 +21,26 @@ export class CartComponent implements OnInit {
     private _CartService: CartService,
     private _ProductService: ProductsService, private _AddressService: AddressService,
     private _OrderService: OrderService,
-    private _Router: Router
+    private _Router: Router,
+    private _AuthService: AuthService,
   ) { }
   ngOnInit(): void {
+    /*  */
+    this._AuthService.userData.subscribe(
+      (response) => {
+        if (response) {
+          this.loggedUser = true;
+          this.getCart();
+          this.getAddress();
+        } else { this.loggedUser = false }
+      }
+    )
     this._CartService.cartData.subscribe({
       next: response => {
         this.cartData = response;
       }
     })
-    this.getCart();
-    this.getAddress();
+
   }
 
   /* Get the user's cart from the api to display it */

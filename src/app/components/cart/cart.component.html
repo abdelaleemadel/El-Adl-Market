@@ -1,4 +1,4 @@
-<section class="cart main-font">
+<section class="cart main-font" *ngIf="loggedUser">
   <div class="container mx-auto px-4 pt-5">
     <h3 class="text-center">YOUR CART</h3>
     <div class="row data justify-content-between  border-bottom py-2" [ngClass]="!isFirst?'border-top':''"
@@ -71,11 +71,10 @@
         SHOPPING</span> </a>
   </div>
   <!-- Addresses -->
-
 </section>
 <!-- ----------------------------------------------------- -->
 <!-- CHOOSE AN ADDRESS  -->
-<section class="main-font mt-5 chooseAddress biege">
+<section class="main-font mt-5 chooseAddress biege" *ngIf="loggedUser">
   <div class="row container chooseAddress justify-content-center mx-auto align-items-center ">
     <form action="" [formGroup]="shippingAddressForm" (ngSubmit)="procceedPayment(shippingAddressForm)"
       *ngIf="isAddress; else addnewAddress">
@@ -112,5 +111,22 @@
       <a class="py-3" routerLink="/address"><button type="submit" class="btn btn-dark w-100 rounded-0 ">Add a Shipping
           Address</button></a>
     </ng-template>
+  </div>
+</section>
+
+<section class="not-logged main-font" *ngIf="!loggedUser">
+  <div class="container mx-auto p-2">
+    <h3 class="fw-bold">NEW CUSTOMER?</h3>
+    <p class=""><small>Registering allows you to access your order status and history. We’ll get a new
+        account set up
+        for you in no time. For this will only ask you for information necessary to make the purchase process faster and
+        easier</small></p>
+    <a class="btn btn-dark w-75 rounded-0 d-block mx-auto" routerLink="/register" (click)="closeCartCanvas()"> Create
+      an
+      account</a>
+    <h3 class="fw-bold mt-5">Already Have an Account?</h3>
+    <a class="btn btn-dark w-75 rounded-0 mt-3 d-block mx-auto mb-5" routerLink="/login" (click)="closeCartCanvas()">
+      Sign
+      In</a>
   </div>
 </section>

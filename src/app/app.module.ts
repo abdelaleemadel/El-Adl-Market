@@ -42,7 +42,7 @@ import { PasswordComponent } from './components/password/password.component';
     DatePipe,
     BrandsComponent,
     WishlistComponent,
-    PasswordComponent
+    PasswordComponent,
   ],
   imports: [
     BrowserModule,

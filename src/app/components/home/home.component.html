@@ -10,15 +10,15 @@
           <a class="pointer-cursor" [routerLink]="['../productDetails', product._id]">
             <img src="{{ product.images[0] }}" alt="{{ product.title }}" class="w-100" />
           </a>
-          <div class="d-flex justify-content-center gap-1 position-absolute home-icons ">
-            <div class=" d-none dark rounded"><i class="fa-solid fa-spinner fa-spin px-2 py-3 fa-lg "></i></div>
-
-            <i class=" px-2 py-3 rounded fa-lg pointer-cursor fa-regular fa-heart dark rounded"
-              *ngIf="wishlistIds.indexOf(product._id) == -1" (click)="addToWishlist(product._id,$event)"></i>
+          <div class="d-flex justify-content-center gap-1 position-absolute home-icons">
             <div class=" d-none dark rounded"><i class="fa-solid fa-spinner fa-spin px-2 py-3 fa-lg "></i></div>
             <i class="fa-solid fa-heart dark px-2 py-3 rounded fa-lg pointer-cursor"
-              *ngIf="wishlistIds.indexOf(product._id) != -1" (click)="removeFromWishlist(product._id, $event)"></i>
-
+              *ngIf="wishlistIds?.indexOf(product._id) != -1" (click)="removeFromWishlist(product._id, $event)"
+              (click)="!loggedUser?triggerCart():''"></i>
+            <div class=" d-none dark rounded"><i class="fa-solid fa-spinner fa-spin px-2 py-3 fa-lg "></i></div>
+            <i class=" px-2 py-3 rounded fa-lg pointer-cursor fa-regular fa-heart dark rounded"
+              *ngIf="wishlistIds?.indexOf(product._id) == -1 " (click)="addToWishlist(product._id,$event)"
+              (click)="!loggedUser?triggerCart():''"></i>
             <i class="fa-solid fa-cart-shopping px-2 py-3 rounded fa-lg pointer-cursor dark"
               (click)="addToCart(product._id)"></i>
             <i class="fa-solid fa-magnifying-glass px-2 py-3 rounded fa-lg pointer-cursor dark" data-bs-toggle="modal"
@@ -39,6 +39,8 @@
       </div>
     </div>
   </div>
+
+  <!-- Product Details Modal -->
   <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsModal"
     aria-hidden="true">
     <div class="modal-dialog .modal-fullscreen-lg-down">
@@ -50,4 +52,3 @@
       </div>
     </div>
   </div>
-</section>

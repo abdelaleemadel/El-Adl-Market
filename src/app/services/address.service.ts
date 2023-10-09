@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddressService {
 
-  constructor(private _HttpClient: HttpClient) { }
-  headers: any = {
-    token: JSON.parse(localStorage.getItem('userToken')!),
-  };
+  addressData: BehaviorSubject<any> = new BehaviorSubject('');
+  headers: any;
+
+  constructor(private _HttpClient: HttpClient, private _AuthService: AuthService) {
+    this._AuthService.userData.subscribe((response) => {
+      if (response) {
+        this.headers = { token: response };
+      }
+    })
+  }
   getAddresses(): Observable<any> {
     return this._HttpClient.get(`https://ecommerce.routemisr.com/api/v1/addresses`, {
       headers: this.headers,

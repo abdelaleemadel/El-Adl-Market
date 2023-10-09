@@ -26,7 +26,6 @@ export class LoginComponent {
 
   login(loginForm: FormGroup): void {
     this.isLoading = true;
-    console.log(loginForm.value);
     this._AuthService.login(loginForm.value).subscribe({
       next: (response) => {
         this.statusMessage = '';
@@ -34,7 +33,6 @@ export class LoginComponent {
         this.isLoading = false;
         localStorage.setItem('userToken', JSON.stringify(response.token));
         this._AuthService.userData.next(response.token);
-        console.log(this._AuthService.userData.value);
         this._Router.navigate(['/home'])
       },
       error: (err) => {

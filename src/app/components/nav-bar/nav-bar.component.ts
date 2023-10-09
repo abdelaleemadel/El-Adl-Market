@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 declare var $: any;
 @Component({
@@ -7,67 +8,30 @@ declare var $: any;
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
-export class NavBarComponent implements OnInit, OnChanges {
-  accountMenu: any;
-  @Input() homeCartData: any;
-  navCartData: any;
-  ngOnChanges(changes: SimpleChanges): void {
-
-  }
-  constructor(private _CartService: CartService) {
+export class NavBarComponent implements OnInit {
+  loggedUser: boolean = false;
+  constructor(private _CartService: CartService, private _AuthService: AuthService) {
   }
   ngOnInit(): void {
-    this.accountMenu = $('.sign');
+    this._AuthService.userData.subscribe(
+      (response) => {
+        if (response) {
+          this.loggedUser = true;
+        } else { this.loggedUser = false }
+      }
+    )
   }
-  /* Get the user's cart from the api to display it */
-  /*  getCart(): void {
-     this._CartService.getCart().subscribe({
-       next: (response) => {
-         this.navCartData = response.data;
-       },
-       error: (err) => console.log(err),
-     });
-   } */
-  /* Close the navBar in the small screens */
-  closeNav(): void {
-    if ($('.nav-search').css('display')
-      == 'none') {
-      $('.above-all').hide();
-    }
-    $('.toggled-nav').animate({ left: '-300px' }, 600)
-  }
-  /* Open the nav bar in small screen */
-  openNav(): void {
-    const navBarLayer = $('.above-all');
-    const navBarMenu = $('.toggled-nav');
-    navBarLayer.show();
-    navBarMenu.animate({ left: '0%' }, 500, 'linear');
-  }
-  openNavSearch(): void {
-    const navBarMenu = $('.toggled-nav');
-    if (navBarMenu.css('left') == '0px') {
-      this.closeNav()
-    }
-    $('.above-all').show();
 
-    $('.nav-search').fadeIn();
-  }
-  closeNavSearch(): void {
-    $('.above-all').hide();
-
-    $('.nav-search').fadeOut();
-  }
-  toggleAccountMenu(): void {
-    this.accountMenu.fadeToggle()
-  }
   /* Close Cart Canvas (when direction to cart/home component) */
   closeCartCanvas(): void {
     this._CartService.closeCartCanvas();
   }
+
+  /* LOGOUT Function! removes the token from the local storage and userData*/
+  logout(): void {
+    localStorage.removeItem('userToken');
+    this._AuthService.userData.next('');
+    console.log(this.loggedUser);
+  }
 }
-/*
- $('body, html').click(function(event:any){
-if(event.target != $('.fa-user')[0] && event.target != $('.fa-user')[1]){
-  $('.sign').css("display", "none")
-}
-}) */
+

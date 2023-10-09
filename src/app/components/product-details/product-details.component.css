@@ -4,25 +4,32 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+
+#detailsnotuserModal {
+  z-index: 2000 !important;
+}
+
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
 }
 
-section.productDetails{
+section.productDetails {
   container: productDetails / inline-size;
 }
+
 @container productDetails (width < 98vw) {
   .details-page {
-    display:none !important;
+    display: none !important;
   }
-  .carousel-indicators{
-    bottom:20px !important;
-  }
-}
-@container productDetails (width > 98vw) {
-  .details-modal {
-    display:none !important;
+
+  .carousel-indicators {
+    bottom: 20px !important;
   }
 }
 
+@container productDetails (width > 98vw) {
+  .details-modal {
+    display: none !important;
+  }
+}

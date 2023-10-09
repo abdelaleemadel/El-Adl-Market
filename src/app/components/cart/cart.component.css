@@ -3,6 +3,7 @@
  }
 
 
+
  @container layout (width < 99vw) {
 
    .d-md-block,
@@ -21,6 +22,7 @@
    .col-md-2 {
      width: 25% !important
    }
+
    @media screen and (min-width: 768px) {
 
 
@@ -33,11 +35,24 @@
      }
    }
  }
-section.chooseAddress{
-  container: addressLayout / inline-size;
-}
-@container addressLayout (width < 99vw){
-  div.chooseAddress{
-    display: none !important;
-  }
-}
+
+ section.chooseAddress {
+   container: addressLayout / inline-size;
+ }
+
+ @container addressLayout (width < 99vw) {
+   div.chooseAddress {
+     display: none !important;
+   }
+ }
+
+ /* Not logged Modal */
+ section.not-logged>div.container {
+   container: notuser/inline-size;
+ }
+
+ @container notuser (width > 567px) {
+   a.w-75 {
+     width: 50% !important;
+   }
+ }

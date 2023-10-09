@@ -1,17 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Product } from '../product';
+import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
 
 export class CartService {
   cartData: BehaviorSubject<any> = new BehaviorSubject('');
-  constructor(private _HttpClient: HttpClient) { }
-  headers: any = {
-    token: JSON.parse(localStorage.getItem('userToken')!),
-  };
+  headers: any;
+
+  constructor(private _HttpClient: HttpClient, private _AuthService: AuthService) {
+    this._AuthService.userData.subscribe((response) => {
+      if (response) {
+        this.headers = { token: response };
+      }
+    })
+  }
+
+
   addToCart(productId: string): Observable<any> {
     return this._HttpClient.post(
       `https://ecommerce.routemisr.com/api/v1/cart`,
@@ -19,6 +26,7 @@ export class CartService {
       { headers: this.headers }
     );
   }
+
   getCart(): Observable<any> {
     return this._HttpClient.get(`https://ecommerce.routemisr.com/api/v1/cart`, {
       headers: this.headers,

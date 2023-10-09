@@ -3,6 +3,7 @@ import { ProductsService } from '../../services/products.service';
 import { ActivatedRoute } from '@angular/router';
 import { WishlistService } from '../../services/wishlist.service';
 import { CartService } from '../../services/cart.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-product-details',
@@ -10,9 +11,11 @@ import { CartService } from '../../services/cart.service';
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit, OnChanges {
-  constructor(private _ProductService: ProductsService, private _ActivatedRoute: ActivatedRoute, private _WishlistService: WishlistService, private _CartService: CartService) { }
+  constructor(private _ProductService: ProductsService, private _ActivatedRoute: ActivatedRoute, private _WishlistService: WishlistService, private _CartService: CartService,
+    private _AuthService: AuthService) { }
   productDetails: any;
   wishlistIds: any;
+  loggedUser: boolean = false;
   id: any;
   seeMore: boolean = false;
   @Input() productId: string = '';
@@ -20,11 +23,27 @@ export class ProductDetailsComponent implements OnInit, OnChanges {
     this._ActivatedRoute.paramMap.subscribe((params) => {
       this.id = params.get('id');
     })
-
     if (this.id) {
       this.displayProductDetails(this.id)
     }
-    this.getWishlist()
+
+    /* Check if the user is logged in */
+    this._AuthService.userData.subscribe(
+      (response) => {
+        if (response) {
+          this.loggedUser = true;
+        }
+      }
+    )
+
+    /* get the wishlist in order to display the "hearts" correctly  */
+    this._WishlistService.wishlistIds.subscribe({
+      next: response => {
+        this.wishlistIds = response
+      },
+      error: err => { console.log(err) }
+    })
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -74,47 +93,19 @@ export class ProductDetailsComponent implements OnInit, OnChanges {
     this.seeMore = false
     console.log(this.seeMore);
   }
-  getWishlist(): void {
-    this._WishlistService.wishlistIds.subscribe({
-      next: response => {
-        this.wishlistIds = response
-      },
-      error: err => { console.log(err) }
-    })
-  }
+
   /* Add new product to the wishlist and show solid heart in product-details component */
   addToWishlist(productId: string, event: Event): void {
-    this.toggleElement(event);
-
-    this._WishlistService.addToWishlist(productId).subscribe({
-      next: response => {
-        this.wishlistIds = response.data;
-        this.toggleElement(event);
-
-        this._WishlistService.wishlistIds.next(response.data)
-      },
-      error: err => {
-        this.toggleElement(event);
-        ; console.log(err)
-      }
-    })
+    if (this.loggedUser) {
+      this._WishlistService.addToWishlist(productId, event)
+    }
   }
 
   /* remove a product From the wishlist and show hollow heart in product-details component */
   removeFromWishlist(productId: string, event: Event): void {
-    this.toggleElement(event);
-
-    this._WishlistService.removeFromWishlist(productId).subscribe({
-      next: response => {
-        this.toggleElement(event);
-        this.wishlistIds = response.data;
-        this._WishlistService.wishlistIds.next(response.data)
-      },
-      error: err => {
-        this.toggleElement(event);
-        console.log(err)
-      }
-    })
+    if (this.loggedUser) {
+      this._WishlistService.removeFromWishlist(productId, event);
+    }
   }
   /* Get the user's cart from the api to display it */
   getCart(): void {
@@ -126,47 +117,45 @@ export class ProductDetailsComponent implements OnInit, OnChanges {
     });
   }
   addToCart(productId: string): void {
-    this.triggerCart();
-    this._CartService.addToCart(productId).subscribe({
-      next: () => {
-        this.getCart();
-      },
-      error: (err) => console.log(err),
-    });
+    if (this.loggedUser) {
+      this._CartService.addToCart(productId).subscribe({
+        next: () => {
+          this.getCart();
+        },
+        error: (err) => console.log(err),
+      });
+    }
   }
   /* Add product with specific number */
   addtoCartDetails(productId: string, event: Event): void {
-    let input = $(event.target!).siblings('.data').find('input[title="count"]');
-    let value = input.val();
-    if (Number(value) == 1) {
-      this.addToCart(productId);
+    this.triggerCart();
 
-    } else if (Number(value) > 1) {
-      let count: string = String(value);
-      this.triggerCart();
-      this._CartService.addToCart(productId).subscribe({
-        next: () => {
-          this._CartService.updateCart(productId, count).subscribe({
-            next: (response) => this._CartService.cartData.next(response.data),
-            error: (err) => console.log(err)
-          })
-        },
-        error: (err) => { console.log(err) }
-      })
-
+    if (this.loggedUser) {
+      let input = $(event.target!).siblings('.data').find('input[title="count"]');
+      let value = input.val();
+      if (Number(value) == 1) {
+        this.addToCart(productId);
+      } else if (Number(value) > 1) {
+        let count: string = String(value);
+        this.triggerCart();
+        this._CartService.addToCart(productId).subscribe({
+          next: () => {
+            this._CartService.updateCart(productId, count).subscribe({
+              next: (response) => this._CartService.cartData.next(response.data),
+              error: (err) => console.log(err)
+            })
+          },
+          error: (err) => { console.log(err) }
+        })
+      }
     }
   }
   /* Open thecart Canvas */
   triggerCart(): void {
-    this._CartService.triggerCart()
+    this._CartService.triggerCart();
+    this.closeDetailsModal();
   }
-  /* Toggle (display:none) from an element and the one above it {For the loadind during adding/removing from wishlist} */
-  toggleElement(event: Event) {
-    if (event.target) {
-      $(event.target).prev().toggleClass('d-none')
-      $(event.target).toggleClass('d-none');
-    }
-  }
+
 
   /* Close the product details modal while adding element to cart to show the cart canvas*/
   closeDetailsModal(): void {

@@ -13,8 +13,10 @@ export class AuthService {
   constructor(private _HttpClient: HttpClient) {
     let token = localStorage.getItem('userToken')
     if (token) {
-      this.userData.next(token);
-      let decodedToken: any = jwtDecode(token);
+      console.log(token);
+      token = JSON.parse(token);
+      this.userData.next(token!);
+      let decodedToken: any = jwtDecode(token!);
       this.decodedUserData.next(decodedToken);
     }
 
