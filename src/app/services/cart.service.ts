@@ -32,7 +32,7 @@ export class CartService {
   }
   /* Open the cart Canvas */
   triggerCart(): void {
-    const cartCanvas = $('i[data-bs-toggle="offcanvas"]');
+    const cartCanvas = $('div[data-bs-target="#cartoffcanvasExample"]');
     cartCanvas.trigger("click")
   }
   closeCartCanvas(): void {

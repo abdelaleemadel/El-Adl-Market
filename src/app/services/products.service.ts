@@ -19,7 +19,6 @@ export class ProductsService {
   }
   addItem(id: string, event: Event): void {
     const plusIcon = $(event.target!);
-
     const itemsNumber = $(plusIcon).prev();
     let number = Number(itemsNumber.val());
     if (Number.isInteger(number) && number < 100) {

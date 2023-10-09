@@ -1,101 +1,99 @@
-<nav class="dark overflow-auto py-2 small-screen-nav  main-font">
-  <div>
-    <div class="container mx-auto">
-      <div class="row align-items-center justify-content-between fixed-top dark">
-        <div class="col-6 d-flex justify-content-start ps-md-5 align-items-baseline">
-          <i class="fa-solid fa-bars fa-xl pointer-cursor mx-3" (click)="openNav()"></i>
-          <div class="brand pb-0">
-            <a routerLink="home">
-              <h1 class="fs-2 pb-0 pointer-cursor">El-Adl</h1>
-            </a>
-          </div>
+<!-- NAVBAR  -->
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary main-font fixed-top py-0 d-flex align-items-center"
+  data-bs-theme="dark">
+  <div class="container mx-auto">
+    <div class="d-flex align-items-center justify-content-start w-25">
+      <button class="navbar-toggler border-0 " type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" [routerLink]="['/home']">
+        <h1 class="text-white m-0">El-Adl</h1>
+      </a>
+    </div>
+    <form class="d-flex w-50 mx-5" role="search" class="collapse" id="collapseSearch">
+      <div class="input-group w-100 d-flex align-items-center">
+        <i class="fa-solid fa-magnifying-glass text-secondary me-2 d-lg-none"></i>
+        <input type="text" class=" darkish border p-2 form-control h-100" placeholder="Search all Products"
+          aria-label="search" aria-describedby="basic-addon1">
+        <i class="fa fa-xmark fa-lg text-secondary pointer-cursor d-lg-none" data-bs-toggle="collapse"
+          data-bs-target="#collapseSearch" aria-controls="collapseSearch"></i>
+        <span class="input-group-text d-none d-lg-inline-block h-100 py-2" id="basic-addon1"><i
+            class="fa-solid fa-magnifying-glass pointer-cursor text-white fa-lg"></i></span>
+      </div>
+    </form>
+    <div class=" d-flex justify-content-end pointer-cursor w-25 ">
+
+      <div class=" d-flex justify-content-end text-white">
+        <div class=" d-flex justify-content-end text-white  d-lg-none" data-bs-toggle="collapse"
+          data-bs-target="#collapseSearch" aria-controls="collapseSearch">
+          <i class="fa-solid fa-magnifying-glass mx-3 "></i>
         </div>
-        <div class="col-6 d-flex justify-content-evenly justify-content-md-end pe-md-5">
-          <i class="fa-solid fa-magnifying-glass mx-2 pointer-cursor" (click)="openNavSearch()"></i>
-          <i class="fa-regular fa-user mx-2 pointer-cursor" (click)="toggleAccountMenu()"></i>
-          <a data-bs-toggle="offcanvas">
-            <i class="fa-solid fa-bag-shopping mx-2 pointer-cursor" data-bs-toggle="offcanvas"
-              data-bs-target="#navoffcanvasExample" aria-controls="navoffcanvasExample"></i>
-          </a>
+        <div class="d-flex flex-column align-items-center justify-content-center mx-3 pointer-cursor dropdown account"
+          data-bs-toggle="dropdown">
+          <i class="fa-regular fa-user "></i>
+          <p class=" mb-0 d-none d-lg-block"><small>Account</small></p>
+          <!-- Example single danger button -->
+          <ul class="dropdown-menu light main-font shadow">
+            <li><a class="dropdown-item light" routerLinkActive="router-link-active" href="#">My ACCOUNT</a></li>
+            <li><a class="dropdown-item light" routerLink="/login" routerLinkActive="router-link-active">LOGIN</a></li>
+            <li><a class="dropdown-item light" routerLinkActive="router-link-active" routerLink="register">REGISTER</a>
+            </li>
+            <li><a class="dropdown-item light" routerLinkActive="router-link-active" routerLink="/cart">CART</a></li>
+            <li><a class="dropdown-item light" routerLinkActive="router-link-active" href="#">WISHLIST</a></li>
+            <li><a class="dropdown-item light" routerLinkActive="router-link-active" href="#">LOGOUT</a></li>
+          </ul>
+        </div>
+        <div class="d-flex flex-column align-items-center justify-content-center  mx-3 pointer-cursor"
+          data-bs-toggle="offcanvas" data-bs-target="#cartoffcanvasExample" aria-controls="cartoffcanvasExample">
+          <i class="fa-solid fa-bag-shopping "></i>
+          <p class="mb-0 d-none d-lg-block"><small>Cart</small></p>
         </div>
       </div>
     </div>
-    <div class="position-fixed  bottom-0 start-0 end-0 bg-black bg-opacity-50 above-all">
-    </div>
-    <div class="toggled-nav light vh-100  position-fixed top-0">
-      <div class="border-bottom text-end p-2">
-        <i class="fa fa-xmark fa-lg pointer-cursor" (click)="closeNav()"></i>
+    <div class="offcanvas offcanvas-start light" tabindex="-1" id="offcanvasNavbar"
+      aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header ">
+        <h5 class="offcanvas-title fw-bold" id="offcanvasNavbarLabel"><i
+            class="fa-solid fa-scale-balanced me-2"></i>El-Adl
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div>
-        <ul>
-          <li class="m-2"><a href="">Home</a></li>
-          <li class="m-2"><a href="">Categories</a></li>
-          <li class="m-2"><a routerLink="brands">Brands</a></li>
-          <li class="m-2"><a href="">Contact Us</a></li>
+      <div class="offcanvas-body ">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLinkActive="router-link-active"
+              [routerLink]="['/home']" data-bs-dismiss="offcanvas" aria-label="Close">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" routerLinkActive="router-link-active" data-bs-dismiss="offcanvas"
+              aria-label="Close" [routerLink]="['/home']">Categories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" routerLinkActive="router-link-active" data-bs-dismiss="offcanvas"
+              aria-label="Close" [routerLink]="['/brands']">Brands</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" routerLinkActive="router-link-active" data-bs-dismiss="offcanvas"
+              aria-label="Close" [routerLink]="['/home']">Contact Us</a>
+          </li>
         </ul>
       </div>
     </div>
-    <div class="nav-search fixed-top light w-100 ">
-      <div class="container d-flex justify-content-between align-items-center text-secondary mt-2">
-        <i class="fa-solid fa-magnifying-glass text-secondary me-2"></i>
-        <input type="text" placeholder="Search Products" class="w-75 border-0 me-auto">
-        <i class="fa fa-xmark fa-lg text-secondary pointer-cursor" (click)="closeNavSearch()"></i>
-
-      </div>
-    </div>
   </div>
 </nav>
-<nav class="darkish overflow-auto py-3 large-screen-nav fixed-top main-font">
-  <div class="container row justify-content-between px-3  mx-auto">
-    <div class="title col-2 text-start">
-      <a routerLink="home" routerLinkActive="router-link-active">
-        <h2 class="fs-1 mb-0">El-Adl</h2>
 
-      </a>
-    </div>
-    <div class=" large-search col-8 text-center d-flex align-items-center justify-content-center">
-      <input type="text" placeholder="Search all products" class="w-100 darkish border p-2 rounded-start-2 h-100 ">
-      <span class="border d-inline-block h-100 rounded-end-2 d-flex align-items-center"><i
-          class="fa-solid fa-magnifying-glass mx-2 pointer-cursor"></i></span>
-    </div>
-    <div class="col-2 d-flex justify-content-end ">
-      <div class="d-flex flex-column align-items-center justify-content-center  mx-2">
-        <i class="fa-regular fa-user pointer-cursor" (click)="toggleAccountMenu()"></i>
-        <p class=" mb-0"><small>Account</small></p>
-      </div>
-      <a data-bs-toggle="offcanvas" data-bs-target="#navoffcanvasExample" aria-controls="navoffcanvasExample"
-        class="d-flex flex-column align-items-center justify-content-center  mx-2 pointer-cursor">
-        <i class="fa-solid fa-bag-shopping "></i>
-        <p class="mb-0"><small>Cart</small></p>
-      </a>
 
-    </div>
-  </div>
-</nav>
-<div class="dark  routes py-2 w-100 main-font">
-  <div class=" container d-flex gap-4 align-items-center justify-content-center">
-    <p class="mb-0"><a href="">Home</a></p>
-    <p class="mb-0"><a href="">Gategories</a></p>
-    <p class="mb-0"><a routerLink="brands">Brands</a></p>
-    <p class="mb-0"><a href="">Contact Us</a></p>
-  </div>
-</div>
-<div class="sign light p-4 main-font lh-lg position-fixed shadow">
-  <div class="d-flex flex-column">
-    <a href="">My ACCOUNT</a>
-    <a routerLink="login" routerLinkActive="dark ps-2">LOGIN</a>
-    <a routerLink="register" routerLinkActive="dark ps-2">SIGNUP</a>
-    <a href="">WISHLIST</a>
-    <a href="">LOGOUT</a>
-  </div>
-</div>
+
 
 
 <!-- CART CANVAS-->
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="navoffcanvasExample" aria-labelledby="navoffcanvasExampleLabel">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartoffcanvasExample"
+  aria-labelledby="cartoffcanvasExampleLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="navoffcanvasExampleLabel">YOUR CART</h5>
+    <h5 class="offcanvas-title" id="cartoffcanvasExampleLabel">YOUR CART</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">

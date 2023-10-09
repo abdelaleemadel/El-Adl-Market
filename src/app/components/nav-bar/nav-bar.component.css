@@ -1,64 +1,124 @@
-.toggled-nav {
-  width: 300px;
-  max-width: 100%;
+/* NEW NAV BAR */
+/* Deactivate some Bootstrap effects */
+.navbar-toggler:focus {
+  border: none !important;
+  box-shadow: none !important;
 }
 
-.above-all {
-  top: 50px;
-  z-index: 10000;
-  display: none;
+ul.dropdown-menu a:active {
+  background-color: var(--dark-color) !important;
 }
 
+.offcanvas-header button:focus {
+  border: none;
+  box-shadow: none;
+}
+
+nav.navbar {
+  background-color: black !important;
+}
+
+input.form-control:focus {
+  box-shadow: none !important;
+
+}
+
+/* NAVBAR height in mobile & tablet (0-992) screen */
 .fixed-top {
-  overflow: auto;
   height: 50px;
 }
 
-.toggled-nav {
-  left: -300px;
-  z-index: 10002;
+/* Active LINK design */
+.router-link-active {
+  padding-left: 10px;
+  background-color: var(--dark-color) !important;
+  color: var(--light-color) !important;
 }
 
-.nav-search {
-  z-index: 10001;
-  top: 50px;
-  display: none;
+/* UP TO LARGE */
+/* XS, SM, MD */
+/* From 0 to 991 */
+@media screen and (max-width:991px) {
+
+  /* Search input */
+  form#collapseSearch {
+    width: 100vw;
+    right: 0;
+    left: 0;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    position: absolute;
+    top: 50px;
+  }
+
+  form#collapseSearch div.input-group {
+    padding: 10px;
+    padding-inline: 20px;
+  }
+
+  form#collapseSearch input {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    border: none !important;
+  }
+
+  /* OFF canvas Navbar */
+  #offcanvasNavbar * {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+  }
+
+  /* Dropdown menu of (account/login/register/...) */
+  .account>.dropdown-menu {
+    transform: translate(-50%, 10%);
+  }
 }
 
-.large-screen-nav.fixed-top {
-  display: none;
-  height: 100px;
+
+/* XS and SM */
+/* From 0 to 567px */
+@media screen and (max-width:567px) {
+  .account>.dropdown-menu {
+    transform: translate(-60%, 10%);
+  }
 }
 
 
-.routes {
-  display: none;
-  position: fixed;
-  top: 100px;
-  z-index: 1030;
-}
-
-/* SIGN IN/UP */
-.sign {
-  display: none;
-  top: 50px;
-  right: 50px;
-  z-index: 10003;
-}
-
+/* LG, XL , XXL  */
+/* Larger than 991 px */
 @media screen and (min-width: 992px) {
-  .small-screen-nav {
-    display: none;
+
+  /* NAV BAR */
+  nav.navbar {
+    background-color: var(--darkish-color) !important;
   }
 
-  .large-screen-nav.fixed-top,
-  .routes {
-    display: block;
+  .fixed-top {
+    height: 100px !important;
   }
 
-  .sign {
-    top: 100px;
-    right: 100px;
-    width: 15%;
+  #collapseSearch {
+    display: block !important;
+    margin-inline: auto !important;
+    width: 70% !important;
+
+  }
+
+  /* OFF CANVAS NAVBAR */
+  #offcanvasNavbar>.offcanvas-body {
+    width: 100vw !important;
+    right: 0% !important;
+    position: absolute !important;
+    top: 98% !important;
+    background-color: black !important;
+  }
+
+  #offcanvasNavbar>.offcanvas-body ul {
+    justify-content: center !important;
+  }
+
+  /* ACCOUNT DROPDOWN MENU */
+  .account>.dropdown-menu {
+    transform: translate(-30%, 10%);
   }
 }
