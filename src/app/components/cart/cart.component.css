@@ -40,7 +40,7 @@
    container: addressLayout / inline-size;
  }
 
- @container addressLayout (width < 99vw) {
+ @container addressLayout (width < 98vw) {
    div.chooseAddress {
      display: none !important;
    }

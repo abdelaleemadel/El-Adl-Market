@@ -12,7 +12,7 @@ import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { StartsPipe } from './components/pipes/starts.pipe';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
-import { CategoriesSliderComponent } from './components/categories-slider/categories-slider.component'
+import { CategoriesComponent } from './components/categories/categories.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { CartComponent } from './components/cart/cart.component';
@@ -34,7 +34,7 @@ import { PasswordComponent } from './components/password/password.component';
     FooterComponent,
     StartsPipe,
     ProductDetailsComponent,
-    CategoriesSliderComponent,
+    CategoriesComponent,
     CartComponent,
     CartcanvasComponent,
     AddressComponent,

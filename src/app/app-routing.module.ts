@@ -10,6 +10,7 @@ import { AddressComponent } from './components/address/address.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { BrandsComponent } from './components/brands/brands.component';
 import { PasswordComponent } from './components/password/password.component';
+import { CategoriesComponent } from './components/categories/categories.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -21,7 +22,8 @@ const routes: Routes = [
   { path: 'address', canActivate: [authGuard], component: AddressComponent },
   { path: 'allorders', canActivate: [authGuard], component: OrdersComponent },
   { path: 'brands', component: BrandsComponent },
-  { path: 'forgetPassword', component: PasswordComponent }
+  { path: 'forgetPassword', component: PasswordComponent },
+  { path: 'subcategories', component: CategoriesComponent }
 ];
 
 @NgModule({

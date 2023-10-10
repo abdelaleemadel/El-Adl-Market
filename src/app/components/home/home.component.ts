@@ -16,9 +16,14 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
   loggedUser: boolean = false;
   wishlistIds: any[] = [];
   productId: string = '';
+  categoryId: string = '';
+  subCategoryId: string = '';
   brandId: string = '';
   i: number = 0;
+  page: number = 0;
+  isSubCatEmpty: boolean = false;
   isEmpty: boolean = false;
+  isCatEmpty: boolean = false;
   constructor(
     private _ProductService: ProductsService,
     private _CartService: CartService,
@@ -41,10 +46,13 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
     this._ActivatedRoute.paramMap.subscribe((param) => {
       if (param.keys.length != 0) {
         this.routeParameters();
-        this.getBrandProducts();
       } else {
         this.brandId = '';
+        this.categoryId = '';
+        this.subCategoryId = '';
         this.isEmpty = false;
+        this.isCatEmpty = false;
+        this.isSubCatEmpty = false;
         this.getProducts()
       }
     })
@@ -68,6 +76,7 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
   }
   /* Call products from api if they're not already here  */
   getProducts(): void {
+    this.page = 0;
     this._ProductService.getProducts().subscribe({
       next: (response) => {
         this.allProductss = response.data.reverse();
@@ -130,13 +139,24 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
   /* Find if there's any parameters to use them in Showing products */
   routeParameters(): void {
     this._ActivatedRoute.paramMap.subscribe((param) => {
+      this.categoryId = '';
+      this.brandId = '';
+      this.subCategoryId = '';
       if (param.get('brand')) {
         this.brandId = param.get('brand')!;
-      } else { this.brandId = '' }
+        this.getBrandProducts();
+      } else if (param.get('category')) {
+        this.categoryId = param.get('category')!;
+        this.getCatProducts();
+      } else if (param.get('subcategory')) {
+        this.subCategoryId = param.get('subcategory')!;
+        this.getSubCatProducts();
+      }
     })
   }
   /* Get the brand By product */
   getBrandProducts(): void {
+    this.page = 0;
     if (this.brandId) {
       this._ProductService.getProducts(`?brand=${this.brandId}`).subscribe({
         next: response => {
@@ -150,6 +170,43 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
         }
       })
     }
-
   }
+
+  /* Get Category's products */
+  getCatProducts(): void {
+    this.page = 0;
+    if (this.categoryId) {
+      this._ProductService.getProducts(`?category=${this.categoryId}`).subscribe({
+        next: response => {
+          this._ProductService.allProducts.next(response.data);
+          if (response.results == 0) {
+            this.isCatEmpty = true
+          } else { this.isCatEmpty = false }
+        },
+        error: err => {
+          console.log(err);
+        }
+      })
+    }
+  }
+
+  /* Get Sub-Category's products */
+  getSubCatProducts(): void {
+    this.page = 0;
+    if (this.subCategoryId) {
+      this._ProductService.getProducts(`?subcategory=${this.subCategoryId}`).subscribe({
+        next: response => {
+          this._ProductService.allProducts.next(response.data);
+          if (response.results == 0) {
+            this.isSubCatEmpty = true
+          } else { this.isSubCatEmpty = false }
+        },
+        error: err => {
+          console.log(err);
+        }
+      })
+    }
+  }
+
+
 }

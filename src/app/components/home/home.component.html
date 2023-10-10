@@ -1,43 +1,50 @@
 <section id="home" class="biege main-font">
-  <app-categories-slider></app-categories-slider>
+  <app-categories></app-categories>
   <div class="container-lg row gy-4 mx-auto justify-content-center">
-    <div class="vh-100 d-flex align-items-center justify-content-center" *ngIf="isEmpty">
-      <h3 class="fs-1" *ngIf="isEmpty">This Brand has No Products yet</h3>
+    <div class="vh-100 py-5" *ngIf="isEmpty||isCatEmpty||isSubCatEmpty">
+      <h3 class="fs-1 mt-5 text-center" *ngIf="isEmpty">This Brand has No Products yet</h3>
+      <h3 class="fs-1 mt-5 text-center" *ngIf="isCatEmpty">This Category has No Products yet</h3>
+      <h3 class="fs-1 mt-5 text-center" *ngIf="isSubCatEmpty">This Sub-Category has No Products yet</h3>
     </div>
-    <div class="col-6 col-md-4 col-lg-3" *ngFor="let product of allProductss">
-      <div class="text-center">
-        <picture class="mb-3 d-block position-relative border">
+    <ul class="row gy-4 justify-content-center ps-0">
+      <li class="col-6 col-md-4 col-lg-3"
+        *ngFor="let product of allProductss | paginate: { itemsPerPage: 20, currentPage: page, id:'products-pagination' }">
+        <div class="text-center">
+          <picture class="mb-3 d-block position-relative border">
+            <a class="pointer-cursor" [routerLink]="['../productDetails', product._id]">
+              <img src="{{ product.images[0] }}" alt="{{ product.title }}" class="w-100" />
+            </a>
+            <div class="d-flex justify-content-center gap-1 position-absolute home-icons">
+              <div class=" d-none dark rounded"><i class="fa-solid fa-spinner fa-spin px-2 py-3 fa-lg "></i></div>
+              <i class="fa-solid fa-heart dark px-2 py-3 rounded fa-lg pointer-cursor"
+                *ngIf="wishlistIds?.indexOf(product._id) != -1" (click)="removeFromWishlist(product._id, $event)"
+                (click)="!loggedUser?triggerCart():''"></i>
+              <div class=" d-none dark rounded"><i class="fa-solid fa-spinner fa-spin px-2 py-3 fa-lg "></i></div>
+              <i class=" px-2 py-3 rounded fa-lg pointer-cursor fa-regular fa-heart dark rounded"
+                *ngIf="wishlistIds?.indexOf(product._id) == -1 " (click)="addToWishlist(product._id,$event)"
+                (click)="!loggedUser?triggerCart():''"></i>
+              <i class="fa-solid fa-cart-shopping px-2 py-3 rounded fa-lg pointer-cursor dark"
+                (click)="addToCart(product._id)"></i>
+              <i class="fa-solid fa-magnifying-glass px-2 py-3 rounded fa-lg pointer-cursor dark" data-bs-toggle="modal"
+                data-bs-target="#productDetailsModal" (click)="getProductId(product._id)"></i>
+            </div>
+          </picture>
           <a class="pointer-cursor" [routerLink]="['../productDetails', product._id]">
-            <img src="{{ product.images[0] }}" alt="{{ product.title }}" class="w-100" />
+            <h3 class="fs-6 productName">
+              {{ product.title.split(" ").splice(0, 4).join(" ") }}
+            </h3>
           </a>
-          <div class="d-flex justify-content-center gap-1 position-absolute home-icons">
-            <div class=" d-none dark rounded"><i class="fa-solid fa-spinner fa-spin px-2 py-3 fa-lg "></i></div>
-            <i class="fa-solid fa-heart dark px-2 py-3 rounded fa-lg pointer-cursor"
-              *ngIf="wishlistIds?.indexOf(product._id) != -1" (click)="removeFromWishlist(product._id, $event)"
-              (click)="!loggedUser?triggerCart():''"></i>
-            <div class=" d-none dark rounded"><i class="fa-solid fa-spinner fa-spin px-2 py-3 fa-lg "></i></div>
-            <i class=" px-2 py-3 rounded fa-lg pointer-cursor fa-regular fa-heart dark rounded"
-              *ngIf="wishlistIds?.indexOf(product._id) == -1 " (click)="addToWishlist(product._id,$event)"
-              (click)="!loggedUser?triggerCart():''"></i>
-            <i class="fa-solid fa-cart-shopping px-2 py-3 rounded fa-lg pointer-cursor dark"
-              (click)="addToCart(product._id)"></i>
-            <i class="fa-solid fa-magnifying-glass px-2 py-3 rounded fa-lg pointer-cursor dark" data-bs-toggle="modal"
-              data-bs-target="#productDetailsModal" (click)="getProductId(product._id)"></i>
+          <p class="m-0">{{ product.price | currency : "EGP " }}</p>
+          <div class="d-inline mt-0 pt-0" *ngFor="let star of product.ratingsAverage | starts">
+            <i class="fa-solid fa-star" *ngIf="star == 'full'"></i>
+            <i class="fa-regular fa-star" *ngIf="star == 'emty'"></i>
+            <i class="fa-regular fa-star-half-stroke" *ngIf="star == 'half'"></i>
           </div>
-        </picture>
-        <a class="pointer-cursor" [routerLink]="['../productDetails', product._id]">
-          <h3 class="fs-6 productName">
-            {{ product.title.split(" ").splice(0, 4).join(" ") }}
-          </h3>
-        </a>
-        <p class="m-0">{{ product.price | currency : "EGP " }}</p>
-        <div class="d-inline mt-0 pt-0" *ngFor="let star of product.ratingsAverage | starts">
-          <i class="fa-solid fa-star" *ngIf="star == 'full'"></i>
-          <i class="fa-regular fa-star" *ngIf="star == 'emty'"></i>
-          <i class="fa-regular fa-star-half-stroke" *ngIf="star == 'half'"></i>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
+    <pagination-controls (pageChange)="page = $event" class="text-center" id="products-pagination" previousLabel=""
+      [autoHide]="true" nextLabel=""></pagination-controls>
   </div>
 
   <!-- Product Details Modal -->
