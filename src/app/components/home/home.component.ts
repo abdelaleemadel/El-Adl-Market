@@ -1,6 +1,6 @@
-import { Component, OnInit, OnChanges, SimpleChanges, DoCheck } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, DoCheck, Input, SimpleChange } from '@angular/core';
 import { ProductsService } from '../../services/products.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { error, get, param } from 'jquery';
 import { CartService } from '../../services/cart.service';
 import { WishlistService } from '../../services/wishlist.service';
@@ -11,9 +11,12 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
+export class HomeComponent implements OnInit {
+  wishList: any;
   allProductss: any;
+  isWishlist: boolean = false
   loggedUser: boolean = false;
+  isWishListEmpty: boolean = false;
   wishlistIds: any[] = [];
   productId: string = '';
   categoryId: string = '';
@@ -31,6 +34,8 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
     private _ActivatedRoute: ActivatedRoute,
     private _AuthService: AuthService
   ) { }
+
+
   ngOnInit(): void {
     /* Check if the user is logged in */
     this._AuthService.userData.subscribe(
@@ -40,30 +45,27 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
         }
       }
     )
-
-
-    /* Check if there're parameters  */
-    this._ActivatedRoute.paramMap.subscribe((param) => {
-      if (param.keys.length != 0) {
-        this.routeParameters();
-      } else {
-        this.brandId = '';
-        this.categoryId = '';
-        this.subCategoryId = '';
-        this.isEmpty = false;
-        this.isCatEmpty = false;
-        this.isSubCatEmpty = false;
-        this.getProducts()
+    /* Check if the component is shown as products or wishlist */
+    this._ActivatedRoute.url.subscribe(
+      (response) => {
+        if (response[0].path == 'wishlist') {
+          this.isWishlist = true;
+          this.getWishList();
+        } else if (response[0].path = 'home') {
+          this.isWishlist = false;
+          this.checkParameters(response[0].parameters);
+        }
       }
-    })
-
+    )
 
     /* Get products  to display them*/
-    this._ProductService.allProducts.subscribe({
-      next: (response) => {
-        this.allProductss = response;
-      },
-    });
+    if (!this.isWishlist) {
+      this._ProductService.allProducts.subscribe({
+        next: (response) => {
+          this.allProductss = response;
+        },
+      })
+    }
 
     /* get the wishlist in order to display the "hearts" correctly  */
     this._WishlistService.wishlistIds.subscribe({
@@ -72,7 +74,20 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
       },
       error: err => { console.log(err) }
     })
-
+  }
+  /* Check if there're parameters  */
+  checkParameters(param: object): void {
+    if (Object.keys(param).length != 0) {
+      this.routeParameters(param);
+    } else {
+      this.brandId = '';
+      this.categoryId = '';
+      this.subCategoryId = '';
+      this.isEmpty = false;
+      this.isCatEmpty = false;
+      this.isSubCatEmpty = false;
+      this.getProducts()
+    }
   }
   /* Call products from api if they're not already here  */
   getProducts(): void {
@@ -91,6 +106,7 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
       error: (err) => console.log(err),
     });
   }
+
   /* Add product to cart when pressing the shopping icon in home */
   addToCart(productId: string): void {
     this.triggerCart();
@@ -103,6 +119,7 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
       });
     }
   }
+
   /* Get the user's cart from the api to display it */
   getCart(): void {
     this._CartService.getCart().subscribe({
@@ -119,13 +136,13 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
       this._WishlistService.addToWishlist(productId, event)
     }
   }
+
   /* remove a product From the wishlist and show hollow heart in home component */
-  removeFromWishlist(productId: string, event: Event): void {
+  async removeFromWishlist(productId: string, event: Event): Promise<void> {
     if (this.loggedUser) {
-      this._WishlistService.removeFromWishlist(productId, event);
+      await this._WishlistService.removeFromWishlist(productId, event);
     }
   }
-
 
   /* Open the OffCanvas Cart (from NavBar component)*/
   triggerCart(): void {
@@ -137,23 +154,22 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
     this.productId = productId;
   }
   /* Find if there's any parameters to use them in Showing products */
-  routeParameters(): void {
-    this._ActivatedRoute.paramMap.subscribe((param) => {
-      this.categoryId = '';
-      this.brandId = '';
-      this.subCategoryId = '';
-      if (param.get('brand')) {
-        this.brandId = param.get('brand')!;
-        this.getBrandProducts();
-      } else if (param.get('category')) {
-        this.categoryId = param.get('category')!;
-        this.getCatProducts();
-      } else if (param.get('subcategory')) {
-        this.subCategoryId = param.get('subcategory')!;
-        this.getSubCatProducts();
-      }
-    })
+  routeParameters(param: any): void {
+    this.categoryId = '';
+    this.brandId = '';
+    this.subCategoryId = '';
+    if (param['brand']) {
+      this.brandId = param['brand']!;
+      this.getBrandProducts();
+    } else if (param['category']) {
+      this.categoryId = param['category']!;
+      this.getCatProducts();
+    } else if (param['subcategory']) {
+      this.subCategoryId = param['subcategory']!;
+      this.getSubCatProducts();
+    }
   }
+
   /* Get the brand By product */
   getBrandProducts(): void {
     this.page = 0;
@@ -176,12 +192,16 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
   getCatProducts(): void {
     this.page = 0;
     if (this.categoryId) {
+      console.log(this.categoryId);
       this._ProductService.getProducts(`?category=${this.categoryId}`).subscribe({
         next: response => {
-          this._ProductService.allProducts.next(response.data);
+          console.log(response.data);
           if (response.results == 0) {
             this.isCatEmpty = true
-          } else { this.isCatEmpty = false }
+          } else {
+            this.isCatEmpty = false;
+            this._ProductService.allProducts.next(response.data);
+          }
         },
         error: err => {
           console.log(err);
@@ -208,5 +228,17 @@ export class HomeComponent implements OnInit/* , OnChanges *//* , DoCheck */ {
     }
   }
 
-
+  /* Get and Display Wishlist in Home */
+  getWishList(): void {
+    this._WishlistService.wishList.subscribe(
+      (response) => {
+        this.allProductss = response;
+        if (response.length == 0) {
+          this.isWishListEmpty = true;
+        } else {
+          this.isWishListEmpty = false;
+        }
+      }
+    )
+  }
 }

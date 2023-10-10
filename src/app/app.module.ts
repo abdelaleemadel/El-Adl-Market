@@ -21,7 +21,6 @@ import { AddressComponent } from './components/address/address.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { DatePipe } from './components/pipes/date.pipe';
 import { BrandsComponent } from './components/brands/brands.component';
-import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PasswordComponent } from './components/password/password.component';
 @NgModule({
@@ -41,7 +40,6 @@ import { PasswordComponent } from './components/password/password.component';
     OrdersComponent,
     DatePipe,
     BrandsComponent,
-    WishlistComponent,
     PasswordComponent,
   ],
   imports: [

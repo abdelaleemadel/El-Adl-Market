@@ -1,10 +1,12 @@
-<section id="home" class="biege main-font">
-  <app-categories></app-categories>
+<section id="home" class="biege main-font"
+  [ngClass]="isEmpty||isCatEmpty||isSubCatEmpty||isWishListEmpty?'overflow-hidden':'overflow-auto'">
+  <app-categories *ngIf="!isWishlist"></app-categories>
   <div class="container-lg row gy-4 mx-auto justify-content-center">
-    <div class="vh-100 py-5" *ngIf="isEmpty||isCatEmpty||isSubCatEmpty">
+    <div class="vh-100 py-5 min-vh-100" *ngIf="isEmpty||isCatEmpty||isSubCatEmpty||isWishListEmpty">
       <h3 class="fs-1 mt-5 text-center" *ngIf="isEmpty">This Brand has No Products yet</h3>
       <h3 class="fs-1 mt-5 text-center" *ngIf="isCatEmpty">This Category has No Products yet</h3>
       <h3 class="fs-1 mt-5 text-center" *ngIf="isSubCatEmpty">This Sub-Category has No Products yet</h3>
+      <h3 class="fs-1 mt-5 text-center" *ngIf="isWishListEmpty">Your Wishlist has no Products</h3>
     </div>
     <ul class="row gy-4 justify-content-center ps-0">
       <li class="col-6 col-md-4 col-lg-3"
@@ -12,7 +14,7 @@
         <div class="text-center">
           <picture class="mb-3 d-block position-relative border">
             <a class="pointer-cursor" [routerLink]="['../productDetails', product._id]">
-              <img src="{{ product.images[0] }}" alt="{{ product.title }}" class="w-100" />
+              <img src="{{ product.imageCover }}" alt="{{ product.title }}" class="w-100" />
             </a>
             <div class="d-flex justify-content-center gap-1 position-absolute home-icons">
               <div class=" d-none dark rounded"><i class="fa-solid fa-spinner fa-spin px-2 py-3 fa-lg "></i></div>

@@ -22,10 +22,10 @@ export class ProductDetailsComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this._ActivatedRoute.paramMap.subscribe((params) => {
       this.id = params.get('id');
+      if (this.id) {
+        this.displayProductDetails(this.id)
+      }
     })
-    if (this.id) {
-      this.displayProductDetails(this.id)
-    }
 
     /* Check if the user is logged in */
     this._AuthService.userData.subscribe(

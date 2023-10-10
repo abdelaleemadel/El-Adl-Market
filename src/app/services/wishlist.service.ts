@@ -8,6 +8,7 @@ import { AuthService } from './auth.service';
 })
 export class WishlistService {
   wishlistIds: BehaviorSubject<any> = new BehaviorSubject('');
+  wishList: BehaviorSubject<any> = new BehaviorSubject('');
   headers: any;
 
   constructor(private _HttpClient: HttpClient, private _AuthService: AuthService) {
@@ -43,7 +44,8 @@ export class WishlistService {
     this.getWishlist().subscribe({
       next: response => {
         let ids = response.data.map((product: { _id: any; }) => product._id);
-        this.wishlistIds.next(ids)
+        this.wishlistIds.next(ids);
+        this.wishList.next(response.data)
       },
       error: err => { console.log(err) }
     })
@@ -61,7 +63,8 @@ export class WishlistService {
     this.addToWishlistApi(productId).subscribe({
       next: response => {
         this.toggleElement(event);
-        this.wishlistIds.next(response.data)
+        this.wishlistIds.next(response.data);
+        this.storeWishlist();
       },
       error: err => {
         console.log(err);
@@ -75,6 +78,7 @@ export class WishlistService {
     this.toggleElement(event);
     this.removeFromWishlistApi(productId).subscribe({
       next: response => {
+        this.storeWishlist();
         this.toggleElement(event);
         this.wishlistIds.next(response.data)
       },
