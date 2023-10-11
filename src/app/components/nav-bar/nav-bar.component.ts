@@ -32,5 +32,10 @@ export class NavBarComponent implements OnInit {
     localStorage.removeItem('userToken');
     this._AuthService.userData.next('');
   }
+  /* search product */
+  searchProducts(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this._AuthService.searchWord.next(input.value)
+  }
 }
 

@@ -16,9 +16,10 @@
       <div class="input-group w-100 d-flex align-items-center">
         <i class="fa-solid fa-magnifying-glass text-secondary me-2 d-lg-none"></i>
         <input type="text" class=" darkish border p-2 form-control h-100" placeholder="Search all Products"
-          aria-label="search" aria-describedby="basic-addon1">
-        <i class="fa fa-xmark fa-lg text-secondary pointer-cursor d-lg-none" data-bs-toggle="collapse"
-          data-bs-target="#collapseSearch" aria-controls="collapseSearch"></i>
+          aria-label="search" aria-describedby="basic-addon1" (input)="searchProducts($event)">
+        <div data-bs-toggle="collapse" data-bs-target="#collapseSearch" aria-controls="collapseSearch">
+          <i class="fa fa-xmark fa-xl text-secondary pointer-cursor d-lg-none"></i>
+        </div>
         <span class="input-group-text d-none d-lg-inline-block h-100 py-2" id="basic-addon1"><i
             class="fa-solid fa-magnifying-glass pointer-cursor text-white fa-lg"></i></span>
       </div>

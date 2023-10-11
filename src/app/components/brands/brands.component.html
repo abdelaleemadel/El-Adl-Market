@@ -1,7 +1,8 @@
 <section class="brands light main-font">
   <div class="list container mx-auto">
     <ul class="row gy-4 justify-content-center ps-0">
-      <li *ngFor="let brand of allBrands | paginate: { itemsPerPage: 20, currentPage: p, id:'brands-pagination' }"
+      <li
+        *ngFor="let brand of allBrands|search:searchWord:'name' | paginate: { itemsPerPage: 20, currentPage: p, id:'brands-pagination' }"
         class="col-12 col-sm-6  col-md-4 col-lg-3">
         <div class="position-relative father ">
           <div class="card m-1 p-3">

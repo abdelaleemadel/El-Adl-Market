@@ -9,7 +9,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AuthService {
   userData = new BehaviorSubject('');
-  decodedUserData = new BehaviorSubject(null)
+  decodedUserData = new BehaviorSubject(null);
+  searchWord = new BehaviorSubject('')
   constructor(private _HttpClient: HttpClient) {
     let token = localStorage.getItem('userToken')
     if (token) {

@@ -23,6 +23,7 @@ import { DatePipe } from './components/pipes/date.pipe';
 import { BrandsComponent } from './components/brands/brands.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PasswordComponent } from './components/password/password.component';
+import { SearchPipe } from './components/pipes/search.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +42,7 @@ import { PasswordComponent } from './components/password/password.component';
     DatePipe,
     BrandsComponent,
     PasswordComponent,
+    SearchPipe,
   ],
   imports: [
     BrowserModule,

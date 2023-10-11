@@ -3,6 +3,8 @@ import { ProductsService } from '../../services/products.service';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { ActivatedRoute } from '@angular/router';
 import { isEmpty } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
+
 
 @Component({
   selector: 'app-categories',
@@ -13,13 +15,15 @@ export class CategoriesComponent implements OnInit {
   allCategories: any;
   subCategories: any;
   categoryId: string = '';
+  searchWord: string = '';
   /* If category has no sub categories */
   isCatEmpty: boolean = false;
   isSlider: boolean = true;
   /* For pagination */
   page: number = 0;
 
-  constructor(private _ProductService: ProductsService, private _ActivatedRoute: ActivatedRoute) { }
+  constructor(private _ProductService: ProductsService, private _ActivatedRoute: ActivatedRoute,
+    private _AuthService: AuthService) { }
   ngOnInit(): void {
     /* Check if the component is shown in home (as a slider or not) */
     this._ActivatedRoute.url.subscribe(
@@ -30,6 +34,7 @@ export class CategoriesComponent implements OnInit {
           this.isSlider = false;
           /* Check if there're parameters  */
           this._ActivatedRoute.paramMap.subscribe((param) => {
+            this.getSearchWord();
             if (param.keys.length != 0) {
               this.routeParameters();
             } else {
@@ -40,11 +45,6 @@ export class CategoriesComponent implements OnInit {
         }
       }
     )
-
-
-
-
-
     this.getCategories();
   }
   /* Call the API and display the categories */
@@ -101,6 +101,12 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
+  /* get The search word */
+  getSearchWord(): void {
+    this._AuthService.searchWord.subscribe(response => {
+      this.searchWord = response;
+    })
+  }
   /* OWL Carsoul */
   customOptions: OwlOptions = {
     loop: true,

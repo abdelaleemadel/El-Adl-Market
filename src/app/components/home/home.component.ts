@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   brandId: string = '';
   i: number = 0;
   page: number = 0;
+  searchWord: string = '';
   isSubCatEmpty: boolean = false;
   isEmpty: boolean = false;
   isCatEmpty: boolean = false;
@@ -87,6 +88,8 @@ export class HomeComponent implements OnInit {
       },
       error: err => { console.log(err) }
     })
+    /* Get the search Word */
+    this.getSearchWord();
   }
   /* Check if there're parameters  */
   checkParameters(param: object): void {
@@ -105,12 +108,14 @@ export class HomeComponent implements OnInit {
   /* Call products from api if they're not already here  */
   getProducts(): void {
     this.page = 0;
+    let temp: any;
     this._ProductService.getProducts(`?page=2`).subscribe({
       next: (response) => {
-        this.allProductss = response.data.reverse();
+        temp = response.data.reverse();
         this._ProductService.getProducts().subscribe({
           next: (response) => {
-            this.allProductss.push(...response.data.reverse());
+            temp.push(...response.data.reverse());
+            this.allProductss = temp;
             this._ProductService.allProducts.next(this.allProductss);
           },
         });
@@ -252,5 +257,13 @@ export class HomeComponent implements OnInit {
         }
       }
     )
+  }
+
+
+  /* get The search word */
+  getSearchWord(): void {
+    this._AuthService.searchWord.subscribe(response => {
+      this.searchWord = response; console.log(this.searchWord);
+    })
   }
 }
