@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, SimpleChanges, DoCheck, Input, SimpleChange } from '@angular/core';
 import { ProductsService } from '../../services/products.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { error, get, param } from 'jquery';
 import { CartService } from '../../services/cart.service';
 import { WishlistService } from '../../services/wishlist.service';
@@ -32,7 +32,8 @@ export class HomeComponent implements OnInit {
     private _CartService: CartService,
     private _WishlistService: WishlistService,
     private _ActivatedRoute: ActivatedRoute,
-    private _AuthService: AuthService
+    private _AuthService: AuthService,
+    private _Router: Router
   ) { }
 
 
@@ -42,15 +43,19 @@ export class HomeComponent implements OnInit {
       (response) => {
         if (response) {
           this.loggedUser = true;
-        }
+        } else { this.loggedUser = false }
       }
     )
     /* Check if the component is shown as products or wishlist */
     this._ActivatedRoute.url.subscribe(
       (response) => {
         if (response[0].path == 'wishlist') {
-          this.isWishlist = true;
-          this.getWishList();
+          if (this.loggedUser) {
+            this.isWishlist = true;
+            this.getWishList();
+          } else {
+            this._Router.navigate(['home'])
+          }
         } else if (response[0].path = 'home') {
           this.isWishlist = false;
           this.checkParameters(response[0].parameters);
@@ -62,7 +67,15 @@ export class HomeComponent implements OnInit {
     if (!this.isWishlist) {
       this._ProductService.allProducts.subscribe({
         next: (response) => {
-          this.allProductss = response;
+          if (Array.isArray(response) && Array.isArray(this.allProductss)) {
+            if (response.join('') != this.allProductss.join('')) {
+              this.allProductss = response;
+            }
+          } else {
+            if (response.length != 0) {
+              this.allProductss = response;
+            }
+          }
         },
       })
     }
@@ -86,19 +99,18 @@ export class HomeComponent implements OnInit {
       this.isEmpty = false;
       this.isCatEmpty = false;
       this.isSubCatEmpty = false;
-      this.getProducts()
+      this.getProducts();
     }
   }
   /* Call products from api if they're not already here  */
   getProducts(): void {
     this.page = 0;
-    this._ProductService.getProducts().subscribe({
+    this._ProductService.getProducts(`?page=2`).subscribe({
       next: (response) => {
         this.allProductss = response.data.reverse();
-        this._ProductService.getProducts(`?page=2`).subscribe({
+        this._ProductService.getProducts().subscribe({
           next: (response) => {
-            this.allProductss.unshift(...response.data.reverse());
-            this.allProductss = this.allProductss;
+            this.allProductss.push(...response.data.reverse());
             this._ProductService.allProducts.next(this.allProductss);
           },
         });
@@ -138,9 +150,9 @@ export class HomeComponent implements OnInit {
   }
 
   /* remove a product From the wishlist and show hollow heart in home component */
-  async removeFromWishlist(productId: string, event: Event): Promise<void> {
+  removeFromWishlist(productId: string, event: Event): void {
     if (this.loggedUser) {
-      await this._WishlistService.removeFromWishlist(productId, event);
+      this._WishlistService.removeFromWishlist(productId, event);
     }
   }
 

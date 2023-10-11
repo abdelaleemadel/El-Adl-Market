@@ -17,7 +17,7 @@ export class WishlistService {
       if (response) {
         this.headers = { token: response };
         this.storeWishlist();
-      } else { this.wishlistIds.next('') }
+      } else { this.wishlistIds.next(''); this.headers = null; }
     })
   }
 

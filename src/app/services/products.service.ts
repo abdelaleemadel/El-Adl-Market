@@ -28,9 +28,7 @@ export class ProductsService {
   }
 
   removeItem(id: string, event: Event): void {
-
     const minusIcon = $(event.target!);
-
     const itemsNumber = $(minusIcon).next();
     let number = Number(itemsNumber.val());
     if (Number.isInteger(number) && number > 1) {

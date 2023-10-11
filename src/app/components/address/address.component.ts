@@ -9,10 +9,18 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
 })
 export class AddressComponent implements OnInit {
   constructor(private _AddressService: AddressService) { }
+  /* To Show the form */
   newAddress: Boolean = false;
   addresses: any;
+  isAddress: boolean = true;
   isLoading: boolean = false;
   ngOnInit(): void {
+    /* Get and Show Addresses if they exist */
+    console.log(this.newAddress, this.isAddress);
+
+    this.getAddress();
+    console.log(this.newAddress, this.isAddress);
+
   }
 
   addressForm: FormGroup = new FormGroup({
@@ -25,11 +33,48 @@ export class AddressComponent implements OnInit {
   addAddress(addressForm: FormGroup): void {
     this.isLoading = true;
     this._AddressService.addAddress(addressForm.value).subscribe({
-      next: (response) => console.log(response),
-      error: (err) => console.log(err)
+      next: (response) => {
+        this.isLoading = false;
+        this._AddressService.addressData.next(response.data);
+        this.toggleAddressForm();
+      },
+      error: (err) => { console.log(err); this.isLoading = false }
     })
-    this.isLoading = false;
   }
 
 
+
+  /* Check if this user has addresses */
+  checkAddresses(): void {
+    console.log(this.addresses);
+    if (this.addresses?.length) {
+      this.isAddress = true;
+    } else if (Array.isArray(this.addresses)) { this.isAddress = false }
+  }
+
+  /* Get the User Addresses from api/store the response in Addresses */
+  getAddress(): void {
+    this._AddressService.addressData.subscribe({
+      next: (response) => {
+        this.addresses = response;
+        this.checkAddresses();
+      },
+      error: (err) => console.log(err)
+    })
+  }
+  removeAddress(addressId: string): void {
+    this._AddressService.removeAddress(addressId).subscribe({
+      next: response => {
+        console.log(response);
+        this._AddressService.addressData.next(response.data)
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
+  /* SHOW ADDING NEW ADDRESS FROM */
+  toggleAddressForm(): void {
+    this.newAddress = !this.newAddress;
+  }
 }

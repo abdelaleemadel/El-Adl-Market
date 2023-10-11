@@ -25,16 +25,18 @@ export class CartComponent implements OnInit {
     private _AuthService: AuthService,
   ) { }
   ngOnInit(): void {
-    /*  */
+    /*Check if user is logged in  */
     this._AuthService.userData.subscribe(
       (response) => {
         if (response) {
           this.loggedUser = true;
           this.getCart();
           this.getAddress();
-        } else { this.loggedUser = false }
+        } else { this.loggedUser = false; this._Router.navigate(['/home']) }
       }
     )
+
+    /* Get the data in cart Data service (if there's) */
     this._CartService.cartData.subscribe({
       next: response => {
         this.cartData = response;
@@ -52,8 +54,8 @@ export class CartComponent implements OnInit {
       error: (err) => console.log(err),
     });
   }
-  /* Increment the number of items of specific product by one */
 
+  /* Increment the number of items of specific product by one */
   addItem(id: string, event: Event): void {
     this._ProductService.addItem(id, event);
   }
@@ -106,9 +108,9 @@ export class CartComponent implements OnInit {
   }
   /* Get the User Addresses from api/store the response in Addresses */
   getAddress(): void {
-    this._AddressService.getAddresses().subscribe({
+    this._AddressService.addressData.subscribe({
       next: (response) => {
-        this.addresses = response.data;
+        this.addresses = response;
         this.checkAddresses();
       },
       error: (err) => console.log(err)

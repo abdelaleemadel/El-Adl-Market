@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'brands', component: BrandsComponent },
   { path: 'forgetPassword', component: PasswordComponent },
   { path: 'subcategories', component: CategoriesComponent },
-  { path: 'wishlist', component: HomeComponent }
+  { path: 'wishlist', canActivate: [authGuard], component: HomeComponent }
 ];
 
 @NgModule({

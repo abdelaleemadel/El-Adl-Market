@@ -31,7 +31,6 @@ export class NavBarComponent implements OnInit {
   logout(): void {
     localStorage.removeItem('userToken');
     this._AuthService.userData.next('');
-    console.log(this.loggedUser);
   }
 }
 

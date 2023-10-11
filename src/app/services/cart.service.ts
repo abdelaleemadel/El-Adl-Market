@@ -14,7 +14,7 @@ export class CartService {
     this._AuthService.userData.subscribe((response) => {
       if (response) {
         this.headers = { token: response };
-      }
+      } else { this.headers = null; }
     })
   }
 

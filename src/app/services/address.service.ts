@@ -15,15 +15,30 @@ export class AddressService {
     this._AuthService.userData.subscribe((response) => {
       if (response) {
         this.headers = { token: response };
+        this.getAddresses();
       }
     })
   }
-  getAddresses(): Observable<any> {
+  getAddressesApi(): Observable<any> {
     return this._HttpClient.get(`https://ecommerce.routemisr.com/api/v1/addresses`, {
       headers: this.headers,
     });
   }
   addAddress(addAddressFrom: any): Observable<any> {
     return this._HttpClient.post(`https://ecommerce.routemisr.com/api/v1/addresses`, addAddressFrom, { headers: this.headers })
+  }
+
+  /* API FOR REMOVING ADDRESS */
+  removeAddress(addressId: string): Observable<any> {
+    return this._HttpClient.delete(`https://ecommerce.routemisr.com/api/v1/addresses/${addressId}`, { headers: this.headers })
+  }
+  /* call the api and store the addresses in BS */
+  getAddresses(): void {
+    this.getAddressesApi().subscribe({
+      next: response => { this.addressData.next(response.data) },
+      error: err => {
+        console.log(err);
+      }
+    })
   }
 }
