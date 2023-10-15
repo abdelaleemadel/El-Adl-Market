@@ -151,12 +151,12 @@ export class CartComponent implements OnInit {
   createCashOrder(cartId: string, shippingAddress: object): void {
     this._OrderService.createCashOrder(cartId, shippingAddress).subscribe({
       next: (response) => {
-        console.log(response);
         this.spinner.hide('cart');
         this._OrderService.userId.next(response.data.user);
         this.isLoading = false;
         this.toastr.success(`Your Order has been placed`, `${response.status}`);
-        this._Router.navigate(['allorders'])
+        this._Router.navigate(['allorders']);
+        this._CartService.storeCart();
       }, error: (err) => {
         this.afterError(err)
       }
@@ -169,7 +169,6 @@ export class CartComponent implements OnInit {
       next: response => {
         window.open(window.location.href = response.session.url, '_blank');
         this.spinner.hide('cart')
-        console.log(response);
         this.isLoading = false;
       },
       error: err => {
