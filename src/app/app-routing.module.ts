@@ -11,6 +11,8 @@ import { OrdersComponent } from './components/orders/orders.component';
 import { BrandsComponent } from './components/brands/brands.component';
 import { PasswordComponent } from './components/password/password.component';
 import { CategoriesComponent } from './components/categories/categories.component';
+import { SubcategoriesComponent } from './components/subcategories/subcategories.component';
+import { WishlistComponent } from './components/wishlist/wishlist.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -23,12 +25,13 @@ const routes: Routes = [
   { path: 'allorders', canActivate: [authGuard], component: OrdersComponent },
   { path: 'brands', component: BrandsComponent },
   { path: 'forgetPassword', component: PasswordComponent },
-  { path: 'subcategories', component: CategoriesComponent },
-  { path: 'wishlist', canActivate: [authGuard], component: HomeComponent }
+  { path: 'categories', component: CategoriesComponent },
+  { path: 'subcategories', component: SubcategoriesComponent },
+  { path: 'wishlist', canActivate: [authGuard], component: WishlistComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

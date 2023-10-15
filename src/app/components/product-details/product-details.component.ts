@@ -4,7 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { WishlistService } from '../../services/wishlist.service';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from 'src/app/services/auth.service';
-
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
@@ -12,7 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ProductDetailsComponent implements OnInit, OnChanges {
   constructor(private _ProductService: ProductsService, private _ActivatedRoute: ActivatedRoute, private _WishlistService: WishlistService, private _CartService: CartService,
-    private _AuthService: AuthService) { }
+    private _AuthService: AuthService, private spinner: NgxSpinnerService, private toastr: ToastrService) { }
   productDetails: any;
   wishlistIds: any;
   loggedUser: boolean = false;
@@ -54,20 +55,12 @@ export class ProductDetailsComponent implements OnInit, OnChanges {
       }
     }
   }
-  getProductDetails(id: string): void {
 
-    this._ProductService.getProductDetails(id).subscribe({
-      next: (response) => {
-        this.productDetails = response.data;
-      },
-      error: (err) => console.log(err)
-    })
-  }
   /* Display specific product's details */
   displayProductDetails(productId: string): void {
     this._ProductService.allProducts.subscribe({
       next: (response) => {
-        if (response.length) {
+        if (Array.isArray(response) && response.length) {
           this.findProductDetails(response, this.id);
         } else {
           this.getProductDetails(this.id);
@@ -75,11 +68,23 @@ export class ProductDetailsComponent implements OnInit, OnChanges {
       }
     })
   }
+  /* Search for a specific product in the BS allproducts and display it */
   findProductDetails(products: any[], id: string) {
-
     this.productDetails = (products.filter((product) => product['_id'] == id))[0];
-
   }
+
+  /* Get a specific product from the api */
+  getProductDetails(id: string): void {
+    this.spinner.show();
+    this._ProductService.getProductDetails(id).subscribe({
+      next: (response) => {
+        this.spinner.hide();
+        this.productDetails = response.data;
+      },
+      error: (err) => this.afterError(err)
+    })
+  }
+
   addItem(id: string, event: Event): void {
     this._ProductService.addItem(id, event);
   }
@@ -107,58 +112,62 @@ export class ProductDetailsComponent implements OnInit, OnChanges {
       this._WishlistService.removeFromWishlist(productId, event);
     }
   }
+
   /* Get the user's cart from the api to display it */
   getCart(): void {
     this._CartService.getCart().subscribe({
       next: (response) => {
-        this._CartService.cartData.next(response.data)
+        this._CartService.cartData.next(response.data);
+        this.spinner.hide();
+        this.triggerCart();
       },
-      error: (err) => console.log(err),
+      error: (err) => this.afterError(err),
     });
   }
+
   addToCart(productId: string): void {
     if (this.loggedUser) {
       this._CartService.addToCart(productId).subscribe({
         next: () => {
           this.getCart();
         },
-        error: (err) => console.log(err),
+        error: (err) => this.afterError(err),
       });
     }
   }
+
   /* Add product with specific number */
   addtoCartDetails(productId: string, event: Event): void {
-    this.triggerCart();
-
     if (this.loggedUser) {
+      this.spinner.show();
       let input = $(event.target!).siblings('.data').find('input[title="count"]');
       let value = input.val();
       if (Number(value) == 1) {
         this.addToCart(productId);
       } else if (Number(value) > 1) {
         let count: string = String(value);
-        this.triggerCart();
         this._CartService.addToCart(productId).subscribe({
           next: () => {
             this._CartService.updateCart(productId, count).subscribe({
-              next: (response) => this._CartService.cartData.next(response.data),
-              error: (err) => console.log(err)
+              next: (response) => { this._CartService.cartData.next(response.data); this.spinner.hide(); this.triggerCart() },
+              error: (err) => { this.afterError(err) }
             })
           },
-          error: (err) => { console.log(err) }
+          error: (err) => { this.afterError(err) }
         })
-      }
-    }
+      } else { this.spinner.hide() }
+    } else { this.triggerCart() }
   }
-  /* Open thecart Canvas */
+  /*Close the details Modal if opened and  Open thecart Canvas */
   triggerCart(): void {
+    this._ProductService.closeDetailsModal();
+
     this._CartService.triggerCart();
-    this.closeDetailsModal();
   }
 
 
-  /* Close the product details modal while adding element to cart to show the cart canvas*/
-  closeDetailsModal(): void {
-    this._ProductService.closeDetailsModal();
+  afterError(err: any) {
+    this.spinner.hide();
+    this.toastr.error(err.error.message || err.statusText, (err.error.statusMsg || err.name));
   }
 }

@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -10,10 +13,11 @@ export class CartService {
   cartData: BehaviorSubject<any> = new BehaviorSubject('');
   headers: any;
 
-  constructor(private _HttpClient: HttpClient, private _AuthService: AuthService) {
+  constructor(private _HttpClient: HttpClient, private _AuthService: AuthService, private toastr: ToastrService, private spinner: NgxSpinnerService) {
     this._AuthService.userData.subscribe((response) => {
       if (response) {
         this.headers = { token: response };
+        this.storeCart();
       } else { this.headers = null; }
     })
   }
@@ -47,8 +51,24 @@ export class CartService {
     const closeCartCanvas = $('button[data-bs-dismiss="offcanvas"]');
     closeCartCanvas.trigger("click");
   }
+
+  /* Store the cart data in the Behaviour subject */
+  storeCart(): void {
+    this.getCart().subscribe({
+      next: (response) => {
+        this.cartData.next(response.data);
+      },
+      error: (err) => {
+        if (err.statusText != "Not Found") {
+          this.cartData.next('error');
+          this.toastr.error(err.error.message || err.statusText, `Cart  ` + (err.error.statusMsg || err.name));
+        } else {
+          this.cartData.next({ products: [] })
+        }
+      },
+    });
+  }
 }
 
 
-/* <i class="fa-solid fa-bag-shopping mx-2 pointer-cursor" data-bs-toggle="offcanvas"
-data-bs-target="#navoffcanvasExample" aria-controls="navoffcanvasExample"></i> */
+

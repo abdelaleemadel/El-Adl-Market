@@ -1,13 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs'
+import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
+  allProducts = new BehaviorSubject('');
 
-  constructor(private _HttpClient: HttpClient) { }
-  allProducts = new BehaviorSubject([]);
+  constructor(private _HttpClient: HttpClient, private toastr: ToastrService) {
+    this.storeProducts()
+  }
 
   getProducts(param: string = ``): Observable<any> {
     return this._HttpClient.get(`https://ecommerce.routemisr.com/api/v1/products${param}`)
@@ -47,5 +51,29 @@ export class ProductsService {
   /* Get all the subcategories */
   getSubCategories(param: string = ''): Observable<any> {
     return this._HttpClient.get(`https://ecommerce.routemisr.com/api/v1/subcategories${param}`);
+  }
+
+  /* call the products api and store them in the Behaviour subject */
+  storeProducts(): void {
+    let temp: any;
+    this.getProducts(`?page=2`).subscribe({
+      next: (response) => {
+        temp = response.data.reverse();
+        this.allProducts.next(temp);
+        this.getProducts().subscribe({
+          next: (response) => {
+            temp.push(...response.data.reverse());
+            this.allProducts.next(temp);
+          },
+          error: err => {
+            this.toastr.error(`Some Products can't be loaded`, `Products   ${err.error.statusMsg}`);
+          }
+        });
+      },
+      error: (err) => {
+        this.allProducts.next('error');
+        this.toastr.error(err.error.message || err.statusText, `Products  ` + (err.error.statusMsg || err.name));
+      }
+    });
   }
 }

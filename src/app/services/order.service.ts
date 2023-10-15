@@ -13,6 +13,7 @@ export class OrderService {
     this._AuthService.userData.subscribe((response) => {
       if (response) {
         this.headers = { token: response };
+        this.getUserId();
       } else { this.headers = null; }
     })
   }
@@ -29,23 +30,14 @@ export class OrderService {
   }
   /* Get to user Id from the token to get the orders*/
   getUserId(): void {
-    this._AuthService.decodedUserData.subscribe({
-      next: (response) => {
-        if (response) {
-          this.userId.next(response['id']);
-        }
-      },
-      error: err => {
-        console.log(err);
+    this._AuthService.decodedUserData.subscribe((response) => {
+      if (response) {
+        this.userId.next(response['id']);
       }
     })
   }
   /* Get the orders */
   getUserOrders(): Observable<any> {
-    this.getUserId();
     return this._HttpClient.get(`https://ecommerce.routemisr.com/api/v1/orders/user/${this.userId.value}`)
-
-
-
   }
 }

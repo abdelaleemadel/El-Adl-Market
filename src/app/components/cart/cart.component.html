@@ -1,6 +1,7 @@
 <section class="cart main-font" *ngIf="loggedUser">
   <div class="container mx-auto px-4 pt-5">
     <h3 class="text-center">YOUR CART</h3>
+    <p class="fs-1 text-center mt-5" *ngIf="isCartEmpty">Your Cart has No Products</p>
     <div class="row data justify-content-between  border-bottom py-2" [ngClass]="!isFirst?'border-top':''"
       *ngFor="let product of cartData?.products, first as isFirst">
       <div class="d-none d-md-block col-12 biege" *ngIf="isFirst">
@@ -62,7 +63,7 @@
         <p>{{cartData?.totalCartPrice | currency : "EGP "}}</p>
       </div>
     </div>
-    <button type="button" class="btn btn-dark w-50 py-2 rounded-0 mt-3 mx-auto border d-block"
+    <button type="button" *ngIf="!isCartEmpty" class="btn btn-dark w-50 py-2 rounded-0 mt-3 mx-auto border d-block"
       (click)="updateCart($event)">
       UPDATE CART
     </button>
@@ -103,9 +104,9 @@
               class="fa-brands fa-cc-mastercard me-2"></i><i class="fa-brands fa-cc-visa"></i></label>
         </div>
       </div>
-      <button type="submit" class="btn btn-dark w-100 rounded-0 mt-5" [disabled]="shippingAddressForm.invalid"><span
-          *ngIf="!isLoading">Procceed with Payment</span><i class="fa-solid fa-spinner fa-spin"
-          *ngIf="isLoading"></i></button>
+      <button type="submit" class="btn btn-dark w-100 rounded-0 mt-5"
+        [disabled]="shippingAddressForm.invalid||isCartEmpty"><span *ngIf="!isLoading">Procceed with Payment</span><i
+          class="fa-solid fa-spinner fa-spin" *ngIf="isLoading"></i></button>
     </form>
     <ng-template #addnewAddress>
       <a class="py-3" routerLink="/address"><button type="submit" class="btn btn-dark w-100 rounded-0 ">Add a Shipping

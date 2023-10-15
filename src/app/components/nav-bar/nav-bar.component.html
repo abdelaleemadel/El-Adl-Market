@@ -46,8 +46,8 @@
             </li>
             <li><a class="dropdown-item light" routerLinkActive="router-link-active" routerLink="/cart"
                 *ngIf="loggedUser">CART</a></li>
-            <li><a class="dropdown-item light" routerLinkActive="router-link-active" routerLink="/wishlist"
-                *ngIf="loggedUser">WISHLIST</a></li>
+            <li><a class="dropdown-item light" routerLinkActive="router-link-active"
+                [routerLink]="['/wishlist',{user:loggedUser}]" *ngIf="loggedUser">WISHLIST</a></li>
             <li><a class="dropdown-item light" routerLinkActive="router-link-active" (click)="logout()"
                 *ngIf="loggedUser">LOGOUT</a></li>
           </ul>

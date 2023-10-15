@@ -1,0 +1,27 @@
+<section class="categories light main-font  d-flex align-items-center my-5 py-5 overflow-auto" *ngIf="!isProducts">
+  <div class="list container mx-auto">
+    <div class="mt-5 " *ngIf="isCatEmpty">
+      <h3 class="fs-1 text-center my-5" *ngIf="isCatEmpty">This Category has no Sub Categories yet.</h3>
+    </div>
+    <ul class="row gy-4 justify-content-center ps-0" *ngIf="!isCatEmpty">
+      <li
+        *ngFor="let subCategory of subCategories|search:searchWord:'name' | paginate: { itemsPerPage: 20, currentPage: page, id:'categories-pagination' }"
+        class="col-12 col-sm-6  col-md-4 col-lg-3">
+        <div class="rounded border d-flex align-items-center h-100  position-relative father">
+          <p class="text-center w-100 my-5">{{subCategory.name}}</p>
+          <div
+            class="position-absolute top-0  card light start-0 bottom-0 end-0  d-flex flex-column justify-content-center layer">
+            <a [routerLink]="['/subcategories',{subcategory:subCategory._id}]" class="text-center">
+              <button type="button" class="btn btn-dark  w-75 mx-auto py-2 rounded-0 mt-2">
+                Show Products
+              </button>
+            </a>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <pagination-controls (pageChange)="page = $event" class="text-center" id="categories-pagination" previousLabel=""
+      [autoHide]="true" nextLabel=""></pagination-controls>
+  </div>
+</section>
+<app-home [subcategoryProducts]="subProducts" *ngIf="isProducts"></app-home>

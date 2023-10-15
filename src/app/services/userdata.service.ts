@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class UserdataService {
 
-  constructor(private _HttpClient: HttpClient) { }
+  constructor(private _HttpClient: HttpClient) {
+  }
   /* Forget password api to get a reset password code */
   fogetPassword(email: object): Observable<any> {
     return this._HttpClient.post(`https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords`, email)

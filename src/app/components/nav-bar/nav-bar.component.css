@@ -110,7 +110,8 @@ input.form-control:focus {
     right: 0% !important;
     position: absolute !important;
     top: 98% !important;
-    background-color: black !important;
+    background-color: var(--dark-color) !important;
+    color: var(--light-color);
   }
 
   #offcanvasNavbar>.offcanvas-body ul {

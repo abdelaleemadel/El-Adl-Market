@@ -10,15 +10,25 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class AuthService {
   userData = new BehaviorSubject('');
   decodedUserData = new BehaviorSubject(null);
-  searchWord = new BehaviorSubject('')
+  searchWord = new BehaviorSubject('');
+  token: any;
   constructor(private _HttpClient: HttpClient) {
-    let token = localStorage.getItem('userToken')
-    if (token) {
-      token = JSON.parse(token);
-      this.userData.next(token!);
-      let decodedToken: any = jwtDecode(token!);
-      this.decodedUserData.next(decodedToken);
-    }
+    this.userData.subscribe(
+      response => {
+        if (response) {
+          this.token = response;
+          this.token = response
+        } else if (localStorage.getItem('userToken')) {
+          this.token = localStorage.getItem('userToken')
+          this.userData.next(this.token);
+        }
+
+        if (this.token) {
+          let decodedToken: any = jwtDecode(this.token);
+          this.decodedUserData.next(decodedToken);
+        }
+      }
+    )
 
   }
 

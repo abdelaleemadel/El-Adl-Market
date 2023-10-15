@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,8 @@ export class WishlistService {
   wishList: BehaviorSubject<any> = new BehaviorSubject('');
   headers: any;
 
-  constructor(private _HttpClient: HttpClient, private _AuthService: AuthService) {
+  constructor(private _HttpClient: HttpClient, private _AuthService: AuthService,
+    private spinner: NgxSpinnerService, private toastr: ToastrService) {
 
     this._AuthService.userData.subscribe((response) => {
       if (response) {
@@ -45,9 +48,11 @@ export class WishlistService {
       next: response => {
         let ids = response.data.map((product: { _id: any; }) => product._id);
         this.wishlistIds.next(ids);
-        this.wishList.next(response.data)
+        this.wishList.next(response.data);
       },
-      error: err => { console.log(err) }
+      error: err => {
+        this.toastr.error(err.error.message || err.statusText, `Wish List  ` + (err.error.statusMsg || err.name));
+      }
     })
   }
   /* to add to wishlist from one place only */
@@ -67,12 +72,12 @@ export class WishlistService {
         this.storeWishlist();
       },
       error: err => {
-        console.log(err);
+        this.toastr.error(err.error.message || err.statusText, `Wish List  ` + (err.error.statusMsg || err.name));
         this.toggleElement(event);
       }
     })
-
   }
+
   /* remove a product From the wishlist and show hollow heart in home/productdetails component */
   removeFromWishlist(productId: string, event: Event): void {
     this.toggleElement(event);
@@ -80,9 +85,10 @@ export class WishlistService {
       next: response => {
         this.storeWishlist();
         this.toggleElement(event);
-        this.wishlistIds.next(response.data)
+        this.wishlistIds.next(response.data);
       },
       error: err => {
+        this.spinner.hide();
         this.toggleElement(event);
         console.log(err)
       }

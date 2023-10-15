@@ -1,149 +1,130 @@
 import { Component, OnInit, OnChanges, SimpleChanges, DoCheck, Input, SimpleChange } from '@angular/core';
 import { ProductsService } from '../../services/products.service';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { error, get, param } from 'jquery';
+import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { WishlistService } from '../../services/wishlist.service';
 import { AuthService } from 'src/app/services/auth.service';
-
+import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit {
-  wishList: any;
-  allProductss: any;
-  isWishlist: boolean = false
-  loggedUser: boolean = false;
-  isWishListEmpty: boolean = false;
-  wishlistIds: any[] = [];
-  productId: string = '';
-  categoryId: string = '';
-  subCategoryId: string = '';
-  brandId: string = '';
-  i: number = 0;
-  page: number = 0;
-  searchWord: string = '';
-  isSubCatEmpty: boolean = false;
-  isEmpty: boolean = false;
-  isCatEmpty: boolean = false;
-  constructor(
-    private _ProductService: ProductsService,
-    private _CartService: CartService,
-    private _WishlistService: WishlistService,
-    private _ActivatedRoute: ActivatedRoute,
-    private _AuthService: AuthService,
-    private _Router: Router
-  ) { }
 
+export class HomeComponent implements OnInit, OnChanges {
+  @Input() brandProducts: any;
+  @Input() subcategoryProducts: any;
+  @Input() categoryProducts: any;
+  @Input() wishlistProducts: any;
+  total: number = 20;
+  wishList: any; allProductss: any; wishlistIds: any[] = [];
+  productId: string = ''; message: string = ''; searchWord: string = '';
+  page: number = 0;
+  loggedUser: boolean = false; isEmpty: boolean = false; isHome: boolean = false; isWishlist: boolean = false;
+  constructor(
+    private _ProductService: ProductsService, private _CartService: CartService,
+    private _WishlistService: WishlistService, private _ActivatedRoute: ActivatedRoute,
+    private _AuthService: AuthService, private spinner: NgxSpinnerService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     /* Check if the user is logged in */
     this._AuthService.userData.subscribe(
       (response) => {
-        if (response) {
-          this.loggedUser = true;
-        } else { this.loggedUser = false }
+        if (response) { this.loggedUser = true } else { this.loggedUser = false }
       }
     )
-    /* Check if the component is shown as products or wishlist */
-    this._ActivatedRoute.url.subscribe(
-      (response) => {
-        if (response[0].path == 'wishlist') {
-          if (this.loggedUser) {
-            this.isWishlist = true;
-            this.getWishList();
-          } else {
-            this._Router.navigate(['home'])
-          }
-        } else if (response[0].path = 'home') {
-          this.isWishlist = false;
-          this.checkParameters(response[0].parameters);
-        }
-      }
-    )
-
-    /* Get products  to display them*/
-    if (!this.isWishlist) {
-      this._ProductService.allProducts.subscribe({
-        next: (response) => {
-          if (Array.isArray(response) && Array.isArray(this.allProductss)) {
-            if (response.join('') != this.allProductss.join('')) {
-              this.allProductss = response;
-            }
-          } else {
-            if (response.length != 0) {
-              this.allProductss = response;
-            }
-          }
-        },
-      })
-    }
+    /* Check wether they're any parameters or not */
+    this.checkParameters();
 
     /* get the wishlist in order to display the "hearts" correctly  */
-    this._WishlistService.wishlistIds.subscribe({
-      next: response => {
-        this.wishlistIds = response
-      },
-      error: err => { console.log(err) }
+    this._WishlistService.wishlistIds.subscribe(response => {
+      this.wishlistIds = response;
     })
     /* Get the search Word */
     this.getSearchWord();
   }
+
   /* Check if there're parameters  */
-  checkParameters(param: object): void {
-    if (Object.keys(param).length != 0) {
-      this.routeParameters(param);
-    } else {
-      this.brandId = '';
-      this.categoryId = '';
-      this.subCategoryId = '';
-      this.isEmpty = false;
-      this.isCatEmpty = false;
-      this.isSubCatEmpty = false;
-      this.getProducts();
+  checkParameters(): void {
+    let parameters: any[] = [];
+    this._ActivatedRoute.paramMap.subscribe(
+      response => {
+        parameters = response.keys;
+        if (parameters.length == 0) {
+          this.spinner.show();
+          this.compareProducts();
+          this.isHome = true;
+        } else {
+          this.isHome = false;
+        }
+      })
+  }
+
+  /* Comapare this products with the behaviour subject */
+  compareProducts(): void {
+    this.page = 1;
+    this._ProductService.allProducts.subscribe(
+      response => {
+        if (response) {
+          this.spinner.hide();
+          if (Array.isArray(response) && !(Array.isArray(this.allProductss) && (this.allProductss.join('') == response.join('')))) {
+            this.allProductss = response;
+          }
+        }
+      }
+    )
+  }
+
+  /* Showing brand Products */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!this.isHome) {
+      this.displayChanges(changes);
     }
   }
-  /* Call products from api if they're not already here  */
-  getProducts(): void {
+
+  displayChanges(changes: SimpleChanges): void {
     this.page = 0;
-    let temp: any;
-    this._ProductService.getProducts(`?page=2`).subscribe({
-      next: (response) => {
-        temp = response.data.reverse();
-        this._ProductService.getProducts().subscribe({
-          next: (response) => {
-            temp.push(...response.data.reverse());
-            this.allProductss = temp;
-            this._ProductService.allProducts.next(this.allProductss);
-          },
-        });
-      },
-      error: (err) => console.log(err),
-    });
+    let changed = Object.keys(changes)[0];
+    (changed == 'wishlistProducts') ? this.isWishlist = true : this.isWishlist = false;
+    let value = changes[changed]['currentValue'];
+    if (value) {
+      if (value.length == 0) {
+        this.isEmpty = true;
+        this.message = `This ${changed[0].toUpperCase()}${changed.slice(1, -8)} has No Products yet.`;
+      } else {
+        this.isEmpty = false; this.allProductss = value;
+      }
+    }
   }
+
 
   /* Add product to cart when pressing the shopping icon in home */
   addToCart(productId: string): void {
-    this.triggerCart();
     if (this.loggedUser) {
+      this.spinner.show();
       this._CartService.addToCart(productId).subscribe({
         next: () => {
           this.getCart();
         },
-        error: (err) => console.log(err),
+        error: (err) => { this.afterError(err) }
       });
-    }
+    } else { this.triggerCart() }
   }
 
   /* Get the user's cart from the api to display it */
   getCart(): void {
     this._CartService.getCart().subscribe({
       next: (response) => {
-        this._CartService.cartData.next(response.data)
+        this._CartService.cartData.next(response.data);
+        this.spinner.hide();
+        this.triggerCart();
       },
-      error: (err) => console.log(err),
+      error: (err) => {
+        this.afterError(err)
+      }
     });
   }
 
@@ -170,100 +151,20 @@ export class HomeComponent implements OnInit {
   getProductId(productId: string): void {
     this.productId = productId;
   }
-  /* Find if there's any parameters to use them in Showing products */
-  routeParameters(param: any): void {
-    this.categoryId = '';
-    this.brandId = '';
-    this.subCategoryId = '';
-    if (param['brand']) {
-      this.brandId = param['brand']!;
-      this.getBrandProducts();
-    } else if (param['category']) {
-      this.categoryId = param['category']!;
-      this.getCatProducts();
-    } else if (param['subcategory']) {
-      this.subCategoryId = param['subcategory']!;
-      this.getSubCatProducts();
-    }
-  }
-
-  /* Get the brand By product */
-  getBrandProducts(): void {
-    this.page = 0;
-    if (this.brandId) {
-      this._ProductService.getProducts(`?brand=${this.brandId}`).subscribe({
-        next: response => {
-          this._ProductService.allProducts.next(response.data);
-          if (response.results == 0) {
-            this.isEmpty = true
-          } else { this.isEmpty = false }
-        },
-        error: err => {
-          console.log(err);
-        }
-      })
-    }
-  }
-
-  /* Get Category's products */
-  getCatProducts(): void {
-    this.page = 0;
-    if (this.categoryId) {
-      console.log(this.categoryId);
-      this._ProductService.getProducts(`?category=${this.categoryId}`).subscribe({
-        next: response => {
-          console.log(response.data);
-          if (response.results == 0) {
-            this.isCatEmpty = true
-          } else {
-            this.isCatEmpty = false;
-            this._ProductService.allProducts.next(response.data);
-          }
-        },
-        error: err => {
-          console.log(err);
-        }
-      })
-    }
-  }
-
-  /* Get Sub-Category's products */
-  getSubCatProducts(): void {
-    this.page = 0;
-    if (this.subCategoryId) {
-      this._ProductService.getProducts(`?subcategory=${this.subCategoryId}`).subscribe({
-        next: response => {
-          this._ProductService.allProducts.next(response.data);
-          if (response.results == 0) {
-            this.isSubCatEmpty = true
-          } else { this.isSubCatEmpty = false }
-        },
-        error: err => {
-          console.log(err);
-        }
-      })
-    }
-  }
-
-  /* Get and Display Wishlist in Home */
-  getWishList(): void {
-    this._WishlistService.wishList.subscribe(
-      (response) => {
-        this.allProductss = response;
-        if (response.length == 0) {
-          this.isWishListEmpty = true;
-        } else {
-          this.isWishListEmpty = false;
-        }
-      }
-    )
-  }
-
 
   /* get The search word */
   getSearchWord(): void {
+    this._AuthService.searchWord.next('');
     this._AuthService.searchWord.subscribe(response => {
-      this.searchWord = response; console.log(this.searchWord);
+      this.page = 0;
+      this.searchWord = response;
     })
   }
+  /* Actions to happen when error occurs */
+  afterError(err: any): void {
+    this.spinner.hide(); this.toastr.error(err.error.message || err.statusText, (err.error.statusMsg || err.name));
+
+  }
 }
+
+

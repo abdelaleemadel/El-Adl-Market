@@ -3,6 +3,9 @@
     <form action="#" class="col-12 col-sm-8 col-md-6 col-lg-4" [formGroup]="registerForm"
       (ngSubmit)="register(registerForm)">
       <h3 class="text-center fw-semibold mb-5">CREATE AN ACCOUNT</h3>
+      <div class="alert rounded-0 alert-danger" *ngIf="statusMessage == 'fail'">
+        <p class="m-0">{{failureMessage}}</p>
+      </div>
       <input type="text" placeholder="Name" class="w-100 my-2" formControlName="name">
       <div class="alert alert-danger" *ngIf="registerForm.get('name')?.errors && registerForm.get('name')?.touched">
         <p class="m-0" *ngIf="registerForm.get('name')?.getError('required')">Name is Required</p>

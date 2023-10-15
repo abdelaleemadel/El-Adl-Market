@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { AuthService } from '../../services/auth.service';
 import { error } from 'jquery';
 import { matchPassword } from '../../match-password.validator';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +13,9 @@ import { matchPassword } from '../../match-password.validator';
 })
 export class RegisterComponent {
   isLoading: boolean = false;
-  constructor(private _AuthService: AuthService) {
+  statusMessage: string = '';
+  failureMessage: string = '';
+  constructor(private _AuthService: AuthService, private _Router: Router, private toastr: ToastrService) {
   }
   registerForm: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(10)]),
@@ -22,14 +26,29 @@ export class RegisterComponent {
   }, { validators: matchPassword })
 
   register(registerForm: FormGroup): void {
-    this.isLoading = true
-    this._AuthService.register(registerForm.value).subscribe({
-      next: (response) => console.log(response),
-      error: (err) => console.log(err)
-    })
-    this.isLoading = false;
+    this.isLoading = true;
+    if (registerForm.status == 'VALID') {
+      this._AuthService.register(registerForm.value).subscribe({
+        next: (response) => {
+          this.statusMessage = '';
+          this.failureMessage = '';
+          this.isLoading = false;
+          localStorage.setItem('userToken', response.token);
+          this._AuthService.userData.next(response.token);
+          this._Router.navigate(['/home']);
+          this.toastr.success(`${response.message}`, `Registeration`);
+        },
+        error: (err) => {
+          this.toastr.error(err.error.message || err.statusText, `Registeration  ` + (err.error.statusMsg || err.name));
+          this.statusMessage = err.error.statusMsg;
+          this.failureMessage = err.error.message;
+          this.isLoading = false;
+        }
+      })
+    } else {
+      this.isLoading = false;
+    }
 
   }
 }
 
-/* "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDk3ZTk3NDVlZDRiMjQ4YzBlZTUwNCIsIm5hbWUiOiJhaG1lZCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjk1MTIxMDQ4LCJleHAiOjE3MDI4OTcwNDh9.Cqrxcj9oGbNWCTh7asHbHi1XaRccu6jddxmTxr5A8E4" */

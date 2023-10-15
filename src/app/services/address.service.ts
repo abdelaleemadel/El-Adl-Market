@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
-
+import { ToastrService } from 'ngx-toastr';
+ToastrService
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +12,7 @@ export class AddressService {
   addressData: BehaviorSubject<any> = new BehaviorSubject('');
   headers: any;
 
-  constructor(private _HttpClient: HttpClient, private _AuthService: AuthService) {
+  constructor(private _HttpClient: HttpClient, private _AuthService: AuthService, private toastr: ToastrService) {
     this._AuthService.userData.subscribe((response) => {
       if (response) {
         this.headers = { token: response };
@@ -37,7 +38,8 @@ export class AddressService {
     this.getAddressesApi().subscribe({
       next: response => { this.addressData.next(response.data) },
       error: err => {
-        console.log(err);
+        this.addressData.next('error');
+        this.toastr.error(err.error.message || err.statusText, `Addresses  ` + (err.error.statusMsg || err.name));
       }
     })
   }

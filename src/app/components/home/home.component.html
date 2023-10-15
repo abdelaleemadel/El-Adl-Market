@@ -1,16 +1,12 @@
-<section id="home" class="biege main-font"
-  [ngClass]="isEmpty||isCatEmpty||isSubCatEmpty||isWishListEmpty?'overflow-hidden':'overflow-auto'">
-  <app-categories *ngIf="!isWishlist"></app-categories>
+<section id="home" class="biege main-font" [ngClass]="isEmpty?'overflow-hidden':'overflow-auto'">
+  <app-category-slider></app-category-slider>
   <div class="container-lg row gy-4 mx-auto justify-content-center">
-    <div class="vh-100 py-5 min-vh-100" *ngIf="isEmpty||isCatEmpty||isSubCatEmpty||isWishListEmpty">
-      <h3 class="fs-1 mt-5 text-center" *ngIf="isEmpty">This Brand has No Products yet</h3>
-      <h3 class="fs-1 mt-5 text-center" *ngIf="isCatEmpty">This Category has No Products yet</h3>
-      <h3 class="fs-1 mt-5 text-center" *ngIf="isSubCatEmpty">This Sub-Category has No Products yet</h3>
-      <h3 class="fs-1 mt-5 text-center" *ngIf="isWishListEmpty">Your Wishlist has no Products</h3>
+    <div class="vh-100 py-5 min-vh-100" *ngIf="isEmpty">
+      <h3 class="fs-1 mt-5 text-center" *ngIf="isEmpty">{{message}}</h3>
     </div>
     <ul class="row gy-4 justify-content-center ps-0">
       <li class="col-6 col-md-4 col-lg-3"
-        *ngFor="let product of allProductss | search:searchWord |paginate: { itemsPerPage: 20, currentPage: page, id:'products-pagination' }">
+        *ngFor="let product of allProductss |slice:0 |search:searchWord |paginate: { itemsPerPage: 20, currentPage: page, id:'products-pagination'}">
         <div class="text-center">
           <picture class="mb-3 d-block position-relative border">
             <a class="pointer-cursor" [routerLink]="['../productDetails', product._id]">
@@ -48,16 +44,15 @@
     <pagination-controls (pageChange)="page = $event" class="text-center" id="products-pagination" previousLabel=""
       [autoHide]="true" nextLabel=""></pagination-controls>
   </div>
-
-  <!-- Product Details Modal -->
-  <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsModal"
-    aria-hidden="true">
-    <div class="modal-dialog .modal-fullscreen-lg-down">
-      <div class="modal-content">
-        <div data-bs-dismiss="modal" aria-label="Close" class="text-end pe-2 pt-2 pointer-cursor">
-          <i class="fa-solid fa-x fa-lg"></i>
-        </div>
-        <app-product-details [productId]="productId"></app-product-details>
+</section>
+<!-- Product Details Modal -->
+<div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsModal" aria-hidden="true">
+  <div class="modal-dialog .modal-fullscreen-lg-down">
+    <div class="modal-content">
+      <div data-bs-dismiss="modal" aria-label="Close" class="text-end pe-2 pt-2 pointer-cursor">
+        <i class="fa-solid fa-x fa-lg"></i>
       </div>
+      <app-product-details [productId]="productId"></app-product-details>
     </div>
   </div>
+</div>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AddressService } from '../../services/address.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-address',
@@ -8,7 +10,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
   styleUrls: ['./address.component.css']
 })
 export class AddressComponent implements OnInit {
-  constructor(private _AddressService: AddressService) { }
+  constructor(private _AddressService: AddressService, private spinner: NgxSpinnerService, private toastr: ToastrService) {
+    this.spinner.show();
+  }
   /* To Show the form */
   newAddress: Boolean = false;
   addresses: any;
@@ -16,11 +20,7 @@ export class AddressComponent implements OnInit {
   isLoading: boolean = false;
   ngOnInit(): void {
     /* Get and Show Addresses if they exist */
-    console.log(this.newAddress, this.isAddress);
-
     this.getAddress();
-    console.log(this.newAddress, this.isAddress);
-
   }
 
   addressForm: FormGroup = new FormGroup({
@@ -32,49 +32,64 @@ export class AddressComponent implements OnInit {
 
   addAddress(addressForm: FormGroup): void {
     this.isLoading = true;
+    this.spinner.show();
     this._AddressService.addAddress(addressForm.value).subscribe({
       next: (response) => {
         this.isLoading = false;
         this._AddressService.addressData.next(response.data);
         this.toggleAddressForm();
+        this.spinner.hide();
+        this.newAddress = false;
+        this.isAddress = true;
+        this.toastr.success(response.message, response.status);
       },
-      error: (err) => { console.log(err); this.isLoading = false }
+      error: (err) => {
+        this.afterError(err);
+      }
     })
   }
 
 
 
-  /* Check if this user has addresses */
-  checkAddresses(): void {
-    console.log(this.addresses);
-    if (this.addresses?.length) {
-      this.isAddress = true;
-    } else if (Array.isArray(this.addresses)) { this.isAddress = false }
-  }
+
 
   /* Get the User Addresses from api/store the response in Addresses */
   getAddress(): void {
-    this._AddressService.addressData.subscribe({
-      next: (response) => {
+    this._AddressService.addressData.subscribe((response) => {
+      if (Array.isArray(response)) {
         this.addresses = response;
-        this.checkAddresses();
-      },
-      error: (err) => console.log(err)
+        this.spinner.hide();
+        if (response.length == 0) {
+          this.isAddress = false;
+        } else { this.isAddress = true }
+      } else if (response == 'error') {
+        this.spinner.hide();
+      }
     })
   }
+
+
   removeAddress(addressId: string): void {
+    this.spinner.show();
     this._AddressService.removeAddress(addressId).subscribe({
       next: response => {
-        console.log(response);
-        this._AddressService.addressData.next(response.data)
+        this._AddressService.addressData.next(response.data);
+        this.spinner.hide();
+        this.toastr.success(response.message, response.status);
       },
       error: err => {
-        console.log(err);
+        this.afterError(err);
       }
     })
   }
   /* SHOW ADDING NEW ADDRESS FROM */
   toggleAddressForm(): void {
     this.newAddress = !this.newAddress;
+  }
+  /* Things to happen in case of api Error */
+  afterError(err: any): void {
+    this.spinner.hide();
+    this.toastr.error(err.error.message || err.statusText, err.error.statusMsg || err.name);
+    this.isLoading = false;
   }
 }
