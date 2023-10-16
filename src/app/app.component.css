@@ -1,3 +1,11 @@
+i.fa-circle-up {
+  position: fixed;
+  bottom: 20px;
+  right: 1px;
+  display: none;
+  transition: all 0.4s;
+}
+
 .body {
   position: relative;
   top: 50px;

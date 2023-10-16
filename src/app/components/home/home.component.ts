@@ -53,8 +53,6 @@ export class HomeComponent implements OnInit, OnChanges {
     this._ActivatedRoute.paramMap.subscribe(
       response => {
         parameters = response.keys;
-        console.log(parameters);
-
         if (parameters.length == 0) {
           this.spinner.show();
           this.compareProducts();
