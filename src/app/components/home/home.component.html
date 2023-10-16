@@ -6,7 +6,7 @@
     </div>
     <ul class="row gy-4 justify-content-center px-auto">
       <li class="col-6 col-md-4 col-lg-3"
-        *ngFor="let product of allProductss |slice:0 |search:searchWord |paginate: { itemsPerPage: 20, currentPage: page, id:'products-pagination'}">
+        *ngFor="let product of allProductss |slice:0 |search:searchWord | paginate: { itemsPerPage: 20, currentPage: page, id:'products-pagination'}">
         <div class="text-center">
           <picture class="mb-3 d-block position-relative border">
             <a class="pointer-cursor" [routerLink]="['../productDetails', {id: product._id}]">
@@ -27,7 +27,7 @@
                 data-bs-target="#productDetailsModal" (click)="getProductId(product._id)"></i>
             </div>
           </picture>
-          <a class="pointer-cursor" [routerLink]="['../productDetails', product._id]">
+          <a class="pointer-cursor" [routerLink]="['../productDetails', {id: product._id}]">
             <h3 class="fs-6 productName">
               {{ product.title.split(" ").splice(0, 4).join(" ") }}
             </h3>

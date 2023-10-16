@@ -27,6 +27,7 @@ import { CategorySliderComponent } from './components/category-slider/category-s
 import { SubcategoriesComponent } from './components/subcategories/subcategories.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { ToastrModule } from 'ngx-toastr';
+import { NotfoundComponent } from './components/notfound/notfound.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +49,7 @@ import { ToastrModule } from 'ngx-toastr';
     CategorySliderComponent,
     SubcategoriesComponent,
     WishlistComponent,
+    NotfoundComponent,
   ],
   imports: [
     BrowserModule,

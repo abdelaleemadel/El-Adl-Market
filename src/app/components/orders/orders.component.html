@@ -2,7 +2,7 @@
   <div class="container mx-auto px-4 pt-5">
     <h3 class="text-center">Most Recent Order</h3>
     <div class="row data justify-content-center py-2 my-4 border-bottom"
-      *ngFor="let order of allOrders, first as firstOrder, index as i"
+      *ngFor="let order of allOrders| paginate: { itemsPerPage: 5, currentPage: page, id:'orders-pagination'} , first as firstOrder, index as i"
       [ngClass]="(firstOrder||isAllOrders)?'':'d-none'">
       <h5 class="fs-3 text-center" *ngIf="i == 1">Previous Orders</h5>
       <ng-container *ngIf="(firstOrder||isAllOrders)" class="mx-auto">
@@ -74,6 +74,8 @@
         </div>
       </ng-container>
     </div>
+    <pagination-controls *ngIf="isAllOrders" (pageChange)="page = $event" class="text-center" id="orders-pagination"
+      previousLabel="" [autoHide]="true" nextLabel=""></pagination-controls>
     <div class="text-center mt-3 ">
       <button type="button" class="btn btn-dark col-10 col-md-8 col-lg-4 col-xl-3 rounded-0" *ngIf="!isAllOrders"
         (click)="showAllOrders()">Show
@@ -83,6 +85,5 @@
         (click)="showFirstOrder()">Hide
         Orders</button>
     </div>
-
   </div>
 </section>

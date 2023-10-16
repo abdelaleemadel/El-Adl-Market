@@ -11,14 +11,17 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent implements OnInit {
-  constructor(private _AuthService: AuthService, private _OrderService: OrderService,
-    private _Router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService) {
-    this.spinner.show();
-  }
+  page: number = 0;
   userId: string = '';
   loggedUser = false;
   allOrders: any;
   isAllOrders: boolean = false;
+
+  constructor(private _AuthService: AuthService, private _OrderService: OrderService,
+    private _Router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService) {
+    this.spinner.show();
+  }
+
   ngOnInit(): void {
     /*Check if user is logged in  */
     this._AuthService.userData.subscribe(

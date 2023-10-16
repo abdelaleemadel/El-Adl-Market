@@ -23,7 +23,6 @@ export class ProductDetailsComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this._ActivatedRoute.paramMap.subscribe((params) => {
       this.id = params.get('id');
-      console.log('What is that?');
       if (this.id) {
         this.displayProductDetails(this.id)
       }

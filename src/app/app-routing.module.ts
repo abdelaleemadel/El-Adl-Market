@@ -13,6 +13,7 @@ import { PasswordComponent } from './components/password/password.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { SubcategoriesComponent } from './components/subcategories/subcategories.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -27,7 +28,8 @@ const routes: Routes = [
   { path: 'forgetPassword', component: PasswordComponent },
   { path: 'categories', component: CategoriesComponent },
   { path: 'subcategories', component: SubcategoriesComponent },
-  { path: 'wishlist', canActivate: [authGuard], component: WishlistComponent }
+  { path: 'wishlist', canActivate: [authGuard], component: WishlistComponent },
+  { path: '**', component: NotfoundComponent }
 ];
 
 @NgModule({
