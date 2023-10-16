@@ -8,6 +8,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class ProductsService {
   allProducts = new BehaviorSubject('');
+  /* Filter and Sort Behavior Subjects */
+  minPrice: BehaviorSubject<number> = new BehaviorSubject(0);
+  maxPrice: BehaviorSubject<number> = new BehaviorSubject(5000);
+  sort: BehaviorSubject<string> = new BehaviorSubject('sold');
 
   constructor(private _HttpClient: HttpClient, private toastr: ToastrService) {
     this.storeProducts()
@@ -56,13 +60,13 @@ export class ProductsService {
   /* call the products api and store them in the Behaviour subject */
   storeProducts(): void {
     let temp: any;
-    this.getProducts(`?page=2`).subscribe({
+    this.getProducts().subscribe({
       next: (response) => {
-        temp = response.data.reverse();
+        temp = response.data
         this.allProducts.next(temp);
-        this.getProducts().subscribe({
+        this.getProducts(`?page=2`).subscribe({
           next: (response) => {
-            temp.push(...response.data.reverse());
+            temp.push(...response.data);
             this.allProducts.next(temp);
           },
           error: err => {

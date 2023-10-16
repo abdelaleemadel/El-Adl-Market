@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   scrollTop(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
   scrollArrow(): void {
     let up: JQuery<HTMLElement> = $('.fa-circle-up');
     let offset = window.scrollY;

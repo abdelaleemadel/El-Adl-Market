@@ -1,0 +1,32 @@
+<section class="cort main-font">
+  <div class="container mx-auto d-flex justify-content-between">
+    <div class="d-flex flex-column align-items-center justify-content-center mx-2  pointer-cursor">
+      <i class="fa-solid fa-sliders fa-xl p-2" data-bs-toggle="dropdown" data-bs-auto-close="outside"></i>
+      <ul class="dropdown-menu light main-font shadow overflow-auto">
+        <li class="dropdown-item light d-flex flex-column">
+          <label for="minprice" class="form-label">Minimum Price</label>
+          <input type="range" id="minprice" name="minprice" min="0" max="50000" (mouseup)="priceValue()"
+            [(ngModel)]="minPrice">
+          <p>{{minPrice}} EGP</p>
+        </li>
+        <li class="dropdown-item light d-flex flex-column">
+          <label for="maxprice" class="form-label">Maximum Price</label>
+          <input type="range" id="maxprice" name="maxprice" min="0" max="50000" (mouseup)="priceValue()"
+            [(ngModel)]="maxPrice">
+          <p>{{maxPrice}} EGP</p>
+        </li>
+
+      </ul>
+    </div>
+    <select title="sortby" (click)="sortValue()" [(ngModel)]="sort">
+      <option selected value="sold">Best Selling</option>
+      <option selected value="rate">Best Rated</option>
+      <option value="alpha-asc">Alphbatically, A-Z</option>
+      <option value="alpha-desc">Alphbatically, Z-A</option>
+      <option value="price-asc">Price, low to high</option>
+      <option value="price-desc">Price high to low</option>
+      <option value="date-asc">Date, old to new</option>
+      <option value="date-desc">Date, new to old</option>
+    </select>
+  </div>
+</section>

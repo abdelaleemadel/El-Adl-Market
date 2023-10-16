@@ -17,9 +17,12 @@ export class HomeComponent implements OnInit, OnChanges {
   @Input() subcategoryProducts: any;
   @Input() categoryProducts: any;
   @Input() wishlistProducts: any;
+
   total: number = 20;
   wishList: any; allProductss: any; wishlistIds: any[] = [];
-  productId: string = ''; message: string = ''; searchWord: string = '';
+  productId: string = ''; message: string = ''; searchWord: string = ''; sort: string = '';
+  minPrice: number = 0;
+  maxPrice: number = 50000;
   page: number = 0;
   loggedUser: boolean = false; isEmpty: boolean = false; isHome: boolean = false; isWishlist: boolean = false;
   constructor(
@@ -44,7 +47,7 @@ export class HomeComponent implements OnInit, OnChanges {
       this.wishlistIds = response;
     })
     /* Get the search Word */
-    this.getSearchWord();
+    this.getFilters();
   }
 
   /* Check if there're parameters  */
@@ -152,13 +155,19 @@ export class HomeComponent implements OnInit, OnChanges {
     this.productId = productId;
   }
 
-  /* get The search word */
-  getSearchWord(): void {
+  /* get The search word/things to sort by and price to filter by */
+  getFilters(): void {
     this._AuthService.searchWord.next('');
     this._AuthService.searchWord.subscribe(response => {
       this.page = 0;
       this.searchWord = response;
     })
+    this._ProductService.sort.subscribe(response => { this.page = 0; this.sort = response; }
+    )
+    this._ProductService.minPrice.subscribe(response => { this.page = 0; this.minPrice = response; }
+    )
+    this._ProductService.maxPrice.subscribe(response => { this.page = 0; this.maxPrice = response; }
+    )
   }
   /* Actions to happen when error occurs */
   afterError(err: any): void {

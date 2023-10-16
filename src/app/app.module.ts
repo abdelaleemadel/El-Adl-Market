@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { RegisterComponent } from './components/register/register.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
@@ -28,6 +28,10 @@ import { SubcategoriesComponent } from './components/subcategories/subcategories
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { ToastrModule } from 'ngx-toastr';
 import { NotfoundComponent } from './components/notfound/notfound.component';
+import { SortComponent } from './components/sort/sort.component';
+import { SortPipe } from './pipes/sort.pipe';
+import { PricePipe } from './pipes/price.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,11 +54,15 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
     SubcategoriesComponent,
     WishlistComponent,
     NotfoundComponent,
+    SortComponent,
+    SortPipe,
+    PricePipe,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     BrowserAnimationsModule, CarouselModule, NgxPaginationModule, NgxSpinnerModule, ToastrModule.forRoot(),
   ],

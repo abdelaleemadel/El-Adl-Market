@@ -44,7 +44,6 @@ export class NavBarComponent implements OnInit {
     let footerOffset = $('.footer').offset();
     window.scrollTo({ top: footerOffset.top, behavior: 'smooth' })
     console.log(footerOffset);
-
   }
 }
 
