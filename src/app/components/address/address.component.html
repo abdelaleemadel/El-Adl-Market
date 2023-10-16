@@ -1,5 +1,5 @@
 <!-- Show Current Addresses -->
-<section class="addresses main-font" *ngIf="isAddress&&(!newAddress)">
+<section class="addresses main-font pb-5" *ngIf="isAddress&&(!newAddress)">
   <div class="container mx-auto px-4 pt-5 row gy-3 gx-3 mb-5 justify-content-center">
     <h3 class="text-center">My Addresses</h3>
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 " *ngFor="let address of addresses, first as isFirst">
@@ -22,7 +22,7 @@
       TO CART</span> </a>
 </section>
 <!-- NEW ADDRESS FORM -->
-<div id="address" class="main-font biege" *ngIf="newAddress||!isAddress">
+<div id="address" class="main-font biege pb-5" *ngIf="newAddress||!isAddress">
   <div class=" row container  justify-content-center mx-auto align-items-center mx-auto">
     <form action=" #" class="col-12 col-sm-8" [formGroup]="addressForm" (ngSubmit)="addAddress(addressForm)">
       <h3 class="text-center fw-semibold my-5">Add New Address</h3>

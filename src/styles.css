@@ -56,7 +56,8 @@ a:link {
   color: inherit;
 }
 
-input {
+input,
+textarea {
   outline: none;
 }
 
@@ -64,14 +65,14 @@ input {
   cursor: pointer;
 }
 
-#register input,
-#login input {
+form input:not([type='radio']),
+form textarea {
   padding: 8px 15px;
   border: 1px solid var(--input-border);
 }
 
-#register input:focus,
-#login input:focus {
+form input:focus,
+form textarea:focus-visible {
   border: 1px solid var(--focused-input-border) !important;
 }
 

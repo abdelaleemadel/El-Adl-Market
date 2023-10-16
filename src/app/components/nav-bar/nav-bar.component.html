@@ -27,18 +27,17 @@
     <div class=" d-flex justify-content-end pointer-cursor w-25 ">
 
       <div class=" d-flex justify-content-end text-white">
-        <div class=" d-flex justify-content-end text-white p-2 d-lg-none" data-bs-toggle="collapse"
+        <div class=" d-flex justify-content-end text-white p-2 d-lg-none mx-2" data-bs-toggle="collapse"
           data-bs-target="#collapseSearch" aria-controls="collapseSearch">
-          <i class="fa-solid fa-magnifying-glass mx-3"></i>
+          <i class="fa-solid fa-magnifying-glass "></i>
         </div>
-        <div class="d-flex flex-column align-items-center justify-content-center mx-3  pointer-cursor dropdown account"
+        <div class="d-flex flex-column align-items-center justify-content-center mx-2  pointer-cursor dropdown account"
           data-bs-toggle="dropdown">
           <i class="fa-regular fa-user p-2"></i>
           <p class=" mb-0 d-none d-lg-block"><small>Account</small></p>
           <!-- Example single danger button -->
           <ul class="dropdown-menu light main-font shadow">
-            <li><a class="dropdown-item light" routerLinkActive="router-link-active" href="#" *ngIf="loggedUser">My
-                ACCOUNT</a></li>
+
             <li><a class="dropdown-item light" routerLink="/login" routerLinkActive="router-link-active"
                 *ngIf="!loggedUser">LOGIN</a></li>
             <li><a class="dropdown-item light" routerLinkActive="router-link-active" routerLink="register"
@@ -48,11 +47,15 @@
                 *ngIf="loggedUser">CART</a></li>
             <li><a class="dropdown-item light" routerLinkActive="router-link-active"
                 [routerLink]="['/wishlist',{user:loggedUser}]" *ngIf="loggedUser">WISHLIST</a></li>
+            <li><a class="dropdown-item light" routerLinkActive="router-link-active" routerLink="/allorders"
+                *ngIf="loggedUser">My Orders</a></li>
+            <li><a class="dropdown-item light" routerLinkActive="router-link-active" routerLink="/address"
+                *ngIf="loggedUser">My Addresses</a></li>
             <li><a class="dropdown-item light" routerLinkActive="router-link-active" (click)="logout()"
                 *ngIf="loggedUser">LOGOUT</a></li>
           </ul>
         </div>
-        <div class="d-flex flex-column align-items-center justify-content-center  mx-3 pointer-cursor"
+        <div class="d-flex flex-column align-items-center justify-content-center  mx-2 pointer-cursor"
           [ngClass]="loggedUser?'':'d-none'" data-bs-toggle="offcanvas" data-bs-target="#cartoffcanvasExample"
           aria-controls="cartoffcanvasExample">
           <i class="fa-solid fa-bag-shopping p-2"></i>
@@ -71,8 +74,8 @@
       <div class="offcanvas-body ">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLinkActive="router-link-active"
-              [routerLink]="['/home']" data-bs-dismiss="offcanvas" aria-label="Close">Home</a>
+            <a class="nav-link" aria-current="page" routerLinkActive="router-link-active" [routerLink]="['/home']"
+              data-bs-dismiss="offcanvas" aria-label="Close">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" aria-current="page" routerLinkActive="router-link-active" data-bs-dismiss="offcanvas"
@@ -83,8 +86,8 @@
               aria-label="Close" [routerLink]="['/brands']">Brands</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" routerLinkActive="router-link-active" data-bs-dismiss="offcanvas"
-              aria-label="Close">Contact Us</a>
+            <a class="nav-link pointer-cursor" routerLinkActive="router-link-active" [routerLink]="" aria-current="page"
+              data-bs-dismiss="offcanvas" aria-label="Close" (click)="scrollToBottom()">Contact Us</a>
           </li>
         </ul>
       </div>

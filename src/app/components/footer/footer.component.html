@@ -1,1 +1,43 @@
-<p>footer works!</p>
+<section class="footer main-font dark">
+  <div class="container row gy-4 justify-content-center justify-content-lg-between mx-auto">
+    <!--  -->
+    <div class=" col-12 col-sm-8 col-md-6 col-lg-5 text-center d-flex flex-column justify-content-center">
+      <p class="fs-3"> We are always interested in hearing from you. Please, if you have an comments, inquiries or
+        complaints, do
+        Not hesitate
+        to send a message</p>
+    </div>
+    <form action="" class="col-12 col-sm-8 col-md-6 col-lg-5" [formGroup]="contactForm"
+      (ngSubmit)="handleContact(contactForm)">
+      <h3 class="text-center fw-semibold my-5">Send Us a Message </h3>
+      <div class="alert rounded-0 alert-danger" *ngIf="statusMessage == 'fail'">
+        <p class="m-0">{{failureMessage}}</p>
+      </div>
+      <input type="text" placeholder="Name" class="w-100 my-2 " formControlName="name">
+      <div class="alert alert-danger" *ngIf="contactForm.get('name')?.errors && contactForm.get('name')?.touched">
+        <p class="m-0" *ngIf="contactForm.get('name')?.getError('required')">Name is Required</p>
+        <p class="m-0" *ngIf="contactForm.get('name')?.getError('minlength')">Name Minimum Length is 3 Characters</p>
+        <p class="m-0" *ngIf="contactForm.get('name')?.getError('maxlength')">Name Max Length is 10 Characters</p>
+      </div>
+      <input type="email" placeholder="Email" class="w-100 my-2" formControlName="email">
+      <div class="alert alert-danger" *ngIf="contactForm.get('email')?.errors && contactForm.get('email')?.touched">
+        <p class="m-0" *ngIf="contactForm.get('email')?.getError('required')">Email is Required</p>
+        <p class="m-0" *ngIf="contactForm.get('email')?.getError('email')">This Email is invalid</p>
+
+      </div>
+      <textarea type="text" placeholder="Message" class="w-100 my-2" formControlName="message"></textarea>
+      <div class="alert alert-danger" *ngIf="contactForm.get('message')?.errors && contactForm.get('message')?.touched">
+        <p class="m-0" *ngIf="contactForm.get('message')?.getError('required')">message is Required</p>
+        <p class="m-0" *ngIf="contactForm.get('message')?.getError('minlength')">Message Minimum Length is 10 Characters
+        </p>
+      </div>
+      <button type="submit" class="btn btn-light w-100 rounded-0 mt-5" [disabled]="contactForm.invalid"><span
+          *ngIf="!isLoading">Send Message</span><i class="fa-solid fa-spinner fa-spin" *ngIf="isLoading"></i></button>
+    </form>
+    <div class="text-center">
+      <p class="fs-6">
+        <small><i class="fa-regular fa-copyright"></i> 2023 Ahmed Abdelaleem. ALL RIGHTS RESERVED.</small>
+      </p>
+    </div>
+  </div>
+</section>

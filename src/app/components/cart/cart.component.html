@@ -74,7 +74,7 @@
 </section>
 <!-- ----------------------------------------------------- -->
 <!-- CHOOSE AN ADDRESS and Payment Method -->
-<section class="main-font mt-5 chooseAddress biege" *ngIf="loggedUser">
+<section class="main-font mt-5 chooseAddress biege pb-5" *ngIf="loggedUser">
   <div class="row container chooseAddress justify-content-center mx-auto align-items-center ">
     <form action="" [formGroup]="shippingAddressForm" (ngSubmit)="procceedPayment(shippingAddressForm)"
       *ngIf="isAddress; else addnewAddress">

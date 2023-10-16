@@ -38,5 +38,13 @@ export class NavBarComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     this._AuthService.searchWord.next(input.value)
   }
+
+  /* To Scroll to the contact form */
+  scrollToBottom(): void {
+    let footerOffset = $('.footer').offset();
+    window.scrollTo({ top: footerOffset.top, behavior: 'smooth' })
+    console.log(footerOffset);
+
+  }
 }
 
