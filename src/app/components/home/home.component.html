@@ -1,7 +1,7 @@
 <section id="home" class="biege main-font pb-5" [ngClass]="isEmpty?'overflow-hidden':'overflow-auto'">
   <app-category-slider></app-category-slider>
-  <app-sort></app-sort>
   <div class="container-lg row gy-4 mx-auto justify-content-center">
+    <app-sort></app-sort>
     <div class="vh-100 py-5 min-vh-100" *ngIf="isEmpty">
       <h3 class="fs-1 mt-5 text-center" *ngIf="isEmpty">{{message}}</h3>
     </div>
