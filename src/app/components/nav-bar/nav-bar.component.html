@@ -17,7 +17,7 @@
         <i class="fa-solid fa-magnifying-glass text-secondary me-2 d-lg-none"></i>
         <input type="text" class=" darkish border p-2 form-control h-100" placeholder="Search all Products"
           aria-label="search" aria-describedby="basic-addon1" (input)="searchProducts($event)">
-        <div data-bs-toggle="collapse" data-bs-target="#collapseSearch" aria-controls="collapseSearch">
+        <div data-bs-toggle="collapse" data-bs-target="#collapseSearch" class="p-2" aria-controls="collapseSearch">
           <i class="fa fa-xmark fa-xl text-secondary pointer-cursor d-lg-none"></i>
         </div>
         <span class="input-group-text d-none d-lg-inline-block h-100 py-2" id="basic-addon1"><i
@@ -27,13 +27,13 @@
     <div class=" d-flex justify-content-end pointer-cursor w-25 ">
 
       <div class=" d-flex justify-content-end text-white">
-        <div class=" d-flex justify-content-end text-white  d-lg-none" data-bs-toggle="collapse"
+        <div class=" d-flex justify-content-end text-white p-2 d-lg-none" data-bs-toggle="collapse"
           data-bs-target="#collapseSearch" aria-controls="collapseSearch">
-          <i class="fa-solid fa-magnifying-glass mx-3 "></i>
+          <i class="fa-solid fa-magnifying-glass mx-3"></i>
         </div>
-        <div class="d-flex flex-column align-items-center justify-content-center mx-3 pointer-cursor dropdown account"
+        <div class="d-flex flex-column align-items-center justify-content-center mx-3  pointer-cursor dropdown account"
           data-bs-toggle="dropdown">
-          <i class="fa-regular fa-user "></i>
+          <i class="fa-regular fa-user p-2"></i>
           <p class=" mb-0 d-none d-lg-block"><small>Account</small></p>
           <!-- Example single danger button -->
           <ul class="dropdown-menu light main-font shadow">
@@ -55,7 +55,7 @@
         <div class="d-flex flex-column align-items-center justify-content-center  mx-3 pointer-cursor"
           [ngClass]="loggedUser?'':'d-none'" data-bs-toggle="offcanvas" data-bs-target="#cartoffcanvasExample"
           aria-controls="cartoffcanvasExample">
-          <i class="fa-solid fa-bag-shopping "></i>
+          <i class="fa-solid fa-bag-shopping p-2"></i>
           <p class="mb-0 d-none d-lg-block"><small>Cart</small></p>
         </div>
       </div>

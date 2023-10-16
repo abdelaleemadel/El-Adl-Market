@@ -3,15 +3,14 @@
     <ng-template carouselSlide class="position-relative">
       <div class="father">
         <img [src]="category.image" [alt]="category.name" title="{{ category.name}}" height="250" />
-        <div
-          class="position-absolute top-0 start-0 bottom-0 end-0 bg-white d-flex flex-column justify-content-around layer">
-          <p class="fs-2 text-center">{{ category.name}}</p>
+        <div class="bg-white d-flex flex-column  layer">
+          <p class="fs-2 text-center m-0">{{ category.name}}</p>
           <a class="text-center" [routerLink]="['/subcategories',{category:category._id}]">
             <button type="button" class="btn btn-dark w-75 mx-auto py-2 rounded-0 mt-3">
               Sub-Categories
             </button>
           </a>
-          <button type="button" class="btn btn-dark w-75 mx-auto py-2 rounded-0 mt-3"
+          <button type="button" class="btn btn-dark w-75 mx-auto py-2 rounded-0 my-3"
             [routerLink]="['/categories', {category:category._id}]">
             Products
           </button>

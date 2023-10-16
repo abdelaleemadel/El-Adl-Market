@@ -1,16 +1,16 @@
-.card {
-  transition: all .5s;
-}
-.card:hover {
-  box-shadow: 1px 1px 10px var(--dark-color);
-}
+@media screen and (min-width:992px) {
+  .father>div.layer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: all 0.4s;
+  }
 
-
-.father>div.layer {
-  opacity: 0;
-  transition: all 0.4s;
-}
-
-.father:hover>div.layer {
-  opacity: 100%;
+  .father:hover>div.layer {
+    opacity: 100%;
+    box-shadow: 1px 1px 10px var(--dark-color);
+  }
 }

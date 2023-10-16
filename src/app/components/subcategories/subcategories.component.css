@@ -1,12 +1,21 @@
-.father>div.layer {
-  opacity: 0;
-  transition: all 0.4s;
-}
+/* @media screen and (max-width:991) {
+  li>.father>div.layer {
+    border: none !important;
+  }
+} */
 
-.father:hover>div.layer {
-  opacity: 85%;
-}
+@media screen and (min-width:992px) {
+  li>.father>div.layer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: all 0.4s;
+  }
 
-li>.father:hover>div.layer {
-  opacity: 100%;
+  li>.father:hover>div.layer {
+    opacity: 100%;
+  }
 }

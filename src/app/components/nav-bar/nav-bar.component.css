@@ -70,7 +70,7 @@ input.form-control:focus {
 
   /* Dropdown menu of (account/login/register/...) */
   .account>.dropdown-menu {
-    transform: translate(-50%, 10%);
+    transform: translate(-50%, 4%);
   }
 }
 
@@ -79,7 +79,7 @@ input.form-control:focus {
 /* From 0 to 567px */
 @media screen and (max-width:567px) {
   .account>.dropdown-menu {
-    transform: translate(-60%, 10%);
+    transform: translate(-60%, 4%);
   }
 }
 
