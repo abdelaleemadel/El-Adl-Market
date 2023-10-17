@@ -5,7 +5,7 @@
         *ngFor="let brand of allBrands|slice:0|search:searchWord:'name' | paginate: { itemsPerPage: 20, currentPage: page, id:'brands-pagination' }"
         class="col-12 col-sm-6  col-md-4 col-lg-3">
         <div class="position-relative father border rounded py-3">
-          <div class="card-img">
+          <div class="card-img text-center">
             <img alt="{{brand.name}}" class="img-fluid" [src]="brand.image" />
           </div>
           <div class=" rounded light  d-flex flex-column justify-content-center layer">

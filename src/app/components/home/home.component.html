@@ -1,7 +1,37 @@
 <section id="home" class="biege main-font pb-5" [ngClass]="isEmpty?'overflow-hidden':'overflow-auto'">
   <app-category-slider></app-category-slider>
   <div class="container-lg row gy-4 mx-auto justify-content-center">
-    <app-sort></app-sort>
+
+    <!-- Sorting and Filter -->
+    <div class="sort main-font">
+      <div class="container mx-auto d-flex justify-content-between">
+        <div class="d-flex flex-column align-items-center justify-content-center  pointer-cursor">
+          <i class="fa-solid fa-sliders fa-2xl " data-bs-toggle="dropdown" data-bs-auto-close="outside"></i>
+          <ul class="dropdown-menu light main-font shadow overflow-auto">
+            <li class="dropdown-item light d-flex flex-column">
+              <label for="minprice" class="form-label">Minimum Price</label>
+              <input type="range" id="minprice" name="minprice" min="0" max="50000" [(ngModel)]="minPrice">
+              <p>{{minPrice}} EGP</p>
+            </li>
+            <li class="dropdown-item light d-flex flex-column">
+              <label for="maxprice" class="form-label">Maximum Price</label>
+              <input type="range" id="maxprice" name="maxprice" min="0" max="50000" [(ngModel)]="maxPrice">
+              <p>{{maxPrice}} EGP</p>
+            </li>
+          </ul>
+        </div>
+        <select title="sortby" [(ngModel)]="sort">
+          <option selected value="sold">Best Selling</option>
+          <option selected value="rate">Best Rated</option>
+          <option value="alpha-asc">Alphbatically, A-Z</option>
+          <option value="alpha-desc">Alphbatically, Z-A</option>
+          <option value="price-asc">Price, low to high</option>
+          <option value="price-desc">Price high to low</option>
+          <option value="date-asc">Date, old to new</option>
+          <option value="date-desc">Date, new to old</option>
+        </select>
+      </div>
+    </div>
     <div class="vh-100 py-5 min-vh-100" *ngIf="isEmpty">
       <h3 class="fs-1 mt-5 text-center" *ngIf="isEmpty">{{message}}</h3>
     </div>

@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit, OnChanges {
 
   total: number = 20;
   wishList: any; allProductss: any; wishlistIds: any[] = [];
-  productId: string = ''; message: string = ''; searchWord: string = ''; sort: string = '';
+  productId: string = ''; message: string = ''; searchWord: string = ''; sort: string = 'sold';
   minPrice: number = 0;
   maxPrice: number = 50000;
   page: number = 0;
@@ -162,12 +162,6 @@ export class HomeComponent implements OnInit, OnChanges {
       this.page = 0;
       this.searchWord = response;
     })
-    this._ProductService.sort.subscribe(response => { this.page = 0; this.sort = response; }
-    )
-    this._ProductService.minPrice.subscribe(response => { this.page = 0; this.minPrice = response; }
-    )
-    this._ProductService.maxPrice.subscribe(response => { this.page = 0; this.maxPrice = response; }
-    )
   }
   /* Actions to happen when error occurs */
   afterError(err: any): void {

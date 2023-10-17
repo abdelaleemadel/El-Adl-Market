@@ -28,7 +28,6 @@ import { SubcategoriesComponent } from './components/subcategories/subcategories
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { ToastrModule } from 'ngx-toastr';
 import { NotfoundComponent } from './components/notfound/notfound.component';
-import { SortComponent } from './components/sort/sort.component';
 import { SortPipe } from './pipes/sort.pipe';
 import { PricePipe } from './pipes/price.pipe';
 
@@ -54,7 +53,6 @@ import { PricePipe } from './pipes/price.pipe';
     SubcategoriesComponent,
     WishlistComponent,
     NotfoundComponent,
-    SortComponent,
     SortPipe,
     PricePipe,
   ],

@@ -8,10 +8,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class ProductsService {
   allProducts = new BehaviorSubject('');
-  /* Filter and Sort Behavior Subjects */
-  minPrice: BehaviorSubject<number> = new BehaviorSubject(0);
-  maxPrice: BehaviorSubject<number> = new BehaviorSubject(5000);
-  sort: BehaviorSubject<string> = new BehaviorSubject('sold');
 
   constructor(private _HttpClient: HttpClient, private toastr: ToastrService) {
     this.storeProducts()
