@@ -49,13 +49,13 @@ export class CategorySliderComponent implements OnInit {
       0: {
         items: 1,
       },
-      400: {
+      500: {
         items: 2,
       },
       740: {
         items: 3,
       },
-      940: {
+      993: {
         items: 4,
       },
       1200: {
