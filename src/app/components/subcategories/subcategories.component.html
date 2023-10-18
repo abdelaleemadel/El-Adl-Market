@@ -8,7 +8,7 @@
         *ngFor="let subCategory of subCategories|search:searchWord:'name' | paginate: { itemsPerPage: 20, currentPage: page, id:'categories-pagination' }"
         class="col-12 col-sm-6  col-md-4 col-lg-3">
         <div
-          class="rounded border d-flex flex-column align-items-center justify-content-center h-100  position-relative father">
+          class="rounded border d-flex flex-column align-items-center justify-content-center h-100 py-5 position-relative father">
           <p class="text-center w-100 my-3">{{subCategory.name}}</p>
           <div class="rounded light d-flex flex-column justify-content-center layer w-100">
             <a [routerLink]="['/subcategories',{subcategory:subCategory._id}]" class="text-center">
