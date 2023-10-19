@@ -3,5 +3,5 @@ a.forget:hover {
 }
 
 div.login-card {
-  height: 420px !important;
+  min-height: 420px !important;
 }
