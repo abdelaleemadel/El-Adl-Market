@@ -18,7 +18,6 @@ import { CartComponent } from './components/cart/cart.component';
 import { AddressComponent } from './components/address/address.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { DatePipe } from './pipes/date.pipe';
-import { BrandsComponent } from './components/brands/brands.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PasswordComponent } from './components/password/password.component';
 import { SearchPipe } from './pipes/search.pipe';
@@ -46,7 +45,6 @@ import { PricePipe } from './pipes/price.pipe';
     AddressComponent,
     OrdersComponent,
     DatePipe,
-    BrandsComponent,
     PasswordComponent,
     SearchPipe,
     CategorySliderComponent,

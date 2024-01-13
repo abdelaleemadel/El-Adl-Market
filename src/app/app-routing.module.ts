@@ -8,7 +8,6 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 import { CartComponent } from './components/cart/cart.component';
 import { AddressComponent } from './components/address/address.component';
 import { OrdersComponent } from './components/orders/orders.component';
-import { BrandsComponent } from './components/brands/brands.component';
 import { PasswordComponent } from './components/password/password.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { SubcategoriesComponent } from './components/subcategories/subcategories.component';
@@ -24,7 +23,6 @@ const routes: Routes = [
   { path: 'cart', canActivate: [authGuard], component: CartComponent },
   { path: 'address', canActivate: [authGuard], component: AddressComponent },
   { path: 'allorders', canActivate: [authGuard], component: OrdersComponent },
-  { path: 'brands', component: BrandsComponent },
   { path: 'forgetPassword', component: PasswordComponent },
   { path: 'categories', component: CategoriesComponent },
   { path: 'subcategories', component: SubcategoriesComponent },

@@ -9,11 +9,12 @@ export class SearchPipe implements PipeTransform {
 
   transform(products: any[] | undefined, searchWord: string, type: string = 'title'): any[] {
     if (Array.isArray(products)) {
+
       /* Products that matches the whole search word */
       let arr = products.filter(product => { return product[type].toLowerCase().includes(searchWord.toLowerCase()) });
       if (arr.length > 0 && type == 'title') {
         arr = this.findRelatives(arr, products)
-      } else if (products[0].title) {
+      } else if (products[0]?.title) {
         arr = this.bestMatched(products, searchWord);
         arr = this.findRelatives(arr, products);
       } else if (arr.length == 0) {
@@ -26,12 +27,13 @@ export class SearchPipe implements PipeTransform {
   }
   /* Find the products with similar cat/subcat/brand */
   findRelatives(arr: any[], products: any[]): any[] {
+
     /* Products with the same subcategory */
     arr.push(...(products.filter(product => { return product.subcategory[0].slug == arr[0].subcategory[0].slug })));
     /* Products with the same category */
     arr.push(...(products.filter(product => { return product.category.slug == arr[0].category.slug })));
     /* Products with the same brand*/
-    arr.push(...(products.filter(product => { return product.brand.slug == arr[0].brand.slug })))
+    arr.push(...(products.filter(product => { return product.brand?.slug == arr[0].brand?.slug })))
     return arr
   }
 

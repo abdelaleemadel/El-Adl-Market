@@ -17,8 +17,9 @@
         <i class="fa-solid fa-magnifying-glass text-secondary me-2 d-lg-none"></i>
         <input type="text" class=" darkish border p-2 form-control h-100" placeholder="Search all Products"
           aria-label="search" aria-describedby="basic-addon1" (input)="searchProducts($event)">
-        <div data-bs-toggle="collapse" data-bs-target="#collapseSearch" class="p-2" aria-controls="collapseSearch">
-          <i class="fa fa-xmark fa-xl text-secondary pointer-cursor d-lg-none"></i>
+        <div data-bs-toggle="collapse" data-bs-target="#collapseSearch" class="p-2 d-lg-none"
+          aria-controls="collapseSearch">
+          <i class="fa fa-xmark fs-1 text-secondary pointer-cursor "></i>
         </div>
         <span class="input-group-text d-none d-lg-inline-block h-100 py-2" id="basic-addon1"><i
             class="fa-solid fa-magnifying-glass pointer-cursor text-white fa-lg"></i></span>
@@ -81,13 +82,10 @@
             <a class="nav-link" aria-current="page" routerLinkActive="router-link-active" data-bs-dismiss="offcanvas"
               aria-label="Close" [routerLink]="['/subcategories']">Sub-Categories</a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" routerLinkActive="router-link-active" data-bs-dismiss="offcanvas"
-              aria-label="Close" [routerLink]="['/brands']">Brands</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link pointer-cursor" routerLinkActive="router-link-active" [routerLink]="" aria-current="page"
-              data-bs-dismiss="offcanvas" aria-label="Close" (click)="scrollToBottom()">Contact Us</a>
+            <a class="nav-link pointer-cursor" aria-current="page" data-bs-dismiss="offcanvas" aria-label="Close"
+              (click)="scrollToBottom()">Contact Us</a>
           </li>
         </ul>
       </div>
